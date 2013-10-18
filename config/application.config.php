@@ -3,8 +3,8 @@ return array(
     // This should be an array of module namespaces used in the application.
     // Lista de lo modulos  que se van a dar de alta
     'modules' => array(
-        'Application',
-    	'Israel',
+//         'Application',
+//     	'Israel',
     	'Core',
     ),
 
