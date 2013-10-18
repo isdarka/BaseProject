@@ -1,0 +1,17 @@
+{
+    "name": "isdarka/BaseProject",
+    "description": "BaseProject ZF2",
+    "license": "isdarka",
+    "keywords": [
+        "isdarka",
+        "zf2"
+    ],
+    "homepage": "https://github.com/isdarka/BaseProject",
+    "require": {
+        "php": ">=5.3.3",
+        "zendframework/zendframework": "2.2.*"
+    },
+    "autoload": {
+		"psr-0": {"BaseProject\\": "vendor/BaseProject/library/"}
+	}
+}
