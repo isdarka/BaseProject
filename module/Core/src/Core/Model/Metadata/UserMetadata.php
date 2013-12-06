@@ -73,6 +73,11 @@ class UserMetadata extends AbstractMetadata
 		return new UserCollection();
 	}
 	
+	
+	
+	
+	
+	
 	public  function toUpdateArray(AbstractBean $bean){
 		return $bean->toArrayFor(
 				array('id_person', 'username', 'password', 'status', )

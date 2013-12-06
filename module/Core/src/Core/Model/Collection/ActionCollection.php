@@ -29,6 +29,11 @@ class ActionCollection extends AbstractCollection
 		});
 	}
 	
+	/**
+	 * 
+	 * @param unknown $idController
+	 * @return \Core\Model\Collection\ActionCollection
+	 */
 	public function getByIdController($idController)
 	{
 		$actionCollection = new ActionCollection();
