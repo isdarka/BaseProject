@@ -31,9 +31,9 @@ return array(
 	),
  	'db' => array(
 		'username' => 'root',
-		'password' => 'root',
+		'password' => 'r007',
 		'driver' => 'Pdo',
-		'dsn' => 'mysql:dbname=myDataBase;host:localhost',
+		'dsn' => 'mysql:dbname=baseProject;host:localhost',
 		'driver_options' => array(
 			PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8\'',
 		),

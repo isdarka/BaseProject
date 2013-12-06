@@ -1,0 +1,13 @@
+<h1>Message</h1>
+<?php echo $this->i18n('Info') ?>
+<?php echo $this->i18n->translate('DEMODEMO') ?>
+<?php if($flashMessenger->hasCurrentInfoMessages()) :?>
+	<?php foreach ($flashMessenger->getCurrentInfoMessages() as $msg) : ?>
+		<div class="alert alert-info">
+			<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>	
+		<?php echo $msg; ?>
+		
+		</div>
+	 <?php endforeach; ?>
+<?php endif; ?>
+

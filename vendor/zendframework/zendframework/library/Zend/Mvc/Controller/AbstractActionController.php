@@ -48,7 +48,6 @@ abstract class AbstractActionController extends AbstractController
         $event      = $this->getEvent();
         $routeMatch = $event->getRouteMatch();
         $routeMatch->setParam('action', 'not-found');
-
         if ($response instanceof HttpResponse) {
             return $this->createHttpNotFoundModel($response);
         }
@@ -79,7 +78,6 @@ abstract class AbstractActionController extends AbstractController
         if (!method_exists($this, $method)) {
             $method = 'notFoundAction';
         }
-
         $actionResponse = $this->$method();
 
         $e->setResult($actionResponse);

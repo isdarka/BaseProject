@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Zend\\' => array($vendorDir . '/zendframework/zendframework/library'),
+    'SmartyModule\\' => array($vendorDir . '/murganikolay/smarty-module/src'),
     'BaseProject\\' => array($vendorDir . '/BaseProject/library'),
 );

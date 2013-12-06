@@ -40,15 +40,17 @@ return array(
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/[:controller[/:action][/:id][/:id2]]',
+                            'route'    => '/[:controller[/:action][/:id][page/:page]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '[0-9]*',
                                 /**
                                  * Variable y tipo de dato que recibe con expresion regular
                                  */
-                               // 'id' => '[0-9]*',
-                                //'id2' => '[a-z]*',
+//                                'id' => '[0-9]*',
+//                                 'id2' => '[a-z]*',
+//                                 'id3' => '[a-z]*',
                             ),
                             'defaults' => array(
 // 	                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -61,15 +63,15 @@ return array(
             ),
         ),
     ),
-//     'service_manager' => array(
-//         'abstract_factories' => array(
-//             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-//             'Zend\Log\LoggerAbstractServiceFactory',
-//         ),
-//         'aliases' => array(
-//             'translator' => 'MvcTranslator',
-//         ),
-//     ),
+    'service_manager' => array(
+        'abstract_factories' => array(
+            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+            'Zend\Log\LoggerAbstractServiceFactory',
+        ),
+        'aliases' => array(
+            'translator' => 'MvcTranslator',
+        ),
+    ),
     'translator' => array(
         'locale' => 'es_ES',
         'translation_file_patterns' => array(
@@ -96,25 +98,50 @@ return array(
      */
     'controllers' => array(
         'invokables' => array(
-            'Core\Controller\Index' => 'Core\Controller\IndexController',
+            	'Core\Controller\Index' => 'Core\Controller\IndexController',
+        		'Core\Controller\User' => 'Core\Controller\UserController',
+        		'Core\Controller\Menu' => 'Core\Controller\MenuController',
+        		'Core\Controller\Core' => 'Core\Controller\CoreController',
+        		'Core\Controller\Role' => 'Core\Controller\RoleController',
+        		
         ),
     ),
     'view_manager' => array(
-        'display_not_found_reason' => true,
-        'display_exceptions'       => true,
-        'doctype'                  => 'HTML5',
-        'not_found_template'       => 'error/404',
-        'exception_template'       => 'error/index',
-        'template_map' => array(
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'core/index/index' => __DIR__ . '/../view/core/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
-             __DIR__ . '/../view',
-        ),
+    		'default_suffix' => 'tpl', // <-- new option for path stack resolver
+    		'display_not_found_reason' => true,
+    		'display_exceptions'       => true,
+    		'doctype'                  => 'HTML5',
+    		'not_found_template'       => 'error/404',
+    		'exception_template'       => 'error/index',
+    		'template_map' => array(
+    				'layout/layout'           => __DIR__ . '/../view/layout/layout.tpl',
+    				'application/index/index' => __DIR__ . '/../view/application/index/index.tpl',
+    				'error/404'               => __DIR__ . '/../view/error/404.tpl',
+    				'error/index'             => __DIR__ . '/../view/error/index.tpl',
+    		),
+    		'template_path_stack' => array(
+    				__DIR__ . '/../view',
+    		),
+    		'strategies' => array(
+    				'ViewJsonStrategy',
+    		),
     ),
+//     'view_manager' => array(
+//         'display_not_found_reason' => true,
+//         'display_exceptions'       => true,
+//         'doctype'                  => 'HTML5',
+//         'not_found_template'       => 'error/404',
+//         'exception_template'       => 'error/index',
+//         'template_map' => array(
+//             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
+//             'core/index/index' => __DIR__ . '/../view/core/index/index.phtml',
+//             'error/404'               => __DIR__ . '/../view/error/404.phtml',
+//             'error/index'             => __DIR__ . '/../view/error/index.phtml',
+//         ),
+//         'template_path_stack' => array(
+//              __DIR__ . '/../view',
+//         ),
+//     ),
     // Placeholder for console routes
     'console' => array(
         'router' => array(
