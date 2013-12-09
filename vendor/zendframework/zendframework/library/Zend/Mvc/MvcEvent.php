@@ -219,6 +219,7 @@ class MvcEvent extends Event
      */
     public function setResult($result)
     {
+    	
         $this->setParam('__RESULT__', $result);
         $this->result = $result;
         return $this;

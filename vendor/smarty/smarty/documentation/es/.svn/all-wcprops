@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es
+END
+make_chm_index.html
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es/make_chm_index.html
+END
+preface.xml
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es/preface.xml
+END
+getting-started.xml
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es/getting-started.xml
+END
+bookinfo.xml
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es/bookinfo.xml
+END
+language-defs.ent
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es/language-defs.ent
+END
+language-snippets.ent
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es/language-snippets.ent
+END
+livedocs.ent
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/4782/tags/v3.1.15/documentation/es/livedocs.ent
+END

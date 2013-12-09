@@ -1,0 +1,77 @@
+10
+
+dir
+4782
+http://smarty-php.googlecode.com/svn/tags/v3.1.15/distribution/demo
+http://smarty-php.googlecode.com/svn
+
+
+
+2013-07-15T18:18:28.388914Z
+4757
+Uwe.Tews@googlemail.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9dce5a81-9a42-0410-99e4-3799d3902e7f
+
+configs
+dir
+
+index.php
+file
+
+
+
+
+2013-10-18T17:50:20.000000Z
+4598bfe2a404770e42032195db35ca1b
+2013-07-14T22:15:45.376791Z
+4756
+Uwe.Tews@googlemail.com
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1013
+
+templates
+dir
+
+templates_c
+dir
+
+plugins
+dir
+
+cache
+dir
+

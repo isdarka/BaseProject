@@ -1,17 +1,63 @@
 [
     {
+        "name": "smarty/smarty",
+        "version": "v3.1.15",
+        "version_normalized": "3.1.15.0",
+        "source": {
+            "type": "svn",
+            "url": "http://smarty-php.googlecode.com/svn",
+            "reference": "/tags/v3.1.15/@4782"
+        },
+        "require": {
+            "php": ">=5.2"
+        },
+        "time": "2013-10-01 21:08:54",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "classmap": [
+                "distribution/libs/Smarty.class.php",
+                "distribution/libs/SmartyBC.class.php",
+                "distribution/libs/sysplugins/smarty_security.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Monte Ohrt",
+                "email": "monte@ohrt.com"
+            },
+            {
+                "name": "Uwe Tews",
+                "email": "uwe.tews@googlemail.com"
+            },
+            {
+                "name": "Rodney Rehm",
+                "email": "rodney.rehm@medialize.de"
+            }
+        ],
+        "description": "Smarty - the compiling PHP template engine",
+        "homepage": "http://www.smarty.net",
+        "keywords": [
+            "templating"
+        ]
+    },
+    {
         "name": "zendframework/zendframework",
-        "version": "2.2.4",
-        "version_normalized": "2.2.4.0",
+        "version": "2.2.5",
+        "version_normalized": "2.2.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/zendframework/zf2.git",
-            "reference": "5b03d868755c181fc9b5dc56c1f8c26e73ca0bed"
+            "reference": "4a7cf6a4cf791244e14aa0ca49d1f06916b63202"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/zendframework/zf2/zipball/5b03d868755c181fc9b5dc56c1f8c26e73ca0bed",
-            "reference": "5b03d868755c181fc9b5dc56c1f8c26e73ca0bed",
+            "url": "https://api.github.com/repos/zendframework/zf2/zipball/4a7cf6a4cf791244e14aa0ca49d1f06916b63202",
+            "reference": "4a7cf6a4cf791244e14aa0ca49d1f06916b63202",
             "shasum": ""
         },
         "require": {
@@ -72,6 +118,7 @@
         },
         "require-dev": {
             "doctrine/annotations": ">=1.0",
+            "fabpot/php-cs-fixer": "*@dev",
             "ircmaxell/random-lib": "dev-master",
             "ircmaxell/security-lib": "dev-master",
             "ocramius/proxy-manager": "0.4.*",
@@ -85,7 +132,7 @@
             "zendframework/zendpdf": "ZendPdf for creating PDF representations of barcodes",
             "zendframework/zendservice-recaptcha": "ZendService\\ReCaptcha for rendering ReCaptchas in Zend\\Captcha and/or Zend\\Form"
         },
-        "time": "2013-08-26 15:09:04",
+        "time": "2013-10-31 15:48:16",
         "bin": [
             "bin/classmap_generator.php",
             "bin/pluginmap_generator.php",
@@ -112,6 +159,57 @@
         "homepage": "http://framework.zend.com/",
         "keywords": [
             "framework",
+            "zf2"
+        ]
+    },
+    {
+        "name": "murganikolay/smarty-module",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/MurgaNikolay/SmartyModule.git",
+            "reference": "56d6c7b7feefe992dcb267be9da9eccded83ba4e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/MurgaNikolay/SmartyModule/zipball/56d6c7b7feefe992dcb267be9da9eccded83ba4e",
+            "reference": "56d6c7b7feefe992dcb267be9da9eccded83ba4e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3",
+            "smarty/smarty": "3.1.*",
+            "zendframework/zendframework": "2.*"
+        },
+        "time": "2013-06-12 19:02:43",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "SmartyModule\\": "src/"
+            },
+            "classmap": [
+                "./Module.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Murga Nikolay",
+                "email": "work@murga.kiev.ua"
+            }
+        ],
+        "description": "Smarty template engine module for Zend Framework 2",
+        "homepage": "https://github.com/MurgaNikolay/SmartyModule",
+        "keywords": [
+            "module",
+            "smarty",
+            "view",
+            "zend",
             "zf2"
         ]
     }

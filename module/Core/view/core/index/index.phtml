@@ -1,7 +1,26 @@
 <h1>Core</h1>
-adfasdf
-asdf
-asdf
-asdfas
-dfasd
-f
+<?php echo $this->translate('Test') ?>
+<br />
+The full URL to the current page is: <?php echo $this->absoluteUrl(); ?>
+<br />
+<h1><?php echo $this->i18n('Test') ?></h1>
+<br />
+<a class="btn btn-danger"> <i class="icon-minus"></i></a>
+<a class="btn"> <i class="icon-android"></i></a>
+
+<p>
+  <button type="button" class="btn btn-primary btn-lg"><i class="icon-android"></i></button>
+  <button type="button" class="btn btn-default btn-lg"><i class="icon-android"></i></button>
+</p>
+<p>
+  <button type="button" class="btn btn-primary">Default button</button>
+  <button type="button" class="btn btn-default">Default button</button>
+</p>
+<p>
+  <button type="button" class="btn btn-primary btn-sm">Small button</button>
+  <button type="button" class="btn btn-default btn-sm">Small button</button>
+</p>
+<p>
+  <button type="button" class="btn btn-primary btn-xs">Extra small button</button>
+  <button type="button" class="btn btn-default btn-xs">Extra small button</button>
+</p>

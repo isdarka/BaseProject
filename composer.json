@@ -9,7 +9,9 @@
     "homepage": "https://github.com/isdarka/BaseProject",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.*"
+        "zendframework/zendframework": "2.2.*",
+		"murganikolay/smarty-module": "1.2.0",
+        "isdarka/query": "1.0"
     },
     "autoload": {
 		"psr-0": {"BaseProject\\": "vendor/BaseProject/library/"}

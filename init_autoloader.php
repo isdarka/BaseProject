@@ -39,9 +39,9 @@ if ($zf2Path) {
         Zend\Loader\AutoloaderFactory::factory(array(
             'Zend\Loader\StandardAutoloader' => array(
                 'autoregister_zf' => true,
-                'namespaces' => array(
-                		'BaseProject' => dirname(__DIR__) . '/vendor/BaseProject',
-                )
+//                 'namespaces' => array(
+//                 		'BaseProject' => dirname(__DIR__) . '/vendor/BaseProject',
+//                 )
             )
         ));
     }

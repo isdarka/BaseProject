@@ -5,40 +5,42 @@
  * @created Sep 16, 2013 9:23:47 PM
  */
 namespace Core\Model\Bean;
-use BaseProject\Model\Bean\AbstractBean;
 
-class ModuleBean extends AbstractBean
+use Model\Bean\AbstractBean;
+
+class ModuleBean extends AbstractBean 
 {
-
+	const TABLENAME = "core_modules";
+	const ID_MODULE = 'id_module';
+	const NAME = 'name';
 	/**
 	 * 
 	 * @var int
 	 */
-	private $_idModule;
+	private $idModule;
 	
 	/**
 	 * 
 	 * @var string
 	 */
-	private $_name;
+	private $name;
 
-	
 	/**
 	 * (non-PHPdoc)
-	 * @see \BaseProject\Model\Bean\AbstractBean::getIndex()
+	 * @see \Model\Bean\AbstractBean::getIndex()
 	 */
 	public function getIndex()
 	{
-		return $this->_idModule;
+		return $this->idModule;
 	}
 	
 	/**
 	 * 
 	 * @param int $idModule
 	 */
-	public function setIdModule( $idModule)
+	public function setIdModule($idModule)
 	{
- 		$this->_idModule = (int) $idModule;
+ 		$this->idModule = (int) $idModule;
 	}
 	
 	/**
@@ -47,7 +49,7 @@ class ModuleBean extends AbstractBean
 	 */
 	public function setName($name)
 	{
-		$this->_name = (string) $name;
+		$this->name = (string) $name;
 	}
 	
 	/**
@@ -56,7 +58,7 @@ class ModuleBean extends AbstractBean
 	 */
 	public function getIdModule()
 	{
-		return $this->_idModule;
+		return $this->idModule;
 	}
 	
 	/**
@@ -65,15 +67,20 @@ class ModuleBean extends AbstractBean
 	 */
 	public function getName()
 	{
-		return $this->_name;
+		return $this->name;
 	}
 	
-	
+	/**
+	 * (non-PHPdoc)
+	 * @see \Model\Bean\AbstractBean::toArray()
+	 */
 	public function toArray()
 	{
 		return array(
-				"idModule" => $this->_idModule,
-				"name" => $this->_name,
+				"id_module" => $this->idModule,
+				"name" => $this->name,
 		);
 	}
+	
+	
 }
