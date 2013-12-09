@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+<<<<<<< HEAD
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry kind="src" path=""/>
+	<buildpathentry kind="con" path="org.eclipse.dltk.USER_LIBRARY/ZendFramework2"/>
+=======
+	<buildpathentry kind="src" path=""/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+>>>>>>> 6e7ce30901df23638fa12db684317d62d9d42400
+</buildpath>

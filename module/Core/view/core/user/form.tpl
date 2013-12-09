@@ -51,5 +51,6 @@
 		  </div>
 		</div>
 	</form>
+	<textarea rows="" cols=""></textarea>
 	
 </fieldset>

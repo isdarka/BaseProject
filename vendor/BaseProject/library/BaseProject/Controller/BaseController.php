@@ -18,22 +18,29 @@ use Core\View\Helper\I18n;
 use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\Controller\Plugin\Params;
 use Zend\Mvc\I18n\Translator;
+use Zend\Authentication\AuthenticationService;
+use BaseProject\Security\AuthStorage;
+use Core\Model\Bean\User;
 
 class BaseController extends AbstractActionController
 {
 	
 	protected $view;
 	
+	protected $maxPerPage = 20;
 	/* @var $i18n Zend\Mvc\I18n\Translator */
 	public $i18n;
 	
-	public $maxPerPage = 20;
-	
 	public function __construct(){
 		$this->view  = new ViewModel();
-// 		$this->tranlate();
-		
 	}
+	
+	protected  function hasIdentity()
+	{
+		if(!$this->getAuthenticationService()->hasIdentity())
+			$this->redirect()->toRoute(null,array('module' => 'core',  'controller'=>'auth','action' => 'login',));
+	}
+	
 	
 	public function onDispatch(MvcEvent $e)
 	{
@@ -51,6 +58,7 @@ class BaseController extends AbstractActionController
 	 */
 	public function dispatch(Request $request, Response $response = null)
 	{
+		$this->hasIdentity();
 		$this->tranlate();
 		parent::dispatch($request, $response);
 	}
@@ -71,6 +79,25 @@ class BaseController extends AbstractActionController
 		$this->i18n = $translate->getTranslator();
 	}
 	
+	protected function getAuthenticationService()
+	{
+		return new AuthenticationService();
+	}
+	
+	protected  function getAuthStorage()
+	{
+		return new AuthStorage();
+	}
+	
+	/**
+	 * 
+	 * @return User
+	 */
+	protected function getUser()
+	{
+		$authStorage = $this->getAuthStorage()->read();
+		return $authStorage["user"];
+	}
 	
 // 	protected function attachDefaultListeners()
 // 	{

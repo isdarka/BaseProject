@@ -103,6 +103,8 @@ return array(
         		'Core\Controller\Menu' => 'Core\Controller\MenuController',
         		'Core\Controller\Core' => 'Core\Controller\CoreController',
         		'Core\Controller\Role' => 'Core\Controller\RoleController',
+        		'Core\Controller\Auth' => 'Core\Controller\AuthController',
+        		'Core\Controller\MenuItem' => 'Core\Controller\MenuItemController',
         		
         ),
     ),

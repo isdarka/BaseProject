@@ -13,7 +13,7 @@ interface FactoryInterface
 	 * 
 	 * @param array $array
 	 */
-	public static function createFromArray($array);
+	public static function createFromArray( $array);
 	
 	
 	

@@ -1,53 +1,107 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 3:58:22 PM
+ * LogBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Metadata
+ * @copyright 
+ * @license 
+ * @created Sun Dec 8 14:42:34 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
-
-
 use Model\Metadata\AbstractMetadata;
-use Model\Bean\AbstractBean;
+use Core\Model\Bean\Log;
 use Core\Model\Factory\LogFactory;
 use Core\Model\Collection\LogCollection;
+use Model\Bean\AbstractBean;
 
 class LogMetadata extends AbstractMetadata
 {
 
-	/**
-	 *
-	 * @return string
-	 */
-	public function getEntityName()
+		
+ 	/**
+ 	 *
+ 	 * toUpdateArray
+ 	 *
+ 	 */
+	public function toUpdateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				Log::ID_USER,
+				Log::TIMESTAMP,
+				Log::EVENT,
+				Log::NOTE,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * toCreateArray
+ 	 *
+ 	 */
+	public function toCreateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				Log::ID_LOG,
+				Log::ID_USER,
+				Log::TIMESTAMP,
+				Log::EVENT,
+				Log::NOTE,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Entity Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getEntityName() 
 	{
 		return "Log";
 	}
-	/**
-	 *
-	 * @return string
-	 */
-	public function getTableName()
+		
+ 	/**
+ 	 *
+ 	 * Get TableName
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getTableName() 
 	{
 		return "core_logs";
 	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getPrimaryKey()
+		
+ 	/**
+ 	 *
+ 	 * Get PrimaryKey
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getPrimaryKey() 
 	{
-		return 'id_log';
+		return "id_log";
 	}
-
-	/**
-	 *
-	 * @return ModuleFactory
-	 */
-	public function getFactory()
+		
+ 	/**
+ 	 *
+ 	 * Get Factory
+ 	 *
+ 	 * @return LogFactory
+ 	 */
+	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -55,24 +109,15 @@ class LogMetadata extends AbstractMetadata
 		}
 		return $factory;
 	}
-
-	/**
-	 *
-	 * @return \Core\Model\Collection\ModuleCollection
-	 */
-	public function newCollection(){
+		
+ 	/**
+ 	 *
+ 	 * Get Collection
+ 	 *
+ 	 * @return LogCollection
+ 	 */
+	public function newCollection() 
+	{
 		return new LogCollection();
-	}
-
-	public function toCreateArray(AbstractBean $bean){
-		return $bean->toArrayFor(
-				array('id_log', 'id_user', 'timestamp', 'event', 'note' )
-		);
-	}
-	
-	public  function toUpdateArray(AbstractBean $bean){
-		return $bean->toArrayFor(
-				array('id_user', 'timestamp', 'event', 'note' )
-		);
 	}
 }

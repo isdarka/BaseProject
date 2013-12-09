@@ -29,7 +29,11 @@ class LogCatalog extends AbstractCatalog
 	{
 		try {
 			$this->insert = $this->sql->insert(self::getMetadata()->getTableName());
-			$this->insert->values(self::getMetadata()->toCreateArray($bean));
+			$data = self::getMetadata()->toCreateArray($bean);
+			$data = array_filter($data, array($this, 'isNotNull'));
+			$this->insert->values($data);
+// 			var_dump($this->toSql());
+// 			die("a");
 			$this->execute($this->insert);
 				
 			$this->getMetadata()->getFactory()->populate($bean, array(

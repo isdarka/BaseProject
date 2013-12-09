@@ -11,7 +11,7 @@ use Model\Factory\AbstractFactory;
 use Core\Model\Bean\Person;
 class PersonFactory extends AbstractFactory
 {
-	public static function createFromArray($fields)
+	public static function createFromArray( $fields)
 	{
 		$person = new Person();
 		self::populate($person, $fields);

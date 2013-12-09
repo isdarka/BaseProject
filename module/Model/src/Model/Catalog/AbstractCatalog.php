@@ -21,8 +21,6 @@ abstract class AbstractCatalog implements CatalogInterface
 	protected $update;
 	protected $insert;
 	protected $delete;
-	protected $hasTransaction = false;
-	
 	public function __construct(Adapter $adapter)
 	{
 		$this->adapter = $adapter;
@@ -38,45 +36,71 @@ abstract class AbstractCatalog implements CatalogInterface
 			$this->create($bean);
 	}
 		
+// 	protected function create(AbstractBean $bean)
+// 	{
+// 		$this->insert = $this->sql->insert($this->getMetadata()->getTableName());
+// 		$this->insert->values($bean->toArray());
+// 		$this->execute($this->insert);
+		
+// 		$this->getMetadata()->getFactory()->populate($bean, array(
+// 				$this->getMetadata()->getPrimaryKey() => $this->getLastInsertId(),
+// 		));
+// 	}
+	
 	protected function create(AbstractBean $bean)
 	{
-		$this->insert = $this->sql->insert($this->getMetadata()->getTableName());
-		$this->insert->values($bean->toArray());
-		$this->execute($this->insert);
-		
-		$this->getMetadata()->getFactory()->populate($bean, array(
-				$this->getMetadata()->getPrimaryKey() => $this->getLastInsertId(),
-		));
+		try {
+			$this->insert = $this->sql->insert($this->getMetadata()->getTableName());
+			$data = $this->getMetadata()->toCreateArray($bean);
+			$data = array_filter($data, array($this, 'isNotNull'));
+			$this->insert->values($data);
+			$this->execute($this->insert);
+			
+			$this->getMetadata()->getFactory()->populate($bean, array(
+					$this->getMetadata()->getPrimaryKey() => $this->getLastInsertId(),
+			));
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) { 	
+			var_dump($e->getMessage());
+			die();		
+			throw $e;
+		} catch (\Exception $e) {
+			var_dump($e->getMessage());
+			die();
+			throw $e;
+		}
 	}
 	
 	protected function update(AbstractBean $bean)
 	{
-		
-	}
-	
-	public function delete(AbstractBean $bean)
-	{
-		
+		try {
+			$this->update = $this->sql->update($this->getMetadata()->getTableName());
+			$data = $this->getMetadata()->toUpdateArray($bean);
+			$data = array_filter($data, array($this, 'isNotNull'));
+			$this->update->set($data);
+			$where = new Where();
+			$where->equalTo($this->getMetadata()->getPrimaryKey(), $bean->getIndex());
+			$this->update->where($where);
+			$this->execute($this->update);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
 	}
 	
 	public function beginTransaction()
 	{
-		if(!$this->hasTransaction()){
-			$this->adapter->getDriver()->getConnection()->beginTransaction();
-			$this->hasTransaction = true;			
-		}
+		$this->adapter->getDriver()->getConnection()->beginTransaction();
 	}
 	
 	public function commit()
 	{
 		$this->adapter->getDriver()->getConnection()->commit();
-		$this->hasTransaction = false;
 	}
 	
 	public function rollback()
 	{
 		$this->adapter->getDriver()->getConnection()->rollback();
-		$this->hasTransaction = false;
 	}
 	
 	/**
@@ -115,14 +139,5 @@ abstract class AbstractCatalog implements CatalogInterface
 // 		var_dump($this->update);
 // 		die();
 // 		return $this->sql->getgetSqlString($this->adapter->getPlatform());
-	}
-	
-	/**
-	 * 
-	 * @return boolean
-	 */
-	public function hasTransaction()
-	{
-		return $this->hasTransaction;
 	}
 }

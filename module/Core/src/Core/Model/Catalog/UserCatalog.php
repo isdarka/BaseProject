@@ -11,7 +11,7 @@ use Model\Bean\AbstractBean;
 use Core\Model\Metadata\UserMetadata;
 use Core\Model\Exception\UserException;
 use Core\Model\Bean\Person;
-
+use Zend\Db\Sql\Predicate\Predicate;
 use Zend\Db\Sql\Where;
 // use Zend\Authentication\Adapter\Exception\ExceptionInterface;
 class UserCatalog extends PersonCatalog

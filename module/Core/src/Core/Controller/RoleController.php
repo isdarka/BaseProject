@@ -1,43 +1,112 @@
 <?php
 
+/**
+ *
+ * RoleController
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Controller
+ * @copyright 
+ * @license 
+ * @created Sun Dec 8 19:22:59 2013
+ * @version 1.0
+ */
 
 namespace Core\Controller;
 
-
-use Core\Query\RoleQuery;
 use BaseProject\Controller\BaseController;
+use Core\Query\RoleQuery;
 use Core\Model\Bean\Role;
 use Core\Model\Catalog\RoleCatalog;
 use Core\Model\Factory\RoleFactory;
-use Core\Model\Bean\Log;
 use Model\Bean\AbstractBean;
+use Core\Model\Bean\Log;
+use Core\Query\RoleLogQuery;
+use Core\Model\Bean\RoleLog;
+use Core\Model\Catalog\RoleLogCatalog;
+use Core\Model\Factory\RoleLogFactory;
+use Core\Query\UserQuery;
+
 class RoleController extends BaseController
 {
-	public function indexAction()
+
+		
+ 	/**
+ 	 *
+ 	 * Index
+ 	 *
+ 	 */
+	public function indexAction() 
 	{
+		
 		$roleQuery = new RoleQuery($this->getAdatper());
-		$total = $roleQuery->count();		
+		$total = $roleQuery->count();
 		$page = $this->params()->fromRoute("page", 1);
 		$roles = $roleQuery->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
 		
-		
+		//Views
 		$this->view->roles = $roles;
 		$this->view->pages = ceil($total / $this->maxPerPage);
 		$this->view->currentPage = $page;
 		$this->view->total = $total;
 		return $this->view;
 	}
-	
-	public function createAction()
+		
+ 	/**
+ 	 *
+ 	 * Create
+ 	 *
+ 	 */
+	public function createAction() 
 	{
 		$role = new Role();
 		$this->view->role = $role;
 		
+		//Views
 		$this->view->setTemplate("core/role/form.tpl");
 		return $this->view;
 	}
-	
-	public function saveAction()
+		
+ 	/**
+ 	 *
+ 	 * update
+ 	 *
+ 	 */
+	public function updateAction() 
+	{
+		try {
+			$idRole = $this->params()->fromRoute("id", 0);
+			if(!$idRole)
+				throw new \Exception($this->i18n->translate('Role not defined.'));
+		
+			$roleQuery = new RoleQuery($this->getAdatper());
+			$role = $roleQuery->findByPkOrThrow($idRole, $this->i18n->translate("Role not found."));
+		
+			//Views
+			$this->view->role = $role;
+			$this->view->setTemplate("core/role/form.tpl");
+			return $this->view;
+		} catch (\Exception $e) {
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+			$this->redirect()->toRoute(null, array(
+				'controller' => 'role ',
+				'action' =>  'index',
+			));
+		}
+		//Views
+		$this->view->setTemplate("core/role/form.tpl");
+		return $this->view;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Save
+ 	 *
+ 	 */
+	public function saveAction() 
 	{
 		$idRole = $this->params()->fromPost("idRole", 0);
 		if($idRole)
@@ -46,7 +115,7 @@ class RoleController extends BaseController
 			$role = $roleQuery->findByPkOrThrow($idRole, $this->i18n->translate("Role not found."));
 		}else{
 			$role = new Role();
-			$role->setStatus(Role::ENABLE);			
+			$role->setStatus(Role::ENABLE);
 		}
 		
 		$roleCatalog = new RoleCatalog($this->getAdatper());
@@ -61,126 +130,118 @@ class RoleController extends BaseController
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$roleCatalog->rollback();
 		}
-		 $this->redirect()->toRoute(null,array('controller'=>"role",'action' => "index",));
-		 return $this->view;
-	}
-	
-	public function updateAction()
-	{
-		try {
-			$idUser = $this->params()->fromRoute("id", 0);
-			if(!$idUser)
-				throw new \Exception($this->i18n->translate('User not defined.'));
-			
-			$userQuery = new UserQuery($this->getAdatper());
-			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
-			
-			$this->view->user = $user;
-			$this->view->setTemplate("core/user/form.tpl");
-			return $this->view;
-		} catch (\Exception $e) {
-			$this->flashMessenger()->addErrorMessage($e->getMessage());
-			$this->redirect()->toRoute(null, array(
-					'controller' => 'user',
-					'action' =>  'index',
-			));
-		}
-	}
-	
-	public function enableAction()
-	{
-		$userCatalog = new UserCatalog($this->getAdatper());
-		$userCatalog->beginTransaction();
-		try {
-			$idUser = $this->params()->fromRoute("id", 0);
-			if(!$idUser)
-				throw new \Exception($this->i18n("User not defined."));
-			$userQuery = new UserQuery($this->getAdatper());
-			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
-			$user->setStatus(User::ENABLE);			
-			$userCatalog->save($user);
-			$this->newLog($user, Log::ENABLED);
-			$userCatalog->commit();
-			$this->flashMessenger()->addSuccessMessage('User has been enabled.');
-		} catch (Exception $e) {
-			$this->flashMessenger()->addErrorMessage($e->getMessage());
-			$userCatalog->rollback();
-		}
-		$this->redirect()->toRoute(null,array('controller'=>"user",'action' => "index",));
+		$this->redirect()->toRoute(null,array('controller'=>'role','action' => 'index',));
 		return $this->view;
 	}
-	
-	public function disableAction()
-	{
-		$userCatalog = new UserCatalog($this->getAdatper());
-		$userCatalog->beginTransaction();
-		try {
-			$idUser = $this->params()->fromRoute("id", 0);
-			if(!$idUser)
-				throw new \Exception($this->i18n("User not defined."));
-			$userQuery = new UserQuery($this->getAdatper());
-			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
-			$user->setStatus(User::DISABLE);
-			$userCatalog->save($user);
-			$this->newLog($user, Log::DISABLED);
-			$userCatalog->commit();
-			$this->flashMessenger()->addSuccessMessage('User has been disabled.');
-		} catch (\Exception $e) {
-			$this->flashMessenger()->addErrorMessage($e->getMessage());
-			$userCatalog->rollback();
-		}
-		$this->redirect()->toRoute(null,array('controller'=>"user",'action' => "index",));
-		return $this->view;
-	}
-
-	private function newLog(AbstractBean $bean, $event, $note = "")
-	{
-// 		$userLogCatalog = new UserLogCatalog($this->getAdatper());
-// 		$date = new \DateTime("now");
-// 		$userLog = UserLogFactory::createFromArray(array(
-// 				UserLog::ID_USER => $bean->getIdUser(),
-// 				UserLog::EVENT => $event,
-// 				UserLog::NOTE => $note,
-// 				UserLog::TIMESTAMP => $date->format(\DateTime::W3C),
-// 				)
-// 		);
 		
-// 		$userLogCatalog->save($userLog);
+ 	/**
+ 	 *
+ 	 * Enable
+ 	 *
+ 	 */
+	public function enableAction() 
+	{
+		$roleCatalog = new RoleCatalog($this->getAdatper());
+		$roleCatalog->beginTransaction();
+		try {
+			$idRole = $this->params()->fromRoute("id", 0);
+			if(!$idRole)
+				throw new \Exception($this->i18n("Role not defined."));
+			$roleQuery = new RoleQuery($this->getAdatper());
+			$role = $roleQuery->findByPkOrThrow($idRole, $this->i18n->translate("Role not found."));
+			$role->setStatus(Role::ENABLE);
+			$roleCatalog->save($role);
+			$this->newLog($role, Role::ENABLE);
+			$roleCatalog->commit();
+			$this->flashMessenger()->addSuccessMessage('Role has been enabled.');
+		} catch (\Exception $e) {
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+			$roleCatalog->rollback();
+		}
+		$this->redirect()->toRoute(null,array('controller'=>'role','action' => 'index',));
+		return $this->view;
 	}
-	
-	public function historyAction()
+		
+ 	/**
+ 	 *
+ 	 * Disable
+ 	 *
+ 	 */
+	public function disableAction() 
+	{
+		$roleCatalog = new RoleCatalog($this->getAdatper());
+		$roleCatalog->beginTransaction();
+		try {
+			$idRole = $this->params()->fromRoute("id", 0);
+			if(!$idRole)
+				throw new \Exception($this->i18n("Role not defined."));
+			$roleQuery = new RoleQuery($this->getAdatper());
+			$role = $roleQuery->findByPkOrThrow($idRole, $this->i18n->translate("Role not found."));
+			$role->setStatus(Role::DISABLE);
+			$roleCatalog->save($role);
+			$this->newLog($role, Role::DISABLE);
+// 			die();
+			$roleCatalog->commit();
+			$this->flashMessenger()->addSuccessMessage('Role has been disabled.');
+		} catch (\Exception $e) {
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+			$roleCatalog->rollback();
+		}
+		$this->redirect()->toRoute(null,array('controller'=>'role','action' => 'index',));
+		return $this->view;
+	}
+		
+ 	/**
+ 	 *
+ 	 * History
+ 	 *
+ 	 */
+	public function historyAction() 
 	{
 		try {
-			$idUser = $this->params()->fromRoute("id", 0);
-			if(!$idUser)
-				throw new \Exception($this->i18n("User not defined."));
-			$userQuery = new UserQuery($this->getAdatper());
-			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
-
-			$userLogQuery = new UserLogQuery($this->getAdatper());
-			$userLogQuery->whereAdd(UserLog::ID_USER, $user->getIdUser());
-			$userLogQuery->addDescendingOrderBy(UserLog::ID_USER_LOG);
-			$userLogs = $userLogQuery->find();
+			$idRole = $this->params()->fromRoute("id", 0);
+			if(!$idRole )
+				throw new \Exception($this->i18n("Role not defined."));
 			
 			$userQuery = new UserQuery($this->getAdatper());
 			$users = $userQuery->find();
-			$this->view->userLogs = $userLogs;
+			$roleQuery = new RoleQuery($this->getAdatper());
+			$role = $roleQuery->findByPkOrThrow($idRole, $this->i18n->translate("Role not found."));
+			$roleLogQuery = new RoleLogQuery($this->getAdatper());
+			$roleLogQuery->whereAdd(RoleLog::ID_ROLE, $role->getIdRole());
+			$roleLogQuery->addDescendingOrderBy(RoleLog::ID_ROLE_LOG );
+			$roleLogs = $roleLogQuery->find();
+			$roleQuery = new RoleQuery($this->getAdatper());
+			$roles = $roleQuery->find();
+			
+			//Views
+			$this->view->roleLogs = $roleLogs;
+			$this->view->roles = $roles;
 			$this->view->users = $users;
 		} catch (\Exception $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
-			$this->redirect()->toRoute(null,array('controller'=>"user",'action' => "index",));
+			$this->redirect()->toRoute(null,array('controller'=>'role','action' => 'index',));
 		}
-		
 		return $this->view;
 	}
-	
-	public function searchAction()
+		
+ 	/**
+ 	 *
+ 	 * Log
+ 	 *
+ 	 */
+	private function newLog(AbstractBean $bean, $event, $note = "" ) 
 	{
-		$jsonModel = new JsonModel(array(
-				"demo" => "1",
-				"demo1" => "11",
-				"demo2" => "12",
-		));
-		return  $jsonModel;
+		$roleLogCatalog = new RoleLogCatalog($this->getAdatper());
+		$date = new \DateTime("now");
+		$roleLog = RoleLogFactory::createFromArray(array(
+			RoleLog::ID_ROLE => $bean->getIdRole(),
+			RoleLog::ID_USER => $this->getUser()->getIdUser(),
+			RoleLog::EVENT => $event,
+			RoleLog::NOTE => $note,
+			RoleLog::TIMESTAMP => $date->format(\DateTime::W3C),
+			)
+		);
+		$roleLogCatalog->save($roleLog);
 	}
 }

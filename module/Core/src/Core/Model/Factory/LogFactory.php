@@ -9,6 +9,7 @@ namespace Core\Model\Factory;
 
 use Model\Factory\AbstractFactory;
 use Core\Model\Bean\Log;
+use Core\Model\Exception\LogException;
 class LogFactory extends AbstractFactory
 {
 	public static function createFromArray($fields)
@@ -21,7 +22,7 @@ class LogFactory extends AbstractFactory
 	public static function populate($log, $fields)
 	{
 		if( !($log instanceof Log) )
-			throw new UserException('$log must be instance of Log');
+			throw new LogException('$log must be instance of Log');
 	
 		if( isset($fields[Log::ID_LOG]) ){
 			$log->setIdLog($fields[Log::ID_LOG]);

@@ -1,94 +1,183 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Dec 4, 2013 6:42:50 PM
+ * RoleBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Bean
+ * @copyright 
+ * @license 
+ * @created Sun Dec 8 19:21:50 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Bean;
 
 use Model\Bean\AbstractBean;
+
 class Role extends AbstractBean
 {
+
 	const TABLENAME = 'core_roles';
-	
+
 	const ID_ROLE = 'id_role';
+
 	const NAME = 'name';
+
 	const STATUS = 'status';
-	
+
+	const ENABLE = '1';
+
+	const DISABLE = '2';
+
 	private $idRole;
+
 	private $name;
-	private $status;
-	
-	const ENABLE = 1;
-	const DISABLE = 0;
-	
-	public function getIndex()
+
+	private $status = '1';
+
+		
+ 	/**
+ 	 *
+ 	 * Get the idRole property
+ 	 *
+ 	 * @return int $idRole
+ 	 */
+	public function getIndex() 
 	{
 		return $this->idRole;
 	}
-	
-	public function setIdRole($idRole)
+		
+ 	/**
+ 	 *
+ 	 * Set the idRole property
+ 	 *
+ 	 * @param int $idRole
+ 	 */
+	public function setIdRole($idRole) 
 	{
 		$this->idRole = $idRole;
 		return $this;
 	}
-	
-	public function getIdRole()
-	{
-		return $this->idRole;
-	}
-	
-	public function setName($name)
+		
+ 	/**
+ 	 *
+ 	 * Set the name property
+ 	 *
+ 	 * @param string $name
+ 	 */
+	public function setName($name) 
 	{
 		$this->name = $name;
 		return $this;
 	}
-	
-	public function getName()
-	{
-		return $this->name;
-	}
-	
-	public function setStatus($status)
+		
+ 	/**
+ 	 *
+ 	 * Set the status property
+ 	 *
+ 	 * @param int $status
+ 	 */
+	public function setStatus($status) 
 	{
 		$this->status = $status;
 		return $this;
 	}
-	
-	public function getStatus()
+		
+ 	/**
+ 	 *
+ 	 * Get the idRole property
+ 	 *
+ 	 * @return int $idRole
+ 	 */
+	public function getIdRole() 
+	{
+		return $this->idRole;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the name property
+ 	 *
+ 	 * @return string $name
+ 	 */
+	public function getName() 
+	{
+		return $this->name;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the status property
+ 	 *
+ 	 * @return int $status
+ 	 */
+	public function getStatus() 
 	{
 		return $this->status;
 	}
-	
-	public function toArray()
+		
+ 	/**
+ 	 *
+ 	 * Get the Array
+ 	 *
+ 	 * @return array
+ 	 */
+	public function toArray() 
 	{
-		return array(
-				self::ID_ROLE => $this->getIdRole(),
-				self::NAME => $this->getName(),
-				self::STATUS => $this->getStatus(),
+		$array = array(
+			self::ID_ROLE => $this->getIdRole(),
+			self::NAME => $this->getName(),
+			self::STATUS => $this->getStatus(),
 		);
+		return $array;
 	}
-	
-	public static $statusString = array(
-			self::ENABLE => 'Enabled',
-			self::DISABLE => 'Disabled',
+		
+ 	/**
+ 	 *
+ 	 * Statuses
+ 	 *
+ 	 */
+	public static $statuses = array( 
+		self::ENABLE => "Enable", 
+		self::DISABLE => "Disable", 
 	
 	);
-	
-	public function isEnabled()
+		
+ 	/**
+ 	 *
+ 	 * idRole is enable
+ 	 *
+ 	 * @return boolean
+ 	 */
+	public function isEnabled() 
 	{
 		return self::ENABLE == $this->getStatus();
 	}
-	
-	public function isDisabled()
+		
+ 	/**
+ 	 *
+ 	 * idRole is disable
+ 	 *
+ 	 * @return boolean
+ 	 */
+	public function isDisabled() 
 	{
 		return self::DISABLE == $this->getStatus();
 	}
-	
-	public function getStatusString()
+		
+ 	/**
+ 	 *
+ 	 * Get Status Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getStatusString() 
 	{
-		return self::$statusString[$this->getStatus()];
+		return self::$statuses[$this->getStatus()];
 	}
-	
 }

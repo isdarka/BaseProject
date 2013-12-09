@@ -18,6 +18,7 @@ use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Expression;
 use Model\Bean\AbstractBean;
 use Model\Collection\AbstractCollection;
+use Zend\Db\Sql\Predicate\Operator;
 // use Core\Model\Metadata\ModuleMetadata as ModuleMetadata;
 
 class Query extends Select implements Comparision
@@ -69,8 +70,10 @@ class Query extends Select implements Comparision
 	 * @param unknown $comparision
 	 * @return \Query\Query
 	 */
-	public function whereAdd($field, $value, $comparision = self::EQUAL)
+	public function whereAdd($field, $value, $comparision = self::EQUAL, $mutator = NULL)
 	{
+		if(!is_null($mutator))
+			$value = new Expression(sprintf($mutator, $value));
 		$this->predicate($field, $value,$comparision, Predicate::COMBINED_BY_AND);
 		return $this;
 	}
@@ -84,6 +87,8 @@ class Query extends Select implements Comparision
 	 */
 	public function whereOrAdd($field, $value, $comparision = self::EQUAL)
 	{
+		if(!is_null($mutator))
+			$value = new Expression(sprintf($mutator, $value));
 		$this->predicate($field, $value,$comparision, Predicate::COMBINED_BY_OR);
 		return $this;
 	}
@@ -281,7 +286,12 @@ class Query extends Select implements Comparision
 	public function findOne()
 	{
 		$array = $this->fetchOne();
-		return $this->metadata->getFactory()->createFromArray($array);
+		var_dump($array);
+		if($array)
+			return $this->metadata->getFactory()->createFromArray($array);
+		else
+			return $this->metadata->newBean();
+			
 	}
 	
 	/**
