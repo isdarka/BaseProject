@@ -1,0 +1,62 @@
+<?php
+<<<<<<< HEAD
+
+/**
+ *
+ * RoleQuery
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Query
+ * @copyright 
+ * @license 
+ * @created Sun Dec 8 19:21:50 2013
+ * @version 1.0
+=======
+/**
+ *
+ * @author isdarka
+ * @created Nov 24, 2013 8:02:02 PM
+>>>>>>> 6e7ce30901df23638fa12db684317d62d9d42400
+ */
+
+namespace Core\Query;
+
+use Query\Query;
+use Core\Model\Metadata\RoleMetadata;
+
+<<<<<<< HEAD
+class RoleQuery extends Query
+{
+
+		
+ 	/**
+ 	 *
+ 	 * Contruct RoleQuery
+ 	 *
+ 	 */
+	public function __construct($adapter) 
+=======
+/**
+ * Core\Query\ActionQuery
+ *
+ * @method Core\Model\Bean\Action findByPkOrThrow() findByPkOrThrow($primaryKey, $exception)
+ *
+ */
+
+class RoleQuery extends Query
+{
+	
+	public function __construct($adapter)
+>>>>>>> 6e7ce30901df23638fa12db684317d62d9d42400
+	{
+		$this->metadata = new RoleMetadata();
+		parent::__construct($adapter, $this->metadata->getTableName(), $this->metadata->getEntityName());
+	}
+<<<<<<< HEAD
+=======
+	
+>>>>>>> 6e7ce30901df23638fa12db684317d62d9d42400
+}

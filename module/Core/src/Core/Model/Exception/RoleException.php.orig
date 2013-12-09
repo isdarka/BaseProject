@@ -1,0 +1,37 @@
+<?php
+<<<<<<< HEAD
+
+/**
+ *
+ * RoleBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Exception
+ * @copyright 
+ * @license 
+ * @created Sun Dec 8 19:21:50 2013
+ * @version 1.0
+=======
+/**
+ *
+ * @author isdarka
+ * @created Nov 26, 2013 3:36:22 PM
+>>>>>>> 6e7ce30901df23638fa12db684317d62d9d42400
+ */
+
+namespace Core\Model\Exception;
+
+<<<<<<< HEAD
+
+class RoleException extends \Exception
+{
+
+=======
+class RoleException extends \Exception
+{
+	
+>>>>>>> 6e7ce30901df23638fa12db684317d62d9d42400
+}

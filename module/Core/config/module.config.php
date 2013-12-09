@@ -40,7 +40,7 @@ return array(
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/[:controller[/:action][/:id][page/:page]]',
+                            'route'    => '/[:controller[/:action][/:id][/:id2]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -101,6 +101,7 @@ return array(
             	'Core\Controller\Index' => 'Core\Controller\IndexController',
         		'Core\Controller\User' => 'Core\Controller\UserController',
         		'Core\Controller\Menu' => 'Core\Controller\MenuController',
+        		'Core\Controller\Core' => 'Core\Controller\CoreController',
         		'Core\Controller\Role' => 'Core\Controller\RoleController',
         		'Core\Controller\Auth' => 'Core\Controller\AuthController',
         		'Core\Controller\MenuItem' => 'Core\Controller\MenuItemController',
