@@ -1,22 +1,40 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 24, 2013 6:24:15 PM
+ * ModuleCatalog
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Catalog
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:15:21 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Catalog;
 
+use Model\Bean\AbstractBean;
+use Core\Model\Metadata\ModuleMetadata;
+use Core\Model\Exception\ModuleException;
+use Zend\Db\Sql\Where;
 use Model\Catalog\AbstractCatalog;
-use Core\Model\Metadata\ModelMetadata;
+
 class ModuleCatalog extends AbstractCatalog
 {
-	/**
-	 * 
-	 * @return ModelMetadata
-	 */
-	protected function getMetadata()
+
+		
+ 	/**
+ 	 *
+ 	 * Get ModuleMetadata
+ 	 *
+ 	 * @return ModuleMetadata
+ 	 */
+	public function getMetadata() 
 	{
-		return new ModelMetadata();
+		return new ModuleMetadata();
 	}
 }

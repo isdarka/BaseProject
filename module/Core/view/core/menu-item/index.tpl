@@ -1,8 +1,18 @@
 <fieldset>
-	<legend>{$i18n->translate("MenuItem")}</legend>
+	<legend>{$i18n->translate("MenuItem")} <a href="{$baseUrl}/core/menuitem/create" class="btn btn-success pull-right">{$i18n->translate("New MenuItem")}</a></legend>
 	<div class="table-responsive">
+	<form action="{$baseUrl}/core/menuitem/index" method="get">
 		<table class="table table-bordered table-condensed table-hover">
 			<thead>
+				<tr class="well">
+					<th><input type="text" class="form-control" name="id_menu_item" placeholder="{$i18n->translate('ID_MENU_ITEM')}" value="{$queryParams['id_menu_item']}"></th>
+					<th><input type="text" class="form-control" name="id_action" placeholder="{$i18n->translate('ID_ACTION')}" value="{$queryParams['id_action']}"></th>
+					<th><input type="text" class="form-control" name="id_parent" placeholder="{$i18n->translate('ID_PARENT')}" value="{$queryParams['id_parent']}"></th>
+					<th><input type="text" class="form-control" name="name" placeholder="{$i18n->translate('NAME')}" value="{$queryParams['name']}"></th>
+					<th><input type="text" class="form-control" name="order" placeholder="{$i18n->translate('ORDER')}" value="{$queryParams['order']}"></th>
+					<th><input type="text" class="form-control" name="status" placeholder="{$i18n->translate('STATUS')}" value="{$queryParams['status']}"></th>
+					<th class="col-xs-2"><button type="submit" class="form-control btn btn-default ">{$i18n->translate("Filter")}</button></th>
+				</tr>
 				<tr class="well">
 					<th>{$i18n->translate("IdMenuItem")}</th>
 					<th>{$i18n->translate("IdAction")}</th>
@@ -37,5 +47,6 @@
 				{/foreach}
 			</tbody>
 		</table>
+		</form>
 	</div>
 </fieldset>

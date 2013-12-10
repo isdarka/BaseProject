@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-08 20:41:08
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 08:48:12
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/layout/noMenuLayout.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:17688199552a52d16f0c561-34607813%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '1e7d4ed02783750b86b9fb87d0f8b2306ee881ce' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/layout/noMenuLayout.tpl',
-      1 => 1386556867,
+      1 => 1386600460,
       2 => 'file',
     ),
   ),

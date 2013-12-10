@@ -11,7 +11,7 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Sun Dec 8 19:21:50 2013
+ * @created Mon Dec 9 11:15:21 2013
  * @version 1.0
  */
 
@@ -30,7 +30,7 @@ class RoleLogFactory extends LogFactory
  	 *
  	 * @return RoleLog
  	 */
-	public static  function createFromArray( $fields) 
+	public static  function createFromArray($fields) 
 	{
 		$roleLog = new RoleLog();
 		self::populate($roleLog,$fields);

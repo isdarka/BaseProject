@@ -1,67 +1,103 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 24, 2013 6:57:42 PM
+ * ActionBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Metadata
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:22:30 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
-
-use Model\Metadata\AbstractMetadata;
 use Model\Bean\AbstractBean;
+use Model\Metadata\AbstractMetadata;
 use Core\Model\Bean\Action;
 use Core\Model\Factory\ActionFactory;
 use Core\Model\Collection\ActionCollection;
 
-
 class ActionMetadata extends AbstractMetadata
 {
-	/**
-	 * 
-	 * @param AbstractBean $bean
-	 */
-	public function toUpdateArray(AbstractBean $bean)
+
+		
+ 	/**
+ 	 *
+ 	 * toUpdateArray
+ 	 *
+ 	 */
+	public function toUpdateArray(AbstractBean $bean) 
 	{
 		return $bean->toArrayFor(
-				array(
-						Action::ID_CONTROLLER,
-						Action::NAME,
-				)
+			array(
+				Action::ID_CONTROLLER,
+				Action::NAME,
+			)
 		);
 	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getTableName()
+		
+ 	/**
+ 	 *
+ 	 * toCreateArray
+ 	 *
+ 	 */
+	public function toCreateArray(AbstractBean $bean) 
 	{
-		return "core_actions";
+		return $bean->toArrayFor(
+			array(
+				Action::ID_ACTION,
+				Action::ID_CONTROLLER,
+				Action::NAME,
+			)
+		);
 	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getPrimaryKey()
-	{
-		return 'id_action';
-	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getEntityName()
+		
+ 	/**
+ 	 *
+ 	 * Get Entity Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getEntityName() 
 	{
 		return "Action";
 	}
-	/**
-	 * 
-	 * @return ModuleFactory
-	 */
-	public function getFactory()
+		
+ 	/**
+ 	 *
+ 	 * Get TableName
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getTableName() 
+	{
+		return "core_actions";
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get PrimaryKey
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getPrimaryKey() 
+	{
+		return "id_action";
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Factory
+ 	 *
+ 	 * @return ActionFactory
+ 	 */
+	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -69,13 +105,26 @@ class ActionMetadata extends AbstractMetadata
 		}
 		return $factory;
 	}
-	
-	/**
-	 * 
-	 * @return \Core\Model\Collection\ModuleCollection
-	 */
-	public function newCollection(){
+		
+ 	/**
+ 	 *
+ 	 * Get Collection
+ 	 *
+ 	 * @return ActionCollection
+ 	 */
+	public function newCollection() 
+	{
 		return new ActionCollection();
 	}
-	
-} 
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return Action
+ 	 */
+	public function newBean() 
+	{
+		return new Action();
+	}
+}

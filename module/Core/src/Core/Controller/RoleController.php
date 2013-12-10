@@ -11,7 +11,7 @@
  * @package Controller
  * @copyright 
  * @license 
- * @created Sun Dec 8 19:22:59 2013
+ * @created Mon Dec 9 11:15:21 2013
  * @version 1.0
  */
 
@@ -41,12 +41,11 @@ class RoleController extends BaseController
  	 */
 	public function indexAction() 
 	{
-		
 		$roleQuery = new RoleQuery($this->getAdatper());
 		$total = $roleQuery->count();
 		$page = $this->params()->fromRoute("page", 1);
-		$roles = $roleQuery->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
-		
+		$roleQuery->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
+		$roles = $roleQuery->find();
 		//Views
 		$this->view->roles = $roles;
 		$this->view->pages = ceil($total / $this->maxPerPage);
@@ -180,7 +179,6 @@ class RoleController extends BaseController
 			$role->setStatus(Role::DISABLE);
 			$roleCatalog->save($role);
 			$this->newLog($role, Role::DISABLE);
-// 			die();
 			$roleCatalog->commit();
 			$this->flashMessenger()->addSuccessMessage('Role has been disabled.');
 		} catch (\Exception $e) {
@@ -202,7 +200,6 @@ class RoleController extends BaseController
 			$idRole = $this->params()->fromRoute("id", 0);
 			if(!$idRole )
 				throw new \Exception($this->i18n("Role not defined."));
-			
 			$userQuery = new UserQuery($this->getAdatper());
 			$users = $userQuery->find();
 			$roleQuery = new RoleQuery($this->getAdatper());
@@ -213,8 +210,8 @@ class RoleController extends BaseController
 			$roleLogs = $roleLogQuery->find();
 			$roleQuery = new RoleQuery($this->getAdatper());
 			$roles = $roleQuery->find();
-			
-			//Views
+		
+			 //Views
 			$this->view->roleLogs = $roleLogs;
 			$this->view->roles = $roles;
 			$this->view->users = $users;

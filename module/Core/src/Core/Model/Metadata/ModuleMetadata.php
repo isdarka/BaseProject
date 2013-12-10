@@ -1,63 +1,101 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 24, 2013 6:57:42 PM
+ * ModuleBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Metadata
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:22:30 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
-use Model\Interfaces\MetadataInterface;
-use Model\Metadata\AbstractMetadata;
-use Core\Model\Bean\ModuleBean;
 use Model\Bean\AbstractBean;
+use Model\Metadata\AbstractMetadata;
+use Core\Model\Bean\Module;
 use Core\Model\Factory\ModuleFactory;
 use Core\Model\Collection\ModuleCollection;
 
 class ModuleMetadata extends AbstractMetadata
 {
-	/**
-	 * 
-	 * @param AbstractBean $bean
-	 */
-	public function toUpdateArray(AbstractBean $bean)
+
+		
+ 	/**
+ 	 *
+ 	 * toUpdateArray
+ 	 *
+ 	 */
+	public function toUpdateArray(AbstractBean $bean) 
 	{
 		return $bean->toArrayFor(
-				array(ModuleBean::NAME)
+			array(
+				Module::NAME,
+			)
 		);
 	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getEntityName()
+		
+ 	/**
+ 	 *
+ 	 * toCreateArray
+ 	 *
+ 	 */
+	public function toCreateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				Module::ID_MODULE,
+				Module::NAME,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Entity Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getEntityName() 
 	{
 		return "Module";
 	}
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getTableName()
+		
+ 	/**
+ 	 *
+ 	 * Get TableName
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getTableName() 
 	{
 		return "core_modules";
 	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getPrimaryKey()
+		
+ 	/**
+ 	 *
+ 	 * Get PrimaryKey
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getPrimaryKey() 
 	{
-		return 'id_module';
+		return "id_module";
 	}
-	
-	/**
-	 * 
-	 * @return ModuleFactory
-	 */
-	public function getFactory()
+		
+ 	/**
+ 	 *
+ 	 * Get Factory
+ 	 *
+ 	 * @return ModuleFactory
+ 	 */
+	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -65,13 +103,26 @@ class ModuleMetadata extends AbstractMetadata
 		}
 		return $factory;
 	}
-	
-	/**
-	 * 
-	 * @return \Core\Model\Collection\ModuleCollection
-	 */
-	public function newCollection(){
+		
+ 	/**
+ 	 *
+ 	 * Get Collection
+ 	 *
+ 	 * @return ModuleCollection
+ 	 */
+	public function newCollection() 
+	{
 		return new ModuleCollection();
 	}
-	
-} 
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return Module
+ 	 */
+	public function newBean() 
+	{
+		return new Module();
+	}
+}

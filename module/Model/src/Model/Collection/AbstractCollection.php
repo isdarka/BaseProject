@@ -9,6 +9,7 @@ namespace Model\Collection;
 
 use Model\Interfaces\CollectionInterface;
 use Model\Interfaces\BeanInterface;
+use Model\Bean\AbstractBean;
 abstract class AbstractCollection extends \ArrayIterator implements CollectionInterface
 {
 
@@ -261,7 +262,7 @@ abstract class AbstractCollection extends \ArrayIterator implements CollectionIn
 		$this->validateCallback($callable);
 
 		$array = array();
-		$this->each(function(Collectable $collectable) use(&$array, $callable){
+		$this->each(function(AbstractBean $collectable) use(&$array, $callable){
 			$mapResult = $callable($collectable);
 			if( is_array($mapResult) ){
 				foreach($mapResult as $key => $value){

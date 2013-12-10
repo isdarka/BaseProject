@@ -11,13 +11,14 @@
  * @package Collection
  * @copyright 
  * @license 
- * @created Sun Dec 8 22:25:31 2013
+ * @created Mon Dec 9 11:45:42 2013
  * @version 1.0
  */
 
 namespace Core\Model\Collection;
 
 use Model\Collection\AbstractCollection;
+use Core\Model\Bean\MenuItem;
 
 class MenuItemCollection extends AbstractCollection
 {
@@ -79,5 +80,16 @@ class MenuItemCollection extends AbstractCollection
 				$menuItemCollection->append($menuItem);
 		});
 		return $menuItemCollection;
+	}
+		
+ 	/**
+ 	 *
+ 	 * @return array
+ 	 */
+	public function toCombo() 
+	{
+		return $this->map(function(MenuItem $menuItem){
+			return array( $menuItem->getidMenuItem() => $menuItem->getName() );
+		});
 	}
 }

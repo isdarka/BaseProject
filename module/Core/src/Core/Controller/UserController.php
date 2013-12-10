@@ -49,27 +49,12 @@ class UserController extends BaseController
 {
 	public function indexAction()
 	{
-// 		var_dump($this->params()->fromQuery("page", 1));
-// 		var_dump($this->params()->fromRoute());
-// 		var_dump($this->params()->fromPost());
-// 		var_dump($this->params()->fromFiles());
-// 		var_dump($this->params()->fromHeader());
-		
-// 		var_dump($this->url());
-		
 		$userQuery = new UserQuery($this->getAdatper());
 		$total = $userQuery->count();
 		$maxPerPage = 5;
 		$page = $this->params()->fromRoute("page", 1);
 		$users = $userQuery->limit($maxPerPage)->offset(($page -1) * $maxPerPage)->find();
 		$adapter  = $this->getAdatper();
-// 		var_dump($adapter->getDriver());
-// 		die();
-// 		$adapter instanceof Adapter;
-// 		$adapter->getDriver()->get
-// 		$pangination = new Paginator(new Pag);
-				
-// 		var_dump(ceil($total / $maxPerPage));
 		$this->view->users = $users;
 		$this->view->pages = ceil($total / $maxPerPage);
 		$this->view->currentPage = $page;
@@ -101,6 +86,7 @@ class UserController extends BaseController
 		$userCatalog->beginTransaction();
 		try {
 			UserFactory::populate($user, $this->params()->fromPost());
+			$user->setPassword(md5($user->getPassword()));
 			$userCatalog->save($user);
 			($idUser)?$this->newLog($user, Log::UPDATED):$this->newLog($user, Log::CREATED);
 			$userCatalog->commit();

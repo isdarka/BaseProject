@@ -36,16 +36,6 @@ abstract class AbstractCatalog implements CatalogInterface
 			$this->create($bean);
 	}
 		
-// 	protected function create(AbstractBean $bean)
-// 	{
-// 		$this->insert = $this->sql->insert($this->getMetadata()->getTableName());
-// 		$this->insert->values($bean->toArray());
-// 		$this->execute($this->insert);
-		
-// 		$this->getMetadata()->getFactory()->populate($bean, array(
-// 				$this->getMetadata()->getPrimaryKey() => $this->getLastInsertId(),
-// 		));
-// 	}
 	
 	protected function create(AbstractBean $bean)
 	{
@@ -80,10 +70,15 @@ abstract class AbstractCatalog implements CatalogInterface
 			$where = new Where();
 			$where->equalTo($this->getMetadata()->getPrimaryKey(), $bean->getIndex());
 			$this->update->where($where);
+			var_dump($this->toSql());
 			$this->execute($this->update);
 		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			var_dump($e->getMessage());
+			die();
 			throw $e;
 		} catch (\Exception $e) {
+			var_dump($e->getMessage());
+			die();
 			throw $e;
 		}
 	}
@@ -135,9 +130,8 @@ abstract class AbstractCatalog implements CatalogInterface
 		
 		if($this->update)
 			return $this->update->getSqlString($this->adapter->getPlatform());
-// 		var_dump($this->insert);
-// 		var_dump($this->update);
-// 		die();
-// 		return $this->sql->getgetSqlString($this->adapter->getPlatform());
+		
+		if($this->delete)
+			return $this->delete->getSqlString($this->adapter->getPlatform());
 	}
 }

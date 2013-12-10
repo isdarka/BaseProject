@@ -11,7 +11,7 @@
  * @package Controller
  * @copyright 
  * @license 
- * @created Sun Dec 8 22:25:31 2013
+ * @created Mon Dec 9 11:15:21 2013
  * @version 1.0
  */
 
@@ -24,11 +24,14 @@ use Core\Model\Catalog\MenuItemCatalog;
 use Core\Model\Factory\MenuItemFactory;
 use Model\Bean\AbstractBean;
 use Core\Model\Bean\Log;
-use core\Query\MenuItemLogQuery;
-use core\Model\Bean\MenuItemLog;
-use core\Model\Catalog\MenuItemLogCatalog;
-use core\Model\Factory\MenuItemLogFactory;
+use Core\Query\MenuItemLogQuery;
+use Core\Model\Bean\MenuItemLog;
+use Core\Model\Catalog\MenuItemLogCatalog;
+use Core\Model\Factory\MenuItemLogFactory;
 use Core\Query\UserQuery;
+use Core\Query\ActionQuery;
+use Core\Query\ControllerQuery;
+use Core\Model\Bean\Controller;
 
 class MenuItemController extends BaseController
 {
@@ -41,16 +44,17 @@ class MenuItemController extends BaseController
  	 */
 	public function indexAction() 
 	{
+ 		$queryParams = $this->params()->fromQuery();
 		$menuItemQuery = new MenuItemQuery($this->getAdatper());
 		$total = $menuItemQuery->count();
 		$page = $this->params()->fromRoute("page", 1);
-		$menuItems = $menuItemQuery->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
-		
+		$menuItems = $menuItemQuery->filter($queryParams)->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
 		//Views
 		$this->view->menuItems = $menuItems;
 		$this->view->pages = ceil($total / $this->maxPerPage);
 		$this->view->currentPage = $page;
 		$this->view->total = $total;
+		$this->view->queryParams = $queryParams;
 		return $this->view;
 	}
 		
@@ -64,7 +68,26 @@ class MenuItemController extends BaseController
 		$menuItem = new MenuItem();
 		$this->view->menuItem = $menuItem;
 		
+		$menuParentQuery = new MenuItemQuery($this->getAdatper());
+		$menuParentQuery->whereAdd(MenuItem::ID_PARENT, null, MenuItemQuery::IS_NULL);
+		$menuParents = $menuParentQuery->find();
+		$actionQuery = new ActionQuery($this->getAdatper());
+		$actions = $actionQuery->find();
+		
+		$controllerQuery = new ControllerQuery($this->getAdatper());
+		$controllerQuery->whereAdd(Controller::ID_CONTROLLER, $actions->getControllerIds(), ControllerQuery::IN);
+		
+		$controllers = $controllerQuery->find();
+		$comboControllersActions = array();
+		foreach ($controllers as $controller)
+		{
+			/* @var $controller Controller */
+			$actionsController = $actions->getByIdController($controller->getIdController());
+			$comboControllersActions[$controller->getName()] = $actionsController->toCombo();
+		}
 		//Views
+		$this->view->menuParents = $menuParents;
+		$this->view->comboControllersActions = $comboControllersActions;
 		$this->view->setTemplate("core/menu-item/form.tpl");
 		return $this->view;
 	}
@@ -84,10 +107,31 @@ class MenuItemController extends BaseController
 			$menuItemQuery = new MenuItemQuery($this->getAdatper());
 			$menuItem = $menuItemQuery->findByPkOrThrow($idMenuItem, $this->i18n->translate("MenuItem not found."));
 		
+			$menuParentQuery = new MenuItemQuery($this->getAdatper());
+			$menuParentQuery->whereAdd(MenuItem::ID_PARENT, null, MenuItemQuery::IS_NULL);
+			$menuParents = $menuParentQuery->find();
+			
+			$actionQuery = new ActionQuery($this->getAdatper());
+			$actions = $actionQuery->find();
+			
+			$controllerQuery = new ControllerQuery($this->getAdatper());
+			$controllerQuery->whereAdd(Controller::ID_CONTROLLER, $actions->getControllerIds(), ControllerQuery::IN);
+			
+			$controllers = $controllerQuery->find();
+			$comboControllersActions = array();
+			foreach ($controllers as $controller)
+			{
+				/* @var $controller Controller */
+				$actionsController = $actions->getByIdController($controller->getIdController());
+				$comboControllersActions[$controller->getName()] = $actionsController->toCombo();
+			}
+			
+			//Views
+			$this->view->menuParents = $menuParents;
+			$this->view->comboControllersActions = $comboControllersActions;
 			//Views
 			$this->view->menuItem = $menuItem;
-			$this->view->setTemplate("core/menu-item/form.tpl");
-			return $this->view;
+			
 		} catch (\Exception $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$this->redirect()->toRoute(null, array(
@@ -121,6 +165,10 @@ class MenuItemController extends BaseController
 		$menuItemCatalog->beginTransaction();
 		try {
 			MenuItemFactory::populate($menuItem, $this->params()->fromPost());
+			if(!$menuItem->getIdAction())
+				$menuItem->setIdAction(NULL);
+			if(!$menuItem->getIdParent())
+				$menuItem->setIdParent(NULL);
 			$menuItemCatalog->save($menuItem);
 			($idMenuItem)?$this->newLog($menuItem, Log::UPDATED):$this->newLog($menuItem, Log::CREATED);
 			$menuItemCatalog->commit();
@@ -129,7 +177,7 @@ class MenuItemController extends BaseController
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$menuItemCatalog->rollback();
 		}
-		$this->redirect()->toRoute(null,array('controller'=>'menu-item','action' => 'index',));
+		$this->redirect()->toRoute(null,array('controller'=>'menuitem','action' => 'index',));
 		return $this->view;
 	}
 		
@@ -157,7 +205,7 @@ class MenuItemController extends BaseController
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$menuItemCatalog->rollback();
 		}
-		$this->redirect()->toRoute(null,array('controller'=>'menu-item','action' => 'index',));
+		$this->redirect()->toRoute(null,array('controller'=>'menuitem','action' => 'index',));
 		return $this->view;
 	}
 		
@@ -185,7 +233,7 @@ class MenuItemController extends BaseController
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$menuItemCatalog->rollback();
 		}
-		$this->redirect()->toRoute(null,array('controller'=>'menu-item','action' => 'index',));
+		$this->redirect()->toRoute(null,array('controller'=>'menuitem','action' => 'index',));
 		return $this->view;
 	}
 		
@@ -217,7 +265,7 @@ class MenuItemController extends BaseController
 			$this->view->users = $users;
 		} catch (\Exception $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
-			$this->redirect()->toRoute(null,array('controller'=>'menu-item','action' => 'index',));
+			$this->redirect()->toRoute(null,array('controller'=>'menuItem','action' => 'index',));
 		}
 		return $this->view;
 	}
@@ -227,7 +275,7 @@ class MenuItemController extends BaseController
  	 * Log
  	 *
  	 */
-	private function newLog($event, $note = "", AbstractBean $bean) 
+	private function newLog( AbstractBean $bean, $event, $note = "") 
 	{
 		$menuItemLogCatalog = new MenuItemLogCatalog($this->getAdatper());
 		$date = new \DateTime("now");

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 00:11:48
+=======
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 11:15:34
+>>>>>>> 83f219bf04395bcfb5cd5b8e5067149f7315311a
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/role/index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:151007446552a4f1f3021573-89733314%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +11,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '8b1e4bc5b3ad0bff0ada02d2268fafbb933c1411' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/role/index.tpl',
+<<<<<<< HEAD
       1 => 1386569225,
+=======
+      1 => 1386600460,
+>>>>>>> 83f219bf04395bcfb5cd5b8e5067149f7315311a
       2 => 'file',
     ),
   ),

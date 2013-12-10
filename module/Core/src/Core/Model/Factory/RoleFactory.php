@@ -11,7 +11,7 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Sun Dec 8 19:21:50 2013
+ * @created Mon Dec 9 11:15:21 2013
  * @version 1.0
  */
 
@@ -30,7 +30,7 @@ class RoleFactory extends AbstractFactory
  	 *
  	 * @return Role
  	 */
-	public static  function createFromArray( $fields) 
+	public static  function createFromArray($fields) 
 	{
 		$role = new Role();
 		self::populate($role,$fields);

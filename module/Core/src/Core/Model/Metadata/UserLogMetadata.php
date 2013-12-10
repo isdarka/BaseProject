@@ -1,54 +1,103 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 3:58:22 PM
+ * UserLogBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Metadata
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:22:30 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
-
-
-use Model\Metadata\AbstractMetadata;
 use Model\Bean\AbstractBean;
-use Core\Model\Factory\LogFactory;
+use Model\Metadata\AbstractMetadata;
+use Core\Model\Bean\UserLog;
 use Core\Model\Factory\UserLogFactory;
 use Core\Model\Collection\UserLogCollection;
 
 class UserLogMetadata extends AbstractMetadata
 {
 
-	/**
-	 *
-	 * @return string
-	 */
-	public function getEntityName()
+		
+ 	/**
+ 	 *
+ 	 * toUpdateArray
+ 	 *
+ 	 */
+	public function toUpdateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				UserLog::ID_USER,
+				UserLog::ID_LOG,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * toCreateArray
+ 	 *
+ 	 */
+	public function toCreateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				UserLog::ID_USER_LOG,
+				UserLog::ID_USER,
+				UserLog::ID_LOG,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Entity Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getEntityName() 
 	{
 		return "UserLog";
 	}
-	/**
-	 *
-	 * @return string
-	 */
-	public function getTableName()
+		
+ 	/**
+ 	 *
+ 	 * Get TableName
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getTableName() 
 	{
 		return "common_user_logs";
 	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getPrimaryKey()
+		
+ 	/**
+ 	 *
+ 	 * Get PrimaryKey
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getPrimaryKey() 
 	{
-		return 'id_user_log';
+		return "id_user_log";
 	}
-
-	/**
-	 *
-	 * @return ModuleFactory
-	 */
-	public function getFactory()
+		
+ 	/**
+ 	 *
+ 	 * Get Factory
+ 	 *
+ 	 * @return UserLogFactory
+ 	 */
+	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -56,24 +105,26 @@ class UserLogMetadata extends AbstractMetadata
 		}
 		return $factory;
 	}
-
-	/**
-	 *
-	 * @return \Core\Model\Collection\ModuleCollection
-	 */
-	public function newCollection(){
+		
+ 	/**
+ 	 *
+ 	 * Get Collection
+ 	 *
+ 	 * @return UserLogCollection
+ 	 */
+	public function newCollection() 
+	{
 		return new UserLogCollection();
 	}
-
-	public function toCreateArray(AbstractBean $bean){
-		return $bean->toArrayFor(
-				array('id_user_log', 'id_user', 'id_log', )
-		);
-	}
-	
-	public  function toUpdateArray(AbstractBean $bean){
-		return $bean->toArrayFor(
-				array('id_user', 'id_log',)
-		);
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return UserLog
+ 	 */
+	public function newBean() 
+	{
+		return new UserLog();
 	}
 }

@@ -11,7 +11,7 @@
  * @package Metadata
  * @copyright 
  * @license 
- * @created Sun Dec 8 22:25:31 2013
+ * @created Mon Dec 9 11:22:30 2013
  * @version 1.0
  */
 
@@ -62,6 +62,24 @@ class MenuItemMetadata extends AbstractMetadata
 				MenuItem::STATUS,
 			)
 		);
+	}
+	
+	
+	/**
+	 *
+	 * toCreateArray
+	 *
+	 */
+	public function getFields()
+	{
+		return array(
+						MenuItem::ID_MENU_ITEM,
+						MenuItem::ID_ACTION,
+						MenuItem::ID_PARENT,
+						MenuItem::NAME,
+						MenuItem::ORDER,
+						MenuItem::STATUS,
+			);
 	}
 		
  	/**
@@ -121,5 +139,16 @@ class MenuItemMetadata extends AbstractMetadata
 	public function newCollection() 
 	{
 		return new MenuItemCollection();
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return MenuItem
+ 	 */
+	public function newBean() 
+	{
+		return new MenuItem();
 	}
 }

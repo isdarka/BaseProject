@@ -11,17 +11,17 @@
  * @package Metadata
  * @copyright 
  * @license 
- * @created Sun Dec 8 14:42:34 2013
+ * @created Mon Dec 9 11:22:30 2013
  * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
+use Model\Bean\AbstractBean;
 use Model\Metadata\AbstractMetadata;
 use Core\Model\Bean\Log;
 use Core\Model\Factory\LogFactory;
 use Core\Model\Collection\LogCollection;
-use Model\Bean\AbstractBean;
 
 class LogMetadata extends AbstractMetadata
 {
@@ -119,5 +119,16 @@ class LogMetadata extends AbstractMetadata
 	public function newCollection() 
 	{
 		return new LogCollection();
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return Log
+ 	 */
+	public function newBean() 
+	{
+		return new Log();
 	}
 }

@@ -11,7 +11,7 @@
  * @package Catalog
  * @copyright 
  * @license 
- * @created Sun Dec 8 19:21:50 2013
+ * @created Mon Dec 9 11:15:21 2013
  * @version 1.0
  */
 
@@ -36,5 +36,67 @@ class RoleCatalog extends AbstractCatalog
 	public function getMetadata() 
 	{
 		return new RoleMetadata();
+	}
+		
+ 	/**
+ 	 *
+ 	 * Link to Action
+ 	 *
+ 	 */
+	public function linkToAction($idAction, $idRole) 
+	{
+		try {
+			$this->insert = $this->sql->insert('core_actions_roles');
+			$this->insert->values(array(
+				'id_action' => $idAction,
+				'id_role' => $idRole,
+			));
+			$this->execute($this->insert);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Unlink from Role
+ 	 *
+ 	 */
+	public function unlinkFromAction($idAction, $idRole) 
+	{
+		try {
+			$this->delete = $this->sql->delete('core_actions_roles');
+			$where = new Where();
+			$where->equalTo('id_action', $idAction);
+			$where->equalTo('id_role', $idRole);
+			$this->delete->where($where);
+			$this->execute($this->delete);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Unlink all Role
+ 	 *
+ 	 */
+	public function unlinkAllAction($idRole) 
+	{
+		try {
+			$this->delete = $this->sql->delete('core_actions_roles');
+			$where = new Where();
+			$where->equalTo('id_role', $idRole);
+			$this->delete->where($where);
+			$this->execute($this->delete);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
 	}
 }
