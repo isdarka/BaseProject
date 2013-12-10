@@ -145,9 +145,7 @@ class CoreController extends BaseController
 							Action::ID_CONTROLLER => $controller->getIdController(),
 							Action::NAME => $method,
 					));
-					var_dump($action);
 					$actionCatalog->save($action);
-					var_dump($action);
 				}
 			}
 		} catch (ActionException $e) {

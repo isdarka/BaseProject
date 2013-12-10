@@ -49,17 +49,25 @@ class BaseController extends AbstractActionController
 			$this->redirect()->toRoute(null,array('module' => 'core',  'controller'=>'auth','action' => 'login',));
 		else{
 			$this->renderMenu();
-			$acl = new Acl($this->getAdatper(), $this->getUser());
-			$acl->flushPrivileges();
-			
+			$acl = $this->getAcl();
 			$controller = $this->params()->fromRoute("controller");
 			$action = $this->params()->fromRoute("action");
 			$resource = $controller . "::" . $action;
-			if(!$acl->hasResource($resource))
-				$this->view->content = "You don't have permission ";
-			else if(!$acl->isAllowed($this->getUser()->getIdRole(), $resource))
+			if(!$acl->hasResource($resource)){
+				$this->redirect()->toRoute(null, array(
+						'module' => 'core',
+						'controller' => 'index',
+						'action' =>  'index',
+				));
+				$this->flashMessenger()->addErrorMessage("You don't have permission ");
+			}elseif(!$acl->isAllowed($this->getUser()->getIdRole(), $resource))
 			{
-				$this->view->content = "You don't have permission ";
+				$this->flashMessenger()->addErrorMessage("You don't have permission ");
+				$this->redirect()->toRoute(null, array(
+						'module' => 'core',
+						'controller' => 'index',
+						'action' =>  'index',
+				));
 			}
 		}
 	}
@@ -70,7 +78,6 @@ class BaseController extends AbstractActionController
 		$this->view->i18n = $this->i18n;
 		$this->view->baseUrl = $this->getBasePath();
 		$this->view->flashMessenger = $this->flashMessenger();
-		
 		parent::onDispatch($e);
 	}
 	
@@ -126,27 +133,27 @@ class BaseController extends AbstractActionController
 	 *
 	 * @return Acl
 	 */
-// 	protected function getAcl()
-// 	{
-// 		$authStorage = $this->getAuthStorage()->read();
-// 		return $authStorage["acl"];
-// 	}
+	protected function getAcl()
+	{
+		$authStorage = $this->getAuthStorage()->read();
+		return $authStorage["acl"];
+	}
 	
-// 	protected function attachDefaultListeners()
-// 	{
-// 		$events = $this->getEventManager();
-// 		$events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatch'),2);
-// 		$events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'),10);
-// 		$events->attach(MvcEvent::EVENT_FINISH, array($this, 'onFinish'));
-// 		$events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'));
-// 		$events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'));
+	protected function attachDefaultListeners()
+	{
+		$events = $this->getEventManager();
+		$events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatch'),2);
+		$events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'),10);
+		$events->attach(MvcEvent::EVENT_FINISH, array($this, 'onFinish'));
+		$events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'));
+		$events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'));
 		
-// 	}
+	}
 	
-// 	public function onDispatchError(MvcEvent $e)
-// 	{
-// 		die("DE");
-// 	}
+	public function onDispatchError(MvcEvent $e)
+	{
+		die("DE");
+	}
 	
 // 	public function onRender(MvcEvent $e)
 // 	{
@@ -154,11 +161,11 @@ class BaseController extends AbstractActionController
 // 		die("RE");
 // 	}
 	
-// 	public function onRenderError(MvcEvent $e)
-// 	{
-// 		var_dump("asdas");
-// 		die("RERRO");
-// 	}
+	public function onRenderError(MvcEvent $e)
+	{
+		var_dump("asdas");
+		die("RERRO");
+	}
 	
 // 	protected function onFinish(MvcEvent $e)
 // 	{

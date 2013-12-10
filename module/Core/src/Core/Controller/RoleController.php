@@ -46,6 +46,7 @@ class RoleController extends BaseController
 		$page = $this->params()->fromRoute("page", 1);
 		$roleQuery->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
 		$roles = $roleQuery->find();
+
 		//Views
 		$this->view->roles = $roles;
 		$this->view->pages = ceil($total / $this->maxPerPage);

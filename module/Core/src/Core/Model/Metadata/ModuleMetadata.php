@@ -22,6 +22,7 @@ use Model\Metadata\AbstractMetadata;
 use Core\Model\Bean\Module;
 use Core\Model\Factory\ModuleFactory;
 use Core\Model\Collection\ModuleCollection;
+use Core\Model\Bean\ModuleBean;
 
 class ModuleMetadata extends AbstractMetadata
 {
@@ -36,7 +37,7 @@ class ModuleMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Module::NAME,
+				ModuleBean::NAME,
 			)
 		);
 	}
@@ -50,8 +51,8 @@ class ModuleMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Module::ID_MODULE,
-				Module::NAME,
+				ModuleBean::ID_MODULE,
+				ModuleBean::NAME,
 			)
 		);
 	}
@@ -123,6 +124,6 @@ class ModuleMetadata extends AbstractMetadata
  	 */
 	public function newBean() 
 	{
-		return new Module();
+		return new ModuleBean();
 	}
 }

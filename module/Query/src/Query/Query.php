@@ -111,9 +111,12 @@ class Query extends Select implements Comparision
 		switch ($comparision)
 		{
 			case self::IN:
+				
 				if(!is_array($value))
 					throw new QueryException('$value must be array but is '.gettype($value));
-				$this->predicate->in($field, $value);
+				if(empty($value))
+					$value = array("Array Empty");
+					$this->predicate->in($field, $value);
 				break;
 			case self::EQUAL:
 				$this->predicate->equalTo($field, $value);

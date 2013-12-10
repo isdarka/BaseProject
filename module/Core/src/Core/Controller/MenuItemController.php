@@ -76,7 +76,6 @@ class MenuItemController extends BaseController
 		
 		$controllerQuery = new ControllerQuery($this->getAdatper());
 		$controllerQuery->whereAdd(Controller::ID_CONTROLLER, $actions->getControllerIds(), ControllerQuery::IN);
-		
 		$controllers = $controllerQuery->find();
 		$comboControllersActions = array();
 		foreach ($controllers as $controller)

@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-11-26 11:48:06
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 21:44:27
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/layout/messages.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:47343902152940dec93db57-94524855%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:198171274552a68e1be976d6-48994883%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '47343902152940dec93db57-94524855',
+  'nocache_hash' => '198171274552a68e1be976d6-48994883',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1-DEV',
-  'unifunc' => 'content_52940dec93ed45_18056705',
   'variables' => 
   array (
     'flashMessenger' => 0,
@@ -24,8 +22,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'message' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1-DEV',
+  'unifunc' => 'content_52a68e1c0818a1_93166788',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_52940dec93ed45_18056705')) {function content_52940dec93ed45_18056705($_smarty_tpl) {?><?php if ($_smarty_tpl->tpl_vars['flashMessenger']->value) {?>
+<?php if ($_valid && !is_callable('content_52a68e1c0818a1_93166788')) {function content_52a68e1c0818a1_93166788($_smarty_tpl) {?><?php if ($_smarty_tpl->tpl_vars['flashMessenger']->value) {?>
 	<?php if ($_smarty_tpl->tpl_vars['flashMessenger']->value->hasCurrentSuccessMessages()) {?>
 		<?php  $_smarty_tpl->tpl_vars['message'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['message']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['flashMessenger']->value->getSuccessMessages(); if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}

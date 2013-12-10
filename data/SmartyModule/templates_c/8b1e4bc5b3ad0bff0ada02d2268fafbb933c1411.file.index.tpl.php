@@ -1,30 +1,20 @@
-<<<<<<< HEAD
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 00:11:48
-=======
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 11:15:34
->>>>>>> 83f219bf04395bcfb5cd5b8e5067149f7315311a
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 21:44:27
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/role/index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:151007446552a4f1f3021573-89733314%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:193785396752a68e1bd21aa0-33445181%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
     '8b1e4bc5b3ad0bff0ada02d2268fafbb933c1411' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/role/index.tpl',
-<<<<<<< HEAD
-      1 => 1386569225,
-=======
-      1 => 1386600460,
->>>>>>> 83f219bf04395bcfb5cd5b8e5067149f7315311a
+      1 => 1386646970,
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '151007446552a4f1f3021573-89733314',
+  'nocache_hash' => '193785396752a68e1bd21aa0-33445181',
   'function' => 
   array (
   ),
-  'version' => 'Smarty-3.1-DEV',
-  'unifunc' => 'content_52a4f1f310d1a7_05041334',
   'variables' => 
   array (
     'i18n' => 0,
@@ -32,8 +22,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'role' => 0,
   ),
   'has_nocache_code' => false,
+  'version' => 'Smarty-3.1-DEV',
+  'unifunc' => 'content_52a68e1be203c8_37281621',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_52a4f1f310d1a7_05041334')) {function content_52a4f1f310d1a7_05041334($_smarty_tpl) {?><?php if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
+<?php if ($_valid && !is_callable('content_52a68e1be203c8_37281621')) {function content_52a68e1be203c8_37281621($_smarty_tpl) {?><?php if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
 ?><fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Role");?>
 </legend>

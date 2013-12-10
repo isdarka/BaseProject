@@ -43,9 +43,6 @@ class Acl extends ZendAcl
 		$actionQueryAllowed = new ActionQuery($this->adapter);
 		$actionsAllowed = $actionQueryAllowed->innerJoinRole()
 		->whereAdd(\Core\Model\Bean\Role::ID_ROLE, $this->role->getIdRole())->find();
-// 		var_dump($actionsAllowed);
-// 		die();
-		
 		
 		$actions = $actionQuery->find();
 		$controllers = $controllerQuery
@@ -77,6 +74,16 @@ class Acl extends ZendAcl
 	{
 		$this->setRoles();
 		$this->setResources();
+	}
+	
+	/**
+	 * 
+	 * @return string
+	 */
+	public function getAcl()
+	{
+		$this->adapter = NULL;
+		return $this;
 	}
 	
 }
