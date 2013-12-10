@@ -1,62 +1,109 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 4:01:07 PM
+ * UserBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Metadata
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:22:30 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
-
 use Model\Bean\AbstractBean;
+use Model\Metadata\AbstractMetadata;
 use Core\Model\Bean\User;
 use Core\Model\Factory\UserFactory;
-use Model\Metadata\AbstractMetadata;
 use Core\Model\Collection\UserCollection;
+
 class UserMetadata extends AbstractMetadata
 {
-// 	/**
-// 	 *
-// 	 * @param AbstractBean $bean
-// 	 */
-// 	public function toUpdateArray(AbstractBean $bean)
-// 	{
-// 		return $bean->toArrayFor(
-// 				array(User::ID_USER)
-// 		);
-// 	}
 
-	/**
-	 *
-	 * @return string
-	 */
-	public function getEntityName()
+		
+ 	/**
+ 	 *
+ 	 * toUpdateArray
+ 	 *
+ 	 */
+	public function toUpdateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				User::STATUS,
+				User::ID_PERSON,
+				User::ID_ROLE,
+				User::USERNAME,
+				User::PASSWORD,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * toCreateArray
+ 	 *
+ 	 */
+	public function toCreateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				User::ID_USER,
+				User::STATUS,
+				User::ID_PERSON,
+				User::ID_ROLE,
+				User::USERNAME,
+				User::PASSWORD,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Entity Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getEntityName() 
 	{
 		return "User";
 	}
-	/**
-	 *
-	 * @return string
-	 */
-	public function getTableName()
+		
+ 	/**
+ 	 *
+ 	 * Get TableName
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getTableName() 
 	{
 		return "common_users";
 	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getPrimaryKey()
+		
+ 	/**
+ 	 *
+ 	 * Get PrimaryKey
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getPrimaryKey() 
 	{
-		return 'id_user';
+		return "id_user";
 	}
-
-	/**
-	 *
-	 * @return ModuleFactory
-	 */
-	public function getFactory()
+		
+ 	/**
+ 	 *
+ 	 * Get Factory
+ 	 *
+ 	 * @return UserFactory
+ 	 */
+	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -64,33 +111,26 @@ class UserMetadata extends AbstractMetadata
 		}
 		return $factory;
 	}
-
-	/**
-	 *
-	 * @return \Core\Model\Collection\ModuleCollection
-	 */
-	public function newCollection(){
+		
+ 	/**
+ 	 *
+ 	 * Get Collection
+ 	 *
+ 	 * @return UserCollection
+ 	 */
+	public function newCollection() 
+	{
 		return new UserCollection();
 	}
-	
-	public  function toUpdateArray(AbstractBean $bean){
-		return $bean->toArrayFor(
-				array('id_person', 'username', 'password', 'status', )
-		);
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function toCreateArray(AbstractBean $bean){
-		return $bean->toArrayFor(
-				array('id_user', 'id_person', 'username', 'password', 'status', )
-		);
-	}
-	
-	public function newBean()
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return User
+ 	 */
+	public function newBean() 
 	{
 		return new User();
 	}
-
 }

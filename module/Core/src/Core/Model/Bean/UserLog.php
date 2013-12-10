@@ -1,69 +1,134 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 29, 2013 11:10:27 AM
+ * UserLogBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Bean
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:25:03 2013
+ * @version 1.0
  */
+
 namespace Core\Model\Bean;
+
 
 class UserLog extends Log
 {
-	const TABLENAME = "common_user_logs";
-	
+
+	const TABLENAME = 'common_user_logs';
+
 	const ID_USER_LOG = 'id_user_log';
+
 	const ID_USER = 'id_user';
+
 	const ID_LOG = 'id_log';
 
 	private $idUserLog;
+
 	private $idUser;
+
 	private $idLog;
-	
-	public function getIndex()
+
+		
+ 	/**
+ 	 *
+ 	 * Get the idUserLog property
+ 	 *
+ 	 * @return int $idUserLog
+ 	 */
+	public function getIndex() 
 	{
 		return $this->idUserLog;
 	}
-	
-	public function setIdUserLog($idUserLog)
+		
+ 	/**
+ 	 *
+ 	 * Set the idUserLog property
+ 	 *
+ 	 * @param int $idUserLog
+ 	 */
+	public function setIdUserLog($idUserLog) 
 	{
 		$this->idUserLog = $idUserLog;
 		return $this;
 	}
-	
-	public function getIdUserLog()
-	{
-		return $this->idUserLog;
-	}
-	
-	public function setIdUser($idUser)
+		
+ 	/**
+ 	 *
+ 	 * Set the idUser property
+ 	 *
+ 	 * @param int $idUser
+ 	 */
+	public function setIdUser($idUser) 
 	{
 		$this->idUser = $idUser;
 		return $this;
 	}
-	
-	public function getIdUser()
-	{
-		return $this->idUser;
-	}
-	
-	public function setIdLog($idLog)
+		
+ 	/**
+ 	 *
+ 	 * Set the idLog property
+ 	 *
+ 	 * @param int $idLog
+ 	 */
+	public function setIdLog($idLog) 
 	{
 		$this->idLog = $idLog;
 		return $this;
 	}
-	
-	public function getIdLog()
+		
+ 	/**
+ 	 *
+ 	 * Get the idUserLog property
+ 	 *
+ 	 * @return int $idUserLog
+ 	 */
+	public function getIdUserLog() 
+	{
+		return $this->idUserLog;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the idUser property
+ 	 *
+ 	 * @return int $idUser
+ 	 */
+	public function getIdUser() 
+	{
+		return $this->idUser;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the idLog property
+ 	 *
+ 	 * @return int $idLog
+ 	 */
+	public function getIdLog() 
 	{
 		return $this->idLog;
 	}
-	
-	public function toArray()
+		
+ 	/**
+ 	 *
+ 	 * Get the Array
+ 	 *
+ 	 * @return array
+ 	 */
+	public function toArray() 
 	{
 		$array = array(
-				self::ID_USER_LOG => $this->getIdUserLog(),
-				self::ID_USER => $this->getIdUser(),
-				self::ID_LOG => $this->getIdLog(),
+			self::ID_USER_LOG => $this->getIdUserLog(),
+			self::ID_USER => $this->getIdUser(),
+			self::ID_LOG => $this->getIdLog(),
 		);
-	
 		return array_merge(parent::toArray(), $array);
 	}
 }

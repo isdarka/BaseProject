@@ -85,7 +85,7 @@ class Query extends Select implements Comparision
 	 * @param unknown $comparision
 	 * @return \Query\Query
 	 */
-	public function whereOrAdd($field, $value, $comparision = self::EQUAL)
+	public function whereOrAdd($field, $value, $comparision = self::EQUAL, $mutator = NULL)
 	{
 		if(!is_null($mutator))
 			$value = new Expression(sprintf($mutator, $value));
@@ -113,15 +113,24 @@ class Query extends Select implements Comparision
 			case self::IN:
 				if(!is_array($value))
 					throw new QueryException('$value must be array but is '.gettype($value));
-				$this->predicate->in($this->entityName . "." . $field, $value);
+				$this->predicate->in($field, $value);
 				break;
 			case self::EQUAL:
-				$this->predicate->equalTo($this->entityName . "." . $field, $value);
+				$this->predicate->equalTo($field, $value);
 				break;
 			case self::BETWEEN:
 				if(!is_array($value))
 					throw new QueryException('$value must be array but is '.gettype($value));
 				$this->predicate->between($field, $value[0], $value[1]);
+				break;
+			case self::IS_NOT_NULL:
+				$this->predicate->isNotNull($field);
+				break;
+			case self::IS_NULL:
+				$this->predicate->isNull($field);
+				break;
+			case self::LIKE:
+				$this->predicate->like($field, '%'.$value.'%');
 				break;
 			default:
 				$this->predicate->equalTo($field, $value, $comparision);
@@ -286,7 +295,6 @@ class Query extends Select implements Comparision
 	public function findOne()
 	{
 		$array = $this->fetchOne();
-		var_dump($array);
 		if($array)
 			return $this->metadata->getFactory()->createFromArray($array);
 		else
@@ -312,5 +320,21 @@ class Query extends Select implements Comparision
 			throw new QueryException($exception);
 		else 
 			return $this->findByPk($primaryKey);
+	}
+	
+	/**
+	 * 
+	 * @param unknown $fields
+	 * @return \Query\Query
+	 */
+	public function filter($fields)
+	{
+		foreach ($this->metadata->getFields() as $field)
+		{
+			if(isset($fields[$field]) && !empty($fields[$field])) 
+				$this->whereAdd($field, $fields[$field], self::LIKE);
+		}
+		
+		return $this;
 	}
 }

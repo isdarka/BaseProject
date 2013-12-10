@@ -10,6 +10,7 @@ use Core\Model\Bean\User;
 use Core\Query\UserQuery;
 use Query\Query;
 use Zend\View\Model\ViewModel;
+use BaseProject\Security\Acl;
 
 
 class AuthController extends BaseController
@@ -64,10 +65,11 @@ class AuthController extends BaseController
 					$userQuery = new UserQuery($this->getAdatper());
 					$userQuery->whereAdd(User::USERNAME, $username);
 					$userQuery->whereAdd(User::PASSWORD, $password, Query::EQUAL, Query::MD5);
-					$authStorage->setRememberMe(1, 360);
+					$authStorage->setRememberMe(1, 1200);
 					$user = $userQuery->findOne();
 					$authService->getStorage()->write(array("user" => $user));
 				}
+				
 			}else{
 				$messages = '';
 				foreach ($result->getMessages() as $message)

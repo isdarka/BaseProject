@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-11-28 20:45:13
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 16:27:55
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/layout/layout.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:7213247965261754e57c357-07979625%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'b33ebe71b48edc38529c85e0b2d2333d394cdc9c' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/layout/layout.tpl',
-      1 => 1385693112,
+      1 => 1386628073,
       2 => 'file',
     ),
   ),
@@ -20,6 +20,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'variables' => 
   array (
     'baseUrl' => 0,
+    'systemMenu' => 0,
     'content' => 0,
   ),
   'has_nocache_code' => false,
@@ -65,7 +66,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 /js/jquery.validate/class.js"></script>
     <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /js/jquery.validate/messages.js"></script>
-
+	<script type="text/javascript">
+		var baseUrl = "<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
+";
+	</script>
   </head>
 
   <body>
@@ -81,27 +85,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#"></a>
+          <a class="navbar-brand" href="#">Project Name</a>
         </div>
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Nav header</li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div><!-- /.nav-collapse -->
+       <?php echo $_smarty_tpl->tpl_vars['systemMenu']->value;?>
+
       </div><!-- /.container -->
     </div><!-- /.navbar -->
 

@@ -43,7 +43,12 @@ use Core\Query\ActionQuery;
 use Core\Model\Bean\Action;
 use Core\Model\Factory\ActionFactory;
 use Core\Model\Catalog\ActionCatalog;
-
+use Core\Query\RoleQuery;
+use Zend\Json\Json;
+use Core\Model\Catalog\RoleCatalog;
+use Zend\Filter\Int;
+use Core\Model\Bean\Role;
+use BaseProject\Security\Acl;
 
 
 
@@ -85,6 +90,7 @@ class CoreController extends BaseController
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 		}
 		$this->redirect()->toRoute(null,array('controller'=>"core",'action' => "config",));
+		return $this->view;
 	}
 	 
 	private function inspectControllers(ModuleCollection $moduleCollection)
@@ -94,7 +100,6 @@ class CoreController extends BaseController
 			/* @var $module ModuleBean */
 			$controllerQuery = new ControllerQuery($this->getAdatper());
 			$controllers = $controllerQuery->find();
-			var_dump($controllers);
 			foreach ($moduleCollection as $module)
 			{
 				if(file_exists('module/' . $module->getName() . '/config/module.config.php')){
@@ -162,8 +167,66 @@ class CoreController extends BaseController
 	
 	public function configAction()
 	{
+// 		var_dump($acl->getRoles());
+// 		var_dump($acl->isAllowed("3", "Core\Controller\Index::alo"));
+// 		var_dump($acl->getResources());
+// 		var_dump($this->params()->fromRoute());
+// 		die();
+		$moduleQuery = new ModuleQuery($this->getAdatper());
+		$controllerQuery = new ControllerQuery($this->getAdatper());
+		$actionQuery = new ActionQuery($this->getAdatper());
+		$roleQuery = new RoleQuery($this->getAdatper());
+		
+		$controllers = $controllerQuery->find();
+		$moduleQuery->whereAdd(ModuleBean::ID_MODULE, $controllers->getModuleIds(), ModuleQuery::IN);
+		$modules = $moduleQuery->find();
+		$actions = $actionQuery->find();
+		$roles = $roleQuery->find();
+		
+		$roleActionsQuery = new RoleQuery($this->getAdatper());
+		$roleActionsQuery->innerJoinAction();
+		$roleActions = $roleActionsQuery->fecthAll();
+		$actionRoles = array();
+		foreach ($roleActions as $array)
+		{
+			if(!is_array($actionRoles[$array['id_action']]))
+				$actionRoles[$array['id_action']] = array();
+			
+			$actionRoles[$array['id_action']][$array['id_role']] = 1;
+		}
+		// Views
+		$this->view->actionRoles = $actionRoles;
+		$this->view->modules = $modules;
+		$this->view->controllers = $controllers;
+		$this->view->actions = $actions;
+		$this->view->roles = $roles;
 		return $this->view;
 	}
 	
+	public function setPrivilegeAction()
+	{
+		header('Content-type: application/json');
+		$idAction = $this->params()->fromPost('idAction');
+		$idRole = $this->params()->fromPost('idRole');
+		$allow = (int) $this->params()->fromPost('allow');
+		$roleCatalog = new RoleCatalog($this->getAdatper());
+		$roleCatalog->beginTransaction();
+		try {
+			$actionQuery = new ActionQuery($this->getAdatper());
+			$roleQuery = new RoleQuery($this->getAdatper());
+			
+			$role = $roleQuery->findByPkOrThrow($idRole, $this->i18n->translate('Role not found.'));
+			$action = $actionQuery->findByPkOrThrow($idAction, $this->i18n->translate('Action not found.'));
+			if($allow)
+				$roleCatalog->linkToAction($action->getIdAction(), $role->getIdRole());
+			else 
+				$roleCatalog->unlinkFromAction($action->getIdAction(), $role->getIdRole());
+			$roleCatalog->commit();
+			die(Json::encode(array("status" => 1, "msn" => $this->i18n->translate('Permission saved'))));
+		} catch (\Exception $e) {
+			$roleCatalog->rollback();
+			die(Json::encode(array("status" => 0, "msn" => $e->getMessage())));
+		}
+	}
 	
 }

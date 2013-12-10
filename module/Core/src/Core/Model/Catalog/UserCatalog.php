@@ -1,8 +1,18 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 4:00:28 PM
+ * UserCatalog
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Catalog
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:15:21 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Catalog;
@@ -10,19 +20,30 @@ namespace Core\Model\Catalog;
 use Model\Bean\AbstractBean;
 use Core\Model\Metadata\UserMetadata;
 use Core\Model\Exception\UserException;
-use Core\Model\Bean\Person;
-use Zend\Db\Sql\Predicate\Predicate;
 use Zend\Db\Sql\Where;
-// use Zend\Authentication\Adapter\Exception\ExceptionInterface;
+use Core\Model\Catalog\PersonCatalog;
+
 class UserCatalog extends PersonCatalog
 {
-	
-	protected function getMetadata()
+
+		
+ 	/**
+ 	 *
+ 	 * Get UserMetadata
+ 	 *
+ 	 * @return UserMetadata
+ 	 */
+	public function getMetadata() 
 	{
 		return new UserMetadata();
 	}
-	
-	protected function create(AbstractBean $bean)
+		
+ 	/**
+ 	 *
+ 	 * Create User
+ 	 *
+ 	 */
+	protected function create(AbstractBean $bean) 
 	{
 		try {
 			parent::create($bean);
@@ -31,32 +52,36 @@ class UserCatalog extends PersonCatalog
 			$data = array_filter($data, array($this, 'isNotNull'));
 			$this->insert->values($data);
 			$this->execute($this->insert);
-			
 			$this->getMetadata()->getFactory()->populate($bean, array(
-					self::getMetadata()->getPrimaryKey() => $this->getLastInsertId(),
+				self::getMetadata()->getPrimaryKey() => $this->getLastInsertId(),
 			));
-		}catch (\Zend\Db\Exception\ExceptionInterface $e) { 			
+		} catch (\Zend\Db\Exception\ExceptionInterface $e) {
 			throw $e;
-		} catch (\Exception $e) {
+		} catch (UserException $e) {
 			throw $e;
 		}
 	}
-	
-	protected function update(AbstractBean $bean)
+		
+ 	/**
+ 	 *
+ 	 * Update User
+ 	 *
+ 	 */
+	protected function update(AbstractBean $bean) 
 	{
 		try {
-			parent::update($bean);
+			parent::create($bean);
 			$this->update = $this->sql->update(self::getMetadata()->getTableName());
 			$data = self::getMetadata()->toUpdateArray($bean);
 			$data = array_filter($data, array($this, 'isNotNull'));
 			$this->update->set($data);
 			$where = new Where();
-			$where->equalTo(self::getMetadata()->getPrimaryKey(), $bean->getIdUser());
+			$where->equalTo(self::getMetadata()->getPrimaryKey(), $bean->get());
 			$this->update->where($where);
 			$this->execute($this->update);
-		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+		} catch (\Zend\Db\Exception\ExceptionInterface $e) {
 			throw $e;
-		} catch (\Exception $e) {
+		} catch (UserException $e) {
 			throw $e;
 		}
 	}

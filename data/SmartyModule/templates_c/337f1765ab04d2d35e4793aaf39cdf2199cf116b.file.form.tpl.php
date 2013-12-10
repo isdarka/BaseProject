@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-08 22:29:16
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 14:10:23
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/form.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:179581884052a5471c5da699-67599309%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '337f1765ab04d2d35e4793aaf39cdf2199cf116b' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/form.tpl',
-      1 => 1386563190,
+      1 => 1386619781,
       2 => 'file',
     ),
   ),
@@ -15,17 +15,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'function' => 
   array (
   ),
+  'version' => 'Smarty-3.1-DEV',
+  'unifunc' => 'content_52a5471c6820a4_92690053',
   'variables' => 
   array (
     'i18n' => 0,
     'baseUrl' => 0,
     'menuItem' => 0,
+    'comboControllersActions' => 0,
+    'menuParents' => 0,
   ),
   'has_nocache_code' => false,
-  'version' => 'Smarty-3.1-DEV',
-  'unifunc' => 'content_52a5471c6820a4_92690053',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_52a5471c6820a4_92690053')) {function content_52a5471c6820a4_92690053($_smarty_tpl) {?><?php if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
+<?php if ($_valid && !is_callable('content_52a5471c6820a4_92690053')) {function content_52a5471c6820a4_92690053($_smarty_tpl) {?><?php if (!is_callable('smarty_function_html_options')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.html_options.php';
+if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
 ?><fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("MenuItem");?>
 </legend>
@@ -34,23 +37,24 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		<input type="hidden" name="idMenuItem" id="idmenuitem" value="<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem();?>
 ">
 		<div class="form-group">
-			<label for="idaction" class="col-sm-2 control-label"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("IdAction");?>
+			<label for="idAction" class="col-sm-2 control-label"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("IdAction");?>
 </label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control required int " id="idaction" name="id_action" value="<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getIdAction();?>
-" >
+				<?php echo smarty_function_html_options(array('options'=>array(((string)$_smarty_tpl->tpl_vars['i18n']->value->translate("Select a option")))+$_smarty_tpl->tpl_vars['comboControllersActions']->value,'name'=>"id_action",'id'=>"idAction",'class'=>"form-control",'selected'=>((string)$_smarty_tpl->tpl_vars['menuItem']->value->getIdAction())),$_smarty_tpl);?>
+
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="idparent" class="col-sm-2 control-label"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("IdParent");?>
+			<label for="idParent" class="col-sm-2 control-label"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("IdParent");?>
 </label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control required int " id="idparent" name="id_parent" value="<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getIdParent();?>
-" >
+				<?php echo smarty_function_html_options(array('options'=>array(((string)$_smarty_tpl->tpl_vars['i18n']->value->translate("Select a option")))+$_smarty_tpl->tpl_vars['menuParents']->value->toCombo(),'name'=>"id_parent",'id'=>"idParent",'class'=>"form-control",'selected'=>((string)$_smarty_tpl->tpl_vars['menuItem']->value->getIdParent())),$_smarty_tpl);?>
+
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="name" class="col-sm-2 control-label"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Name");?>
+<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getIdParent();?>
 </label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control required" id="name" name="name" value="<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getName();?>

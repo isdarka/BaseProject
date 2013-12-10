@@ -1,53 +1,107 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 3:58:22 PM
+ * PersonBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Metadata
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:22:30 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
-
-
-use Model\Metadata\AbstractMetadata;
 use Model\Bean\AbstractBean;
+use Model\Metadata\AbstractMetadata;
 use Core\Model\Bean\Person;
 use Core\Model\Factory\PersonFactory;
+use Core\Model\Collection\PersonCollection;
 
 class PersonMetadata extends AbstractMetadata
 {
 
-	/**
-	 *
-	 * @return string
-	 */
-	public function getEntityName()
+		
+ 	/**
+ 	 *
+ 	 * toUpdateArray
+ 	 *
+ 	 */
+	public function toUpdateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				Person::NAME,
+				Person::LAST_NAME,
+				Person::SECOND_LAST_NAME,
+				Person::BIRTHDATE,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * toCreateArray
+ 	 *
+ 	 */
+	public function toCreateArray(AbstractBean $bean) 
+	{
+		return $bean->toArrayFor(
+			array(
+				Person::ID_PERSON,
+				Person::NAME,
+				Person::LAST_NAME,
+				Person::SECOND_LAST_NAME,
+				Person::BIRTHDATE,
+			)
+		);
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Entity Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getEntityName() 
 	{
 		return "Person";
 	}
-	/**
-	 *
-	 * @return string
-	 */
-	public function getTableName()
+		
+ 	/**
+ 	 *
+ 	 * Get TableName
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getTableName() 
 	{
 		return "common_persons";
 	}
-
-	/**
-	 *
-	 * @return string
-	 */
-	public function getPrimaryKey()
+		
+ 	/**
+ 	 *
+ 	 * Get PrimaryKey
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getPrimaryKey() 
 	{
-		return 'id_person';
+		return "id_person";
 	}
-
-	/**
-	 *
-	 * @return ModuleFactory
-	 */
-	public function getFactory()
+		
+ 	/**
+ 	 *
+ 	 * Get Factory
+ 	 *
+ 	 * @return PersonFactory
+ 	 */
+	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -55,25 +109,26 @@ class PersonMetadata extends AbstractMetadata
 		}
 		return $factory;
 	}
-
-	/**
-	 *
-	 * @return \Core\Model\Collection\ModuleCollection
-	 */
-	public function newCollection(){
-// 		return new Per();
+		
+ 	/**
+ 	 *
+ 	 * Get Collection
+ 	 *
+ 	 * @return PersonCollection
+ 	 */
+	public function newCollection() 
+	{
+		return new PersonCollection();
 	}
-
-	public function toCreateArray(AbstractBean $bean){
-		var_dump($bean);
-		return $bean->toArrayFor(
-				array('id_person', 'name', 'last_name', 'second_last_name', 'birthdate' )
-		);
-	}
-	
-	public  function toUpdateArray(AbstractBean $bean){
-		return $bean->toArrayFor(
-				array('name', 'last_name', 'second_last_name', 'birthdate' )
-		);
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return Person
+ 	 */
+	public function newBean() 
+	{
+		return new Person();
 	}
 }

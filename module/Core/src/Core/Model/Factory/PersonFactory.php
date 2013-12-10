@@ -1,45 +1,69 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 3:43:47 PM
+ * PersonBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Factory
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:15:21 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
-use Model\Factory\AbstractFactory;
 use Core\Model\Bean\Person;
+use Model\Factory\AbstractFactory;
+
 class PersonFactory extends AbstractFactory
 {
-	public static function createFromArray( $fields)
+
+		
+ 	/**
+ 	 *
+ 	 * Create Person from array
+ 	 *
+ 	 * @return Person
+ 	 */
+	public static  function createFromArray($fields) 
 	{
 		$person = new Person();
-		self::populate($person, $fields);
+		self::populate($person,$fields);
 		return $person;
 	}
-	
-	public static function populate($person, $fields)
+		
+ 	/**
+ 	 *
+ 	 * Populate Person
+ 	 *
+ 	 */
+	public static  function populate($person, $fields) 
 	{
-		if( !($person instanceof Person) )
-			throw new UserException('$$person must be instance of Person');
-	
-		if( isset($fields[Person::ID_PERSON]) ){
+		if(!($person instanceof Person))
+			throw new ActionException('$person must be instance of Person');
+		
+		if(isset($fields[Person::ID_PERSON])){
 			$person->setIdPerson($fields[Person::ID_PERSON]);
 		}
 		
-		if( isset($fields[Person::NAME]) ){
+		if(isset($fields[Person::NAME])){
 			$person->setName($fields[Person::NAME]);
 		}
 		
-		if( isset($fields[Person::LAST_NAME]) ){
+		if(isset($fields[Person::LAST_NAME])){
 			$person->setLastName($fields[Person::LAST_NAME]);
 		}
 		
-		if( isset($fields[Person::SECOND_LAST_NAME]) ){
+		if(isset($fields[Person::SECOND_LAST_NAME])){
 			$person->setSecondLastName($fields[Person::SECOND_LAST_NAME]);
 		}
 		
-		if( isset($fields[Person::BIRTHDATE]) ){
+		if(isset($fields[Person::BIRTHDATE])){
 			$person->setBirthdate($fields[Person::BIRTHDATE]);
 		}
 		

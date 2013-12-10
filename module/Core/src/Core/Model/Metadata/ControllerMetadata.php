@@ -1,66 +1,103 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 24, 2013 6:57:42 PM
+ * ControllerBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Metadata
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:22:30 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Metadata;
 
-
-use Model\Metadata\AbstractMetadata;
 use Model\Bean\AbstractBean;
+use Model\Metadata\AbstractMetadata;
 use Core\Model\Bean\Controller;
 use Core\Model\Factory\ControllerFactory;
 use Core\Model\Collection\ControllerCollection;
 
 class ControllerMetadata extends AbstractMetadata
 {
-	/**
-	 * 
-	 * @param AbstractBean $bean
-	 */
-	public function toUpdateArray(AbstractBean $bean)
+
+		
+ 	/**
+ 	 *
+ 	 * toUpdateArray
+ 	 *
+ 	 */
+	public function toUpdateArray(AbstractBean $bean) 
 	{
 		return $bean->toArrayFor(
-				array(
-						Controller::NAME,
-						Controller::ID_MODULE
-				)
+			array(
+				Controller::ID_MODULE,
+				Controller::NAME,
+			)
 		);
 	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getTableName()
+		
+ 	/**
+ 	 *
+ 	 * toCreateArray
+ 	 *
+ 	 */
+	public function toCreateArray(AbstractBean $bean) 
 	{
-		return "core_controllers";
+		return $bean->toArrayFor(
+			array(
+				Controller::ID_CONTROLLER,
+				Controller::ID_MODULE,
+				Controller::NAME,
+			)
+		);
 	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getPrimaryKey()
-	{
-		return 'id_controller';
-	}
-	
-	/**
-	 * 
-	 * @return string
-	 */
-	public function getEntityName()
+		
+ 	/**
+ 	 *
+ 	 * Get Entity Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getEntityName() 
 	{
 		return "Controller";
 	}
-	/**
-	 * 
-	 * @return ModuleFactory
-	 */
-	public function getFactory()
+		
+ 	/**
+ 	 *
+ 	 * Get TableName
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getTableName() 
+	{
+		return "core_controllers";
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get PrimaryKey
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getPrimaryKey() 
+	{
+		return "id_controller";
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Factory
+ 	 *
+ 	 * @return ControllerFactory
+ 	 */
+	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -68,13 +105,26 @@ class ControllerMetadata extends AbstractMetadata
 		}
 		return $factory;
 	}
-	
-	/**
-	 * 
-	 * @return \Core\Model\Collection\ModuleCollection
-	 */
-	public function newCollection(){
+		
+ 	/**
+ 	 *
+ 	 * Get Collection
+ 	 *
+ 	 * @return ControllerCollection
+ 	 */
+	public function newCollection() 
+	{
 		return new ControllerCollection();
 	}
-	
-} 
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return Controller
+ 	 */
+	public function newBean() 
+	{
+		return new Controller();
+	}
+}

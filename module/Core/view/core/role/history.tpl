@@ -12,7 +12,7 @@
 			</thead>
 			<tbody>
 				{foreach $roleLogs as $roleLog}
-					{assign var="user" value=$users->getByPK($roleLog->getIdUser())}
+				{assign var="user" value=$users->getByPK($roleLog->getIdUser())}
 					<tr>
 						<td>{$user->getFullName()}</td>
 						<td>{$roleLog->getEventString()}</td>
@@ -23,4 +23,5 @@
 			</tbody>
 		</table>
 	</div>
+	<a href="{url module=core controller=role action=index}" class="btn btn-default">{$i18n->translate('Go Back')}</a>
 </fieldset>

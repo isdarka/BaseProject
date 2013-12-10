@@ -1,49 +1,61 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 24, 2013 7:44:45 PM
+ * ModuleBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Factory
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:15:21 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
+use Core\Model\Bean\Module;
 use Model\Factory\AbstractFactory;
 use Core\Model\Bean\ModuleBean;
 use Core\Model\Exception\ModuleException;
-use Model\Interfaces\FactoryInterface;
 
-class ModuleFactory extends AbstractFactory //implements FactoryInterface
+class ModuleFactory extends AbstractFactory
 {
-	/**
-	 * 
-	 * @param unknown $fields
-	 * @return \Core\Model\Bean\ModuleBean
-	 */
-	public static function createFromArray($fields)
+
+		
+ 	/**
+ 	 *
+ 	 * Create Module from array
+ 	 *
+ 	 * @return Module
+ 	 */
+	public static  function createFromArray($fields) 
 	{
 		$module = new ModuleBean();
-		self::populate($module, $fields);
-	
+		self::populate($module,$fields);
 		return $module;
 	}
-	
-	/**
-	 * 
-	 * @param unknown $module
-	 * @param unknown $fields
-	 * @throws ModuleException
-	 */
-	public static function populate($module, $fields)
+		
+ 	/**
+ 	 *
+ 	 * Populate Module
+ 	 *
+ 	 */
+	public static  function populate($module, $fields) 
 	{
-		if( !($module instanceof ModuleBean) )
+		if(!($module instanceof ModuleBean))
 			throw new ModuleException('$module must be instance of ModuleBean');
-	
-		if( isset($fields[ModuleBean::ID_MODULE]) ){
+		
+		if(isset($fields[ModuleBean::ID_MODULE])){
 			$module->setIdModule($fields[ModuleBean::ID_MODULE]);
 		}
-	
-		if( isset($fields[ModuleBean::NAME]) ){
+		
+		if(isset($fields[ModuleBean::NAME])){
 			$module->setName($fields[ModuleBean::NAME]);
 		}
+		
 	}
 }

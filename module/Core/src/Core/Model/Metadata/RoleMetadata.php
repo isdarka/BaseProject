@@ -11,7 +11,7 @@
  * @package Metadata
  * @copyright 
  * @license 
- * @created Sun Dec 8 19:21:50 2013
+ * @created Mon Dec 9 11:22:30 2013
  * @version 1.0
  */
 
@@ -115,5 +115,16 @@ class RoleMetadata extends AbstractMetadata
 	public function newCollection() 
 	{
 		return new RoleCollection();
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Bean
+ 	 *
+ 	 * @return Role
+ 	 */
+	public function newBean() 
+	{
+		return new Role();
 	}
 }

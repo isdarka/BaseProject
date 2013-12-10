@@ -1,120 +1,266 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 1:26:22 PM
+ * UserBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Bean
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:25:03 2013
+ * @version 1.0
  */
+
 namespace Core\Model\Bean;
+
 
 class User extends Person
 {
-	const TABLENAME =  'common_users';
-	
+
+	const TABLENAME = 'common_users';
+
 	const ID_USER = 'id_user';
+
 	const STATUS = 'status';
+
 	const ID_PERSON = 'id_person';
+
+	const ID_ROLE = 'id_role';
+
 	const USERNAME = 'username';
+
 	const PASSWORD = 'password';
-	
-	const ENABLE = 1;
-	const DISABLE = 0;
+
+	const ENABLE = '1';
+
+	const DISABLE = '2';
+
 	private $idUser;
-	private $status;
+
+	private $status = '1';
+
 	private $idPerson;
+
+	private $idRole;
+
 	private $username;
+
 	private $password;
 
-	public function getIndex()
+		
+ 	/**
+ 	 *
+ 	 * Get the idUser property
+ 	 *
+ 	 * @return int $idUser
+ 	 */
+	public function getIndex() 
 	{
 		return $this->idUser;
 	}
-	
-	public function setIdUser($idUser)
+		
+ 	/**
+ 	 *
+ 	 * Set the idUser property
+ 	 *
+ 	 * @param int $idUser
+ 	 */
+	public function setIdUser($idUser) 
 	{
 		$this->idUser = $idUser;
 		return $this;
 	}
-	
-	public function getIdUser()
+		
+ 	/**
+ 	 *
+ 	 * Set the status property
+ 	 *
+ 	 * @param int $status
+ 	 */
+	public function setStatus($status) 
 	{
-		return $this->idUser;
-	}
-	
-	public function setStatus($status)
-	{
-		$this->status = (int) $status;
+		$this->status = $status;
 		return $this;
 	}
-	
-	public function getStatus()
+		
+ 	/**
+ 	 *
+ 	 * Set the idPerson property
+ 	 *
+ 	 * @param int $idPerson
+ 	 */
+	public function setIdPerson($idPerson) 
 	{
-		return $this->status;
-	}
-	
-	public function setIdPerson($idPerson)
-	{
-		$this->idPerson = (int) $idPerson;
+		$this->idPerson = $idPerson;
 		return $this;
 	}
-	
-	public function getIdPerson()
+		
+ 	/**
+ 	 *
+ 	 * Set the idRole property
+ 	 *
+ 	 * @param int $idRole
+ 	 */
+	public function setIdRole($idRole) 
 	{
-		return $this->idPerson;
+		$this->idRole = $idRole;
+		return $this;
 	}
-	
-	public function setUsername($username)
+		
+ 	/**
+ 	 *
+ 	 * Set the username property
+ 	 *
+ 	 * @param string $username
+ 	 */
+	public function setUsername($username) 
 	{
 		$this->username = $username;
 		return $this;
 	}
-	
-	public function getUsername()
-	{
-		return $this->username;
-	}
-	
-	public function setPassword($password)
+		
+ 	/**
+ 	 *
+ 	 * Set the password property
+ 	 *
+ 	 * @param string $password
+ 	 */
+	public function setPassword($password) 
 	{
 		$this->password = $password;
 		return $this;
 	}
-	
-	public function getPassword()
+		
+ 	/**
+ 	 *
+ 	 * Get the idUser property
+ 	 *
+ 	 * @return int $idUser
+ 	 */
+	public function getIdUser() 
+	{
+		return $this->idUser;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the status property
+ 	 *
+ 	 * @return int $status
+ 	 */
+	public function getStatus() 
+	{
+		return $this->status;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the idPerson property
+ 	 *
+ 	 * @return int $idPerson
+ 	 */
+	public function getIdPerson() 
+	{
+		return $this->idPerson;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the idRole property
+ 	 *
+ 	 * @return int $idRole
+ 	 */
+	public function getIdRole() 
+	{
+		return $this->idRole;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the username property
+ 	 *
+ 	 * @return string $username
+ 	 */
+	public function getUsername() 
+	{
+		return $this->username;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the password property
+ 	 *
+ 	 * @return string $password
+ 	 */
+	public function getPassword() 
 	{
 		return $this->password;
 	}
-	
-	
-	public function toArray()
+		
+ 	/**
+ 	 *
+ 	 * Get the Array
+ 	 *
+ 	 * @return array
+ 	 */
+	public function toArray() 
 	{
 		$array = array(
-				self::ID_USER => $this->getIdUser(),
-				self::ID_PERSON => $this->getIdPerson(),
-				self::STATUS => $this->getStatus(),
-				self::USERNAME => $this->getUsername(),
-				self::PASSWORD => $this->getPassword(),
+			self::ID_USER => $this->getIdUser(),
+			self::STATUS => $this->getStatus(),
+			self::ID_PERSON => $this->getIdPerson(),
+			self::ID_ROLE => $this->getIdRole(),
+			self::USERNAME => $this->getUsername(),
+			self::PASSWORD => $this->getPassword(),
 		);
-		
 		return array_merge(parent::toArray(), $array);
 	}
-	
-	public static $statusString = array(
-			self::ENABLE => 'Enabled',
-			self::DISABLE => 'Disabled',
 		
+ 	/**
+ 	 *
+ 	 * Statuses
+ 	 *
+ 	 */
+	public static $statuses = array( 
+		self::ENABLE => "Enable", 
+		self::DISABLE => "Disable", 
+	
 	);
-	public function isEnabled()
+		
+ 	/**
+ 	 *
+ 	 * idUser is enable
+ 	 *
+ 	 * @return boolean
+ 	 */
+	public function isEnabled() 
 	{
 		return self::ENABLE == $this->getStatus();
 	}
-	
-	public function isDisabled()
+		
+ 	/**
+ 	 *
+ 	 * idUser is disable
+ 	 *
+ 	 * @return boolean
+ 	 */
+	public function isDisabled() 
 	{
 		return self::DISABLE == $this->getStatus();
 	}
-	
-	public function getStatusString()
+		
+ 	/**
+ 	 *
+ 	 * Get Status Name
+ 	 *
+ 	 * @return string
+ 	 */
+	public function getStatusString() 
 	{
-		return self::$statusString[$this->getStatus()];
+		return self::$statuses[$this->getStatus()];
 	}
 }

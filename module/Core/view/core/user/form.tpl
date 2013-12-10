@@ -39,18 +39,11 @@
 		  		</div>
 		</div>
 		<div class="form-group">
-			<label for="birthdate" class="col-sm-2 control-label">{$i18n->translate("Birthdate")}</label>
-		  		<div class="col-sm-10">
-		    		<input type="text" class="form-control datepicker" id="birthdate" name="birthdate" value="{$user->getBirthdate()}" required>
-		  		</div>
-		</div>
-		<div class="form-group">
 		  <div class="col-sm-offset-2 col-sm-10">
 		    <a href="{url module=core controller=user action=index}" class="btn btn-default">{$i18n->translate("Cancel")}</a>
 		    <button type="submit" class="btn btn-primary">{$i18n->translate("Save")}</button>
 		  </div>
 		</div>
 	</form>
-	<textarea rows="" cols=""></textarea>
 	
 </fieldset>

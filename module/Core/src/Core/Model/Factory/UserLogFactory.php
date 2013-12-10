@@ -1,38 +1,62 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 3:43:47 PM
+ * UserLogBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Factory
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:15:21 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
-use Model\Factory\AbstractFactory;
 use Core\Model\Bean\UserLog;
+use Core\Model\Factory\LogFactory;
+
 class UserLogFactory extends LogFactory
 {
-	public static function createFromArray($fields)
+
+		
+ 	/**
+ 	 *
+ 	 * Create UserLog from array
+ 	 *
+ 	 * @return UserLog
+ 	 */
+	public static  function createFromArray($fields) 
 	{
 		$userLog = new UserLog();
-		self::populate($userLog, $fields);
+		self::populate($userLog,$fields);
 		return $userLog;
 	}
-	
-	public static function populate($userLog, $fields)
+		
+ 	/**
+ 	 *
+ 	 * Populate UserLog
+ 	 *
+ 	 */
+	public static  function populate($userLog, $fields) 
 	{
 		parent::populate($userLog, $fields);
-		if( !($userLog instanceof UserLog) )
-			throw new UserException('$userLog must be instance of UserLog');
-	
-		if( isset($fields[UserLog::ID_USER_LOG]) ){
+		if(!($userLog instanceof UserLog))
+			throw new ActionException('$userLog must be instance of UserLog');
+		
+		if(isset($fields[UserLog::ID_USER_LOG])){
 			$userLog->setIdUserLog($fields[UserLog::ID_USER_LOG]);
 		}
 		
-		if( isset($fields[UserLog::ID_USER]) ){
+		if(isset($fields[UserLog::ID_USER])){
 			$userLog->setIdUser($fields[UserLog::ID_USER]);
 		}
 		
-		if( isset($fields[UserLog::ID_LOG]) ){
+		if(isset($fields[UserLog::ID_LOG])){
 			$userLog->setIdLog($fields[UserLog::ID_LOG]);
 		}
 		

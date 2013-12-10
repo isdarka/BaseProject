@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-08 22:19:07
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 11:33:21
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/role/history.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:134419775252a529927dc630-99788581%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'dc039bf8456586f9537df23c2c485a254d84df9f' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/role/history.tpl',
-      1 => 1386562739,
+      1 => 1386610379,
       2 => 'file',
     ),
   ),
@@ -27,7 +27,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_52a529928c70f3_19861727')) {function content_52a529928c70f3_19861727($_smarty_tpl) {?><fieldset>
+<?php if ($_valid && !is_callable('content_52a529928c70f3_19861727')) {function content_52a529928c70f3_19861727($_smarty_tpl) {?><?php if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
+?><fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("History");?>
 </legend>
 	<div class="table-responsive">
@@ -50,7 +51,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 foreach ($_from as $_smarty_tpl->tpl_vars['roleLog']->key => $_smarty_tpl->tpl_vars['roleLog']->value) {
 $_smarty_tpl->tpl_vars['roleLog']->_loop = true;
 ?>
-					<?php $_smarty_tpl->tpl_vars["user"] = new Smarty_variable($_smarty_tpl->tpl_vars['users']->value->getByPK($_smarty_tpl->tpl_vars['roleLog']->value->getIdUser()), null, 0);?>
+				<?php $_smarty_tpl->tpl_vars["user"] = new Smarty_variable($_smarty_tpl->tpl_vars['users']->value->getByPK($_smarty_tpl->tpl_vars['roleLog']->value->getIdUser()), null, 0);?>
 					<tr>
 						<td><?php echo $_smarty_tpl->tpl_vars['user']->value->getFullName();?>
 </td>
@@ -65,5 +66,8 @@ $_smarty_tpl->tpl_vars['roleLog']->_loop = true;
 			</tbody>
 		</table>
 	</div>
+	<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'role','action'=>'index'),$_smarty_tpl);?>
+" class="btn btn-default"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Go Back');?>
+</a>
 </fieldset>
 <?php }} ?>

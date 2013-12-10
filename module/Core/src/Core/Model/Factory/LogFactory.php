@@ -1,47 +1,71 @@
 <?php
+
 /**
  *
- * @author isdarka
- * @created Nov 26, 2013 3:43:47 PM
+ * LogBean
+ * 
+ * GeCo
+ * 
+ * @autor isdarka
+ * @category Model
+ * @package Factory
+ * @copyright 
+ * @license 
+ * @created Mon Dec 9 11:15:21 2013
+ * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
-use Model\Factory\AbstractFactory;
 use Core\Model\Bean\Log;
-use Core\Model\Exception\LogException;
+use Model\Factory\AbstractFactory;
+
 class LogFactory extends AbstractFactory
 {
-	public static function createFromArray($fields)
+
+		
+ 	/**
+ 	 *
+ 	 * Create Log from array
+ 	 *
+ 	 * @return Log
+ 	 */
+	public static  function createFromArray($fields) 
 	{
 		$log = new Log();
-		self::populate($log, $fields);
+		self::populate($log,$fields);
 		return $log;
 	}
-	
-	public static function populate($log, $fields)
+		
+ 	/**
+ 	 *
+ 	 * Populate Log
+ 	 *
+ 	 */
+	public static  function populate($log, $fields) 
 	{
-		if( !($log instanceof Log) )
-			throw new LogException('$log must be instance of Log');
-	
-		if( isset($fields[Log::ID_LOG]) ){
+		if(!($log instanceof Log))
+			throw new ActionException('$log must be instance of Log');
+		
+		if(isset($fields[Log::ID_LOG])){
 			$log->setIdLog($fields[Log::ID_LOG]);
 		}
 		
-		if( isset($fields[Log::ID_USER]) ){
+		if(isset($fields[Log::ID_USER])){
 			$log->setIdUser($fields[Log::ID_USER]);
 		}
 		
-		if( isset($fields[Log::TIMESTAMP]) ){
+		if(isset($fields[Log::TIMESTAMP])){
 			$log->setTimestamp($fields[Log::TIMESTAMP]);
 		}
 		
-		if( isset($fields[Log::EVENT]) ){
+		if(isset($fields[Log::EVENT])){
 			$log->setEvent($fields[Log::EVENT]);
 		}
 		
-		if( isset($fields[Log::NOTE]) ){
+		if(isset($fields[Log::NOTE])){
 			$log->setNote($fields[Log::NOTE]);
 		}
+		
 	}
 }

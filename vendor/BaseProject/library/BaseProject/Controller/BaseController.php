@@ -21,6 +21,8 @@ use Zend\Mvc\I18n\Translator;
 use Zend\Authentication\AuthenticationService;
 use BaseProject\Security\AuthStorage;
 use Core\Model\Bean\User;
+use BaseProject\Menu\MenuRender;
+use BaseProject\Security\Acl;
 
 class BaseController extends AbstractActionController
 {
@@ -35,10 +37,31 @@ class BaseController extends AbstractActionController
 		$this->view  = new ViewModel();
 	}
 	
+	protected function renderMenu()
+	{
+		$menuRender = new MenuRender($this->getAdatper(), $this->getBasePath(), $this->getUser());
+		$this->view->systemMenu = $menuRender->render();
+	}
+	
 	protected  function hasIdentity()
 	{
 		if(!$this->getAuthenticationService()->hasIdentity())
 			$this->redirect()->toRoute(null,array('module' => 'core',  'controller'=>'auth','action' => 'login',));
+		else{
+			$this->renderMenu();
+			$acl = new Acl($this->getAdatper(), $this->getUser());
+			$acl->flushPrivileges();
+			
+			$controller = $this->params()->fromRoute("controller");
+			$action = $this->params()->fromRoute("action");
+			$resource = $controller . "::" . $action;
+			if(!$acl->hasResource($resource))
+				$this->view->content = "You don't have permission ";
+			else if(!$acl->isAllowed($this->getUser()->getIdRole(), $resource))
+			{
+				$this->view->content = "You don't have permission ";
+			}
+		}
 	}
 	
 	
@@ -98,6 +121,16 @@ class BaseController extends AbstractActionController
 		$authStorage = $this->getAuthStorage()->read();
 		return $authStorage["user"];
 	}
+	
+	/**
+	 *
+	 * @return Acl
+	 */
+// 	protected function getAcl()
+// 	{
+// 		$authStorage = $this->getAuthStorage()->read();
+// 		return $authStorage["acl"];
+// 	}
 	
 // 	protected function attachDefaultListeners()
 // 	{
