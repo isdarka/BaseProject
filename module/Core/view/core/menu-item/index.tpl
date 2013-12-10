@@ -1,5 +1,5 @@
 <fieldset>
-	<legend>{$i18n->translate("MenuItem")} <a href="{$baseUrl}/core/menuitem/create" class="btn btn-success pull-right">{$i18n->translate("New MenuItem")}</a></legend>
+	<legend>{$i18n->translate("MenuItem")} <a href="{$baseUrl}/core/menu-item/create" class="btn btn-success pull-right">{$i18n->translate("New MenuItem")}</a></legend>
 	<div class="table-responsive">
 	<form action="{$baseUrl}/core/menuitem/index" method="get">
 		<table class="table table-bordered table-condensed table-hover">

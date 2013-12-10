@@ -61,6 +61,7 @@ class AuthController extends BaseController
 					$userQuery->whereAdd(User::PASSWORD, $password, Query::EQUAL, Query::MD5);
 					$user = $userQuery->findOne();
 					$acl = new Acl($this->getAdatper(), $user);
+					$acl->removeAll();
 					$acl->flushPrivileges();
 					$authService->getStorage()->write(array("user" => $user, "acl" => $acl->getAcl()));
 				}else{
@@ -70,6 +71,7 @@ class AuthController extends BaseController
 					$authStorage->setRememberMe(1, 1200);
 					$user = $userQuery->findOne();
 					$acl = new Acl($this->getAdatper(), $user);
+					$acl->removeAll();
 					$acl->flushPrivileges();
 					$authService->getStorage()->write(array("user" => $user, "acl" => $acl->getAcl()));
 				}

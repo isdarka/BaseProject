@@ -28,6 +28,17 @@ class MenuRender
 		$this->user = $user;
 	}
 	
+	
+	public function getCamelCase($string)
+	{
+		return lcfirst(join("", array_map("ucwords", explode("_", $string))));
+	}
+	
+	public function getUnderscore($string)
+	{
+		return strtolower(preg_replace('/(?<=[a-z])([A-Z])/', '-$1', $string));
+	}
+	
 	/**
 	 * @return MenuItemCollection
 	 */
@@ -88,7 +99,7 @@ class MenuRender
 					$path = str_replace("\\", "/", $path);
 					$path = str_replace("//", "/", $path);
 					
-					$path = strtolower($path);
+					$path = $this->getUnderscore($path);
 					$html .= '<li><a href="' . $this->baseUrl . '/' . $path . '">' . $child->getName() . '</a></li>';
 				}
 				$html .= '</ul>';

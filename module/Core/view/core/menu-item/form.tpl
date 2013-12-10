@@ -1,6 +1,6 @@
 <fieldset>
 	<legend>{$i18n->translate("MenuItem")}</legend>
-	<form class="form-horizontal validate" method="post" action="{$baseUrl}/core/menuitem/save">
+	<form class="form-horizontal validate" method="post" action="{$baseUrl}/core/menu-item/save">
 		<input type="hidden" name="idMenuItem" id="idmenuitem" value="{$menuItem->getIdMenuItem()}">
 		<div class="form-group">
 			<label for="idAction" class="col-sm-2 control-label">{$i18n->translate("IdAction")}</label>
