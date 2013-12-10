@@ -70,6 +70,12 @@ class Acl extends ZendAcl
 		}
 	}
 	
+	public function removeAll()
+	{
+		$this->removeResourceAll();
+		$this->removeRoleAll();
+	}
+	
 	public function flushPrivileges()
 	{
 		$this->setRoles();
