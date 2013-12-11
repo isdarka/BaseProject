@@ -2,7 +2,7 @@
 
 /**
  *
- * PersonQuery
+ * PhoneNumberQuery
  * 
  * GeCo
  * 
@@ -11,25 +11,25 @@
  * @package Query
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:22:30 2013
+ * @created Wed Dec 11 09:30:39 2013
  * @version 1.0
  */
 
 namespace Core\Query;
 
 use Query\Query;
-use Core\Model\Metadata\PersonMetadata;
+use Core\Model\Metadata\PhoneNumberMetadata;
 
-class PersonQuery extends Query
+class PhoneNumberQuery extends Query
 {
 
 		
  	/**
  	 *
- 	 * Inner Join Phonenumber
+ 	 * Inner Join Person
  	 *
  	 */
-	public function innerJoinPhonenumber() 
+	public function innerJoinPerson() 
 	{
 		$this->join("common_persons_phone_numbers",
 			"common_persons_phone_numbers.".$this->metadata->getPrimaryKey()."=".
@@ -39,25 +39,12 @@ class PersonQuery extends Query
 		
  	/**
  	 *
- 	 * Inner Join Email
- 	 *
- 	 */
-	public function innerJoinEmail() 
-	{
-		$this->join("common_persons_emails",
-			"common_persons_emails.".$this->metadata->getPrimaryKey()."=".
-			$this->metadata->getEntityName().".".$this->metadata->getPrimaryKey());
-		return $this;
-	}
-		
- 	/**
- 	 *
- 	 * Contruct PersonQuery
+ 	 * Contruct PhoneNumberQuery
  	 *
  	 */
 	public function __construct($adapter) 
 	{
-		$this->metadata = new PersonMetadata();
+		$this->metadata = new PhoneNumberMetadata();
 		parent::__construct($adapter, $this->metadata->getTableName(), $this->metadata->getEntityName());
 	}
 }

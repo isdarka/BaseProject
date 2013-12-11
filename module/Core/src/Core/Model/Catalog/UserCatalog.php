@@ -70,13 +70,13 @@ class UserCatalog extends PersonCatalog
 	protected function update(AbstractBean $bean) 
 	{
 		try {
-			parent::create($bean);
+			parent::update($bean);
 			$this->update = $this->sql->update(self::getMetadata()->getTableName());
 			$data = self::getMetadata()->toUpdateArray($bean);
 			$data = array_filter($data, array($this, 'isNotNull'));
 			$this->update->set($data);
 			$where = new Where();
-			$where->equalTo(self::getMetadata()->getPrimaryKey(), $bean->get());
+			$where->equalTo(self::getMetadata()->getPrimaryKey(), $bean->getIdUser());
 			$this->update->where($where);
 			$this->execute($this->update);
 		} catch (\Zend\Db\Exception\ExceptionInterface $e) {

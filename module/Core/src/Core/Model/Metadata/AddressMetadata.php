@@ -2,7 +2,7 @@
 
 /**
  *
- * PersonBean
+ * AddressBean
  * 
  * GeCo
  * 
@@ -11,7 +11,7 @@
  * @package Metadata
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:22:30 2013
+ * @created Wed Dec 11 09:48:20 2013
  * @version 1.0
  */
 
@@ -19,11 +19,11 @@ namespace Core\Model\Metadata;
 
 use Model\Bean\AbstractBean;
 use Model\Metadata\AbstractMetadata;
-use Core\Model\Bean\Person;
-use Core\Model\Factory\PersonFactory;
-use Core\Model\Collection\PersonCollection;
+use Core\Model\Bean\Address;
+use Core\Model\Factory\AddressFactory;
+use Core\Model\Collection\AddressCollection;
 
-class PersonMetadata extends AbstractMetadata
+class AddressMetadata extends AbstractMetadata
 {
 
 		
@@ -36,10 +36,14 @@ class PersonMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Person::NAME,
-				Person::LAST_NAME,
-				Person::SECOND_LAST_NAME,
-				Person::BIRTHDATE,
+				Address::STREET,
+				Address::HOUSE_NUMBER,
+				Address::APARTMENT_NUMBER,
+				Address::ZIPCODE,
+				Address::NEIGHBORHOOD,
+				Address::SETTLEMENT,
+				Address::CITY,
+				Address::STATE,
 			)
 		);
 	}
@@ -53,12 +57,15 @@ class PersonMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Person::ID_PERSON,
-				Person::ID_ADDRESS,
-				Person::NAME,
-				Person::LAST_NAME,
-				Person::SECOND_LAST_NAME,
-				Person::BIRTHDATE,
+				Address::ID_ADDRESS,
+				Address::STREET,
+				Address::HOUSE_NUMBER,
+				Address::APARTMENT_NUMBER,
+				Address::ZIPCODE,
+				Address::NEIGHBORHOOD,
+				Address::SETTLEMENT,
+				Address::CITY,
+				Address::STATE,
 			)
 		);
 	}
@@ -71,12 +78,15 @@ class PersonMetadata extends AbstractMetadata
 	public function getFields() 
 	{
 		return array(
-			Person::ID_PERSON,
-			Person::ID_ADDRESS,
-			Person::NAME,
-			Person::LAST_NAME,
-			Person::SECOND_LAST_NAME,
-			Person::BIRTHDATE,
+			Address::ID_ADDRESS,
+			Address::STREET,
+			Address::HOUSE_NUMBER,
+			Address::APARTMENT_NUMBER,
+			Address::ZIPCODE,
+			Address::NEIGHBORHOOD,
+			Address::SETTLEMENT,
+			Address::CITY,
+			Address::STATE,
 		);
 	}
 		
@@ -88,7 +98,7 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getEntityName() 
 	{
-		return "Person";
+		return "Address";
 	}
 		
  	/**
@@ -99,7 +109,7 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getTableName() 
 	{
-		return "common_persons";
+		return "common_address";
 	}
 		
  	/**
@@ -110,20 +120,20 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getPrimaryKey() 
 	{
-		return "id_person";
+		return "id_address";
 	}
 		
  	/**
  	 *
  	 * Get Factory
  	 *
- 	 * @return PersonFactory
+ 	 * @return AddressFactory
  	 */
 	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
-			$factory = new PersonFactory();
+			$factory = new AddressFactory();
 		}
 		return $factory;
 	}
@@ -132,21 +142,21 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * Get Collection
  	 *
- 	 * @return PersonCollection
+ 	 * @return AddressCollection
  	 */
 	public function newCollection() 
 	{
-		return new PersonCollection();
+		return new AddressCollection();
 	}
 		
  	/**
  	 *
  	 * Get Bean
  	 *
- 	 * @return Person
+ 	 * @return Address
  	 */
 	public function newBean() 
 	{
-		return new Person();
+		return new Address();
 	}
 }

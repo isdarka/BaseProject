@@ -2,7 +2,7 @@
 
 /**
  *
- * PersonBean
+ * PhoneNumberBean
  * 
  * GeCo
  * 
@@ -11,7 +11,7 @@
  * @package Metadata
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:22:30 2013
+ * @created Wed Dec 11 09:30:39 2013
  * @version 1.0
  */
 
@@ -19,11 +19,11 @@ namespace Core\Model\Metadata;
 
 use Model\Bean\AbstractBean;
 use Model\Metadata\AbstractMetadata;
-use Core\Model\Bean\Person;
-use Core\Model\Factory\PersonFactory;
-use Core\Model\Collection\PersonCollection;
+use Core\Model\Bean\PhoneNumber;
+use Core\Model\Factory\PhoneNumberFactory;
+use Core\Model\Collection\PhoneNumberCollection;
 
-class PersonMetadata extends AbstractMetadata
+class PhoneNumberMetadata extends AbstractMetadata
 {
 
 		
@@ -36,10 +36,10 @@ class PersonMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Person::NAME,
-				Person::LAST_NAME,
-				Person::SECOND_LAST_NAME,
-				Person::BIRTHDATE,
+				PhoneNumber::AREA,
+				PhoneNumber::TYPE,
+				PhoneNumber::EXTENSION,
+				PhoneNumber::NUMBER,
 			)
 		);
 	}
@@ -53,12 +53,11 @@ class PersonMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Person::ID_PERSON,
-				Person::ID_ADDRESS,
-				Person::NAME,
-				Person::LAST_NAME,
-				Person::SECOND_LAST_NAME,
-				Person::BIRTHDATE,
+				PhoneNumber::ID_PHONE_NUMBER,
+				PhoneNumber::AREA,
+				PhoneNumber::TYPE,
+				PhoneNumber::EXTENSION,
+				PhoneNumber::NUMBER,
 			)
 		);
 	}
@@ -71,12 +70,11 @@ class PersonMetadata extends AbstractMetadata
 	public function getFields() 
 	{
 		return array(
-			Person::ID_PERSON,
-			Person::ID_ADDRESS,
-			Person::NAME,
-			Person::LAST_NAME,
-			Person::SECOND_LAST_NAME,
-			Person::BIRTHDATE,
+			PhoneNumber::ID_PHONE_NUMBER,
+			PhoneNumber::AREA,
+			PhoneNumber::TYPE,
+			PhoneNumber::EXTENSION,
+			PhoneNumber::NUMBER,
 		);
 	}
 		
@@ -88,7 +86,7 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getEntityName() 
 	{
-		return "Person";
+		return "PhoneNumber";
 	}
 		
  	/**
@@ -99,7 +97,7 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getTableName() 
 	{
-		return "common_persons";
+		return "common_phone_numbers";
 	}
 		
  	/**
@@ -110,20 +108,20 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getPrimaryKey() 
 	{
-		return "id_person";
+		return "id_phone_number";
 	}
 		
  	/**
  	 *
  	 * Get Factory
  	 *
- 	 * @return PersonFactory
+ 	 * @return PhoneNumberFactory
  	 */
 	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
-			$factory = new PersonFactory();
+			$factory = new PhoneNumberFactory();
 		}
 		return $factory;
 	}
@@ -132,21 +130,21 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * Get Collection
  	 *
- 	 * @return PersonCollection
+ 	 * @return PhoneNumberCollection
  	 */
 	public function newCollection() 
 	{
-		return new PersonCollection();
+		return new PhoneNumberCollection();
 	}
 		
  	/**
  	 *
  	 * Get Bean
  	 *
- 	 * @return Person
+ 	 * @return PhoneNumber
  	 */
 	public function newBean() 
 	{
-		return new Person();
+		return new PhoneNumber();
 	}
 }

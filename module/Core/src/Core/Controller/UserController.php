@@ -41,6 +41,7 @@ use Zend\View\Model\JsonModel;
 use Zend\Paginator\Paginator;
 use Zend\View\Helper\PaginationControl;
 use Zend\Paginator\Adapter\DbTableGateway;
+use Core\Query\RoleQuery;
 
 
 
@@ -50,12 +51,14 @@ class UserController extends BaseController
 	public function indexAction()
 	{
 		$userQuery = new UserQuery($this->getAdatper());
+		$roleQuery = new RoleQuery($this->getAdatper());
 		$total = $userQuery->count();
 		$maxPerPage = 5;
 		$page = $this->params()->fromRoute("page", 1);
 		$users = $userQuery->limit($maxPerPage)->offset(($page -1) * $maxPerPage)->find();
-		$adapter  = $this->getAdatper();
+		$roles = $roleQuery->find();
 		$this->view->users = $users;
+		$this->view->roles = $roles;
 		$this->view->pages = ceil($total / $maxPerPage);
 		$this->view->currentPage = $page;
 		$this->view->total = $total;

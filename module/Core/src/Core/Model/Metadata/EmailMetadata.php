@@ -2,7 +2,7 @@
 
 /**
  *
- * PersonBean
+ * EmailBean
  * 
  * GeCo
  * 
@@ -11,7 +11,7 @@
  * @package Metadata
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:22:30 2013
+ * @created Wed Dec 11 09:36:19 2013
  * @version 1.0
  */
 
@@ -19,11 +19,11 @@ namespace Core\Model\Metadata;
 
 use Model\Bean\AbstractBean;
 use Model\Metadata\AbstractMetadata;
-use Core\Model\Bean\Person;
-use Core\Model\Factory\PersonFactory;
-use Core\Model\Collection\PersonCollection;
+use Core\Model\Bean\Email;
+use Core\Model\Factory\EmailFactory;
+use Core\Model\Collection\EmailCollection;
 
-class PersonMetadata extends AbstractMetadata
+class EmailMetadata extends AbstractMetadata
 {
 
 		
@@ -36,10 +36,7 @@ class PersonMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Person::NAME,
-				Person::LAST_NAME,
-				Person::SECOND_LAST_NAME,
-				Person::BIRTHDATE,
+				Email::EMAIL,
 			)
 		);
 	}
@@ -53,12 +50,8 @@ class PersonMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
-				Person::ID_PERSON,
-				Person::ID_ADDRESS,
-				Person::NAME,
-				Person::LAST_NAME,
-				Person::SECOND_LAST_NAME,
-				Person::BIRTHDATE,
+				Email::ID_EMAIL,
+				Email::EMAIL,
 			)
 		);
 	}
@@ -71,12 +64,8 @@ class PersonMetadata extends AbstractMetadata
 	public function getFields() 
 	{
 		return array(
-			Person::ID_PERSON,
-			Person::ID_ADDRESS,
-			Person::NAME,
-			Person::LAST_NAME,
-			Person::SECOND_LAST_NAME,
-			Person::BIRTHDATE,
+			Email::ID_EMAIL,
+			Email::EMAIL,
 		);
 	}
 		
@@ -88,7 +77,7 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getEntityName() 
 	{
-		return "Person";
+		return "Email";
 	}
 		
  	/**
@@ -99,7 +88,7 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getTableName() 
 	{
-		return "common_persons";
+		return "common_emails";
 	}
 		
  	/**
@@ -110,20 +99,20 @@ class PersonMetadata extends AbstractMetadata
  	 */
 	public function getPrimaryKey() 
 	{
-		return "id_person";
+		return "id_email";
 	}
 		
  	/**
  	 *
  	 * Get Factory
  	 *
- 	 * @return PersonFactory
+ 	 * @return EmailFactory
  	 */
 	public function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
-			$factory = new PersonFactory();
+			$factory = new EmailFactory();
 		}
 		return $factory;
 	}
@@ -132,21 +121,21 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * Get Collection
  	 *
- 	 * @return PersonCollection
+ 	 * @return EmailCollection
  	 */
 	public function newCollection() 
 	{
-		return new PersonCollection();
+		return new EmailCollection();
 	}
 		
  	/**
  	 *
  	 * Get Bean
  	 *
- 	 * @return Person
+ 	 * @return Email
  	 */
 	public function newBean() 
 	{
-		return new Person();
+		return new Email();
 	}
 }

@@ -29,6 +29,11 @@
 	<script type="text/javascript">
 		var baseUrl = "{$baseUrl}";
 	</script>
+	
+<!-- 	BaseModel -->
+	<script type="text/javascript" src="{$baseUrl}/js/model/bean/bean.js"></script>
+	<script type="text/javascript" src="{$baseUrl}/js/model/collection/collection.js"></script>
+	
   </head>
 
   <body>

@@ -26,6 +26,8 @@ class Person extends AbstractBean
 
 	const ID_PERSON = 'id_person';
 
+	const ID_ADDRESS = 'id_address';
+
 	const NAME = 'name';
 
 	const LAST_NAME = 'last_name';
@@ -35,6 +37,8 @@ class Person extends AbstractBean
 	const BIRTHDATE = 'birthdate';
 
 	private $idPerson;
+
+	private $idAddress;
 
 	private $name;
 
@@ -65,6 +69,18 @@ class Person extends AbstractBean
 	public function setIdPerson($idPerson) 
 	{
 		$this->idPerson = $idPerson;
+		return $this;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Set the idAddress property
+ 	 *
+ 	 * @param int $idAddress
+ 	 */
+	public function setIdAddress($idAddress) 
+	{
+		$this->idAddress = $idAddress;
 		return $this;
 	}
 		
@@ -129,6 +145,17 @@ class Person extends AbstractBean
 		
  	/**
  	 *
+ 	 * Get the idAddress property
+ 	 *
+ 	 * @return int $idAddress
+ 	 */
+	public function getIdAddress() 
+	{
+		return $this->idAddress;
+	}
+		
+ 	/**
+ 	 *
  	 * Get the name property
  	 *
  	 * @return string $name
@@ -185,6 +212,7 @@ class Person extends AbstractBean
 	{
 		$array = array(
 			self::ID_PERSON => $this->getIdPerson(),
+			self::ID_ADDRESS => $this->getIdAddress(),
 			self::NAME => $this->getName(),
 			self::LAST_NAME => $this->getLastName(),
 			self::SECOND_LAST_NAME => $this->getSecondLastName(),

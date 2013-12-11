@@ -51,6 +51,10 @@ class PersonFactory extends AbstractFactory
 			$person->setIdPerson($fields[Person::ID_PERSON]);
 		}
 		
+		if(isset($fields[Person::ID_ADDRESS])){
+			$person->setIdAddress($fields[Person::ID_ADDRESS]);
+		}
+		
 		if(isset($fields[Person::NAME])){
 			$person->setName($fields[Person::NAME]);
 		}

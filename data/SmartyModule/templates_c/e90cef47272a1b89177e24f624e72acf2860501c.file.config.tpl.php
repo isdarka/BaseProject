@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-10 17:11:04
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-11 09:25:40
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/core/config.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:11585970529fa52b01ab17-84818477%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e90cef47272a1b89177e24f624e72acf2860501c' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/core/config.tpl',
-      1 => 1386717060,
+      1 => 1386775538,
       2 => 'file',
     ),
   ),
@@ -37,6 +37,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_529fa52b041f22_01132615')) {function content_529fa52b041f22_01132615($_smarty_tpl) {?><script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /js/modules/core/config.js"></script>
+<script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
+/js/model/demo.js"></script>
 <fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Config");?>
 
