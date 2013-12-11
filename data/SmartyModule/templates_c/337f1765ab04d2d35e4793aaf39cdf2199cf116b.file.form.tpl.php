@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 14:10:23
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-10 18:15:23
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/form.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:179581884052a5471c5da699-67599309%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '337f1765ab04d2d35e4793aaf39cdf2199cf116b' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/form.tpl',
-      1 => 1386619781,
+      1 => 1386720727,
       2 => 'file',
     ),
   ),
@@ -33,8 +33,8 @@ if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("MenuItem");?>
 </legend>
 	<form class="form-horizontal validate" method="post" action="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
-/core/menuitem/save">
-		<input type="hidden" name="idMenuItem" id="idmenuitem" value="<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem();?>
+/core/menu-item/save">
+		<input type="hidden" name="idMenuItem" id="idMenuItem" value="<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem();?>
 ">
 		<div class="form-group">
 			<label for="idAction" class="col-sm-2 control-label"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("IdAction");?>
@@ -54,7 +54,6 @@ if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/
 		</div>
 		<div class="form-group">
 			<label for="name" class="col-sm-2 control-label"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Name");?>
-<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getIdParent();?>
 </label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control required" id="name" name="name" value="<?php echo $_smarty_tpl->tpl_vars['menuItem']->value->getName();?>
@@ -71,7 +70,7 @@ if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-			<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menuitem','action'=>'index'),$_smarty_tpl);?>
+			<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'index'),$_smarty_tpl);?>
 " class="btn btn-default"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Cancel");?>
 </a>
 			<button type="submit" class="btn btn-primary"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Save");?>

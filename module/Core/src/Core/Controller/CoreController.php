@@ -110,15 +110,17 @@ class CoreController extends BaseController
 					{
 						if(class_exists($controller))
 						{
-							if($controllers->getByName($controller) instanceof Controller == false){
+							if($controllers->getByName($this->getUnderscore($controller)) instanceof Controller == false){
 								$controllerBean = ControllerFactory::createFromArray(array(
 										Controller::ID_MODULE => $module->getIdModule(),
-										Controller::NAME => $controller,
+										Controller::NAME => $this->getUnderscore($controller),
 								));
 								$controllerCatalog->save($controllerBean);
+							}else 
+								$controllerBean = $controllers->getByName($this->getUnderscore($controller));
 								$actionsMethods = array_filter(get_class_methods($controller),array($this, "filterAction"));
 								$this->inspectActions($controllerBean, $actionsMethods);
-							}
+							
 						}
 					}
 				}
@@ -139,6 +141,7 @@ class CoreController extends BaseController
 			$actions = $actionQuery->find();
 			foreach ($methods as $method)
 			{
+				$method = $this->getUnderscore($method);
 				if($actions->getByNameAndIdController($method, $controller->getIdController()) instanceof Action == false)
 				{
 					$action = ActionFactory::createFromArray(array(
@@ -165,11 +168,6 @@ class CoreController extends BaseController
 	
 	public function configAction()
 	{
-// 		var_dump($acl->getRoles());
-// 		var_dump($acl->isAllowed("3", "Core\Controller\Index::alo"));
-// 		var_dump($acl->getResources());
-// 		var_dump($this->params()->fromRoute());
-// 		die();
 		$moduleQuery = new ModuleQuery($this->getAdatper());
 		$controllerQuery = new ControllerQuery($this->getAdatper());
 		$actionQuery = new ActionQuery($this->getAdatper());
@@ -225,6 +223,24 @@ class CoreController extends BaseController
 			$roleCatalog->rollback();
 			die(Json::encode(array("status" => 0, "msn" => $e->getMessage())));
 		}
+	}
+	
+	public function flushPrivilegesAction()
+	{
+		try {
+			$acl = new Acl($this->getAdatper(), $this->getUser());
+			$user = $this->getUser();
+			$acl->removeAll();
+			$acl->flushPrivileges();
+			$authService = $this->getAuthenticationService();
+// 			$authService->getStorage()->clear();
+			$authService->getStorage()->write(array("user" => $user, "acl" => $acl->getAcl()));
+			$this->flashMessenger()->addSuccessMessage('Benefits restarted');
+		}catch (ActionException $e){
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+		}
+		$this->redirect()->toRoute(null,array('controller'=>"core",'action' => "config",));
+		return $this->view;
 	}
 	
 }

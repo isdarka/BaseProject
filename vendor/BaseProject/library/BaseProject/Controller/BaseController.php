@@ -51,8 +51,9 @@ class BaseController extends AbstractActionController
 			$this->renderMenu();
 			$acl = $this->getAcl();
 			$controller = $this->params()->fromRoute("controller");
+			$controller = $this->getUnderscore($controller);
 			$action = $this->params()->fromRoute("action");
-			$resource = $controller . "::" . $action;
+			$resource = strtolower($controller) . "::" . strtolower($action);
 			if(!$acl->hasResource($resource)){
 				$this->redirect()->toRoute(null, array(
 						'module' => 'core',
@@ -78,7 +79,7 @@ class BaseController extends AbstractActionController
 		$this->view->i18n = $this->i18n;
 		$this->view->baseUrl = $this->getBasePath();
 		$this->view->flashMessenger = $this->flashMessenger();
-		parent::onDispatch($e);
+		return parent::onDispatch($e);
 	}
 	
 	/**
@@ -90,7 +91,7 @@ class BaseController extends AbstractActionController
 	{
 		$this->hasIdentity();
 		$this->tranlate();
-		parent::dispatch($request, $response);
+		return parent::dispatch($request, $response);
 	}
 	
 	public function getBasePath()
@@ -203,4 +204,14 @@ class BaseController extends AbstractActionController
 		return $this->getServiceLocator()->get("Adapter");
 	} 
 	
+	
+	public function getCamelCase($string)
+	{
+		return lcfirst(join("", array_map("ucwords", explode("_", $string))));
+	}
+	
+	public function getUnderscore($string)
+	{
+		return strtolower(preg_replace('/(?<=[a-z])([A-Z])/', '-$1', $string));
+	}
 }

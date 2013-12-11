@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 14:05:23
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-10 18:15:21
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:5579900052a546dee30652-81344531%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ab35ad9e192c10a39426b4eb45f8e4cbb5f716df' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/index.tpl',
-      1 => 1386619509,
+      1 => 1386720918,
       2 => 'file',
     ),
   ),
@@ -27,15 +27,20 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_52a546df010887_89228587')) {function content_52a546df010887_89228587($_smarty_tpl) {?><?php if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
+<?php if ($_valid && !is_callable('content_52a546df010887_89228587')) {function content_52a546df010887_89228587($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_isAllowed')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/modifier.isAllowed.php';
+if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
 ?><fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("MenuItem");?>
- <a href="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
-/core/menuitem/create" class="btn btn-success pull-right"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("New MenuItem");?>
-</a></legend>
+ 
+		<?php if (smarty_modifier_isAllowed("core\controller\menu-item::create")) {?>
+			<a href="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
+/core/menu-item/create" class="btn btn-success pull-right"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("New MenuItem");?>
+</a>
+		<?php }?>
+	</legend>
 	<div class="table-responsive">
 	<form action="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
-/core/menuitem/index" method="get">
+/core/menu-item/index" method="get">
 		<table class="table table-bordered table-condensed table-hover">
 			<thead>
 				<tr class="well">
@@ -57,7 +62,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 					<th><input type="text" class="form-control" name="status" placeholder="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('STATUS');?>
 " value="<?php echo $_smarty_tpl->tpl_vars['queryParams']->value['status'];?>
 "></th>
-					<th class="col-xs-2"><button type="submit" class="form-control btn btn-default "><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Filter");?>
+					<th class="col-xs-2"><button type="submit" class="form-control btn btn-primary "><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Filter");?>
 </button></th>
 				</tr>
 				<tr class="well">
@@ -98,21 +103,29 @@ $_smarty_tpl->tpl_vars['menuItem']->_loop = true;
 </td>
 					<td>
 						<div class="btn-group">
-						<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menuitem','action'=>'update','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+						<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::update")) {?>
+							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'update','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Edit');?>
 "><span class="fa fa-pencil"></span></a>
+						<?php }?>
 							<?php if ($_smarty_tpl->tpl_vars['menuItem']->value->isEnabled()) {?>
-								<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menuitem','action'=>'disable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+								<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::disable")) {?>
+									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'disable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Disable');?>
 "><span class="fa fa-times-circle-o"></span></a>
+								<?php }?>
 							<?php } elseif ($_smarty_tpl->tpl_vars['menuItem']->value->isDisabled()) {?>
-								<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menuitem','action'=>'enable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+								<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::enable")) {?>
+									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'enable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Enable');?>
 "><span class="fa fa-check-circle-o"></span></a>
+								<?php }?>
 							<?php }?>
-						<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menuitem','action'=>'history','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+						<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::history")) {?>
+							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'history','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('History');?>
 "><span class="fa fa-book"></span></a>
+						<?php }?>
 						</div>
 					</td>
 				</tr>

@@ -1,7 +1,7 @@
 <fieldset>
 	<legend>{$i18n->translate("MenuItem")}</legend>
 	<form class="form-horizontal validate" method="post" action="{$baseUrl}/core/menu-item/save">
-		<input type="hidden" name="idMenuItem" id="idmenuitem" value="{$menuItem->getIdMenuItem()}">
+		<input type="hidden" name="idMenuItem" id="idMenuItem" value="{$menuItem->getIdMenuItem()}">
 		<div class="form-group">
 			<label for="idAction" class="col-sm-2 control-label">{$i18n->translate("IdAction")}</label>
 			<div class="col-sm-10">
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="name" class="col-sm-2 control-label">{$i18n->translate("Name")}{$menuItem->getIdParent()}</label>
+			<label for="name" class="col-sm-2 control-label">{$i18n->translate("Name")}</label>
 			<div class="col-sm-10">
 				<input type="text" class="form-control required" id="name" name="name" value="{$menuItem->getName()}">
 			</div>
@@ -28,7 +28,7 @@
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10">
-			<a href="{url module=core controller=menuitem action=index}" class="btn btn-default">{$i18n->translate("Cancel")}</a>
+			<a href="{url module=core controller=menu-item action=index}" class="btn btn-default">{$i18n->translate("Cancel")}</a>
 			<button type="submit" class="btn btn-primary">{$i18n->translate("Save")}</button>
 			</div>
 		</div>

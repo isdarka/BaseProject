@@ -95,10 +95,10 @@ class MenuRender
 					$action = $actions->getByPK($child->getIdAction());
 					$controller = $controllers->getByPK($action->getIdController());
 					
-					$path = str_replace("Controller", "", $controller->getName()) . "/" . str_replace("Action", "", $action->getName());
+					$path = str_replace("controller", "", $controller->getName()) . "/" . str_replace("-action", "", $action->getName());
 					$path = str_replace("\\", "/", $path);
 					$path = str_replace("//", "/", $path);
-					
+					$path = str_replace("-/", "/", $path);
 					$path = $this->getUnderscore($path);
 					$html .= '<li><a href="' . $this->baseUrl . '/' . $path . '">' . $child->getName() . '</a></li>';
 				}

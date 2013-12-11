@@ -1,6 +1,8 @@
 <script type="text/javascript" src="{$baseUrl}/js/modules/core/config.js"></script>
 <fieldset>
-	<legend>{$i18n->translate("Config")}</legend>
+	<legend>{$i18n->translate("Config")}
+		<a href="{$baseUrl}/core/core/flush-privileges"  class="btn btn-warning" data-toggle="tooltip" title="Flush Privileges"><i class="fa fa-refresh fa-spin"></i></a>
+	</legend>
 	<div class="table-responsive">
 	{foreach $modules as $module}
 		{assign var="controllersModule" value=$controllers->getByIdModule($module->getIdModule())}

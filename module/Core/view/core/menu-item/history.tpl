@@ -23,4 +23,5 @@
 			</tbody>
 		</table>
 	</div>
+	<a href="{url module=core controller=menu-item action=index}" class="btn btn-default">{$i18n->translate('Go Back')}</a>
 </fieldset>

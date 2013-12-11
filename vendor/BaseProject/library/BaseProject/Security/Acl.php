@@ -53,11 +53,11 @@ class Acl extends ZendAcl
 		foreach ($controllers as $controller)
 		{
 			$controllerActions = $actions->getByIdController($controller->getIdController());
-			$controllerName = substr($controller->getName(), 0, -10);
+			$controllerName = substr($controller->getName(), 0, -11);
 			foreach ($controllerActions as $action)
 			{
-				$actionName = substr($action->getName(), 0, -6);
-				$resource = $controllerName . "::" . $actionName;
+				$actionName = substr($action->getName(), 0, -7);
+				$resource = strtolower($controllerName) . "::" . strtolower($actionName);
 				if(!$this->hasResource($resource))
 					$this->addResource(new Resource($resource));
 				

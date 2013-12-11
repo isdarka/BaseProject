@@ -49,6 +49,7 @@ class MenuItemController extends BaseController
 		$total = $menuItemQuery->count();
 		$page = $this->params()->fromRoute("page", 1);
 		$menuItems = $menuItemQuery->filter($queryParams)->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
+		
 		//Views
 		$this->view->menuItems = $menuItems;
 		$this->view->pages = ceil($total / $this->maxPerPage);
@@ -134,7 +135,7 @@ class MenuItemController extends BaseController
 		} catch (\Exception $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$this->redirect()->toRoute(null, array(
-				'controller' => 'menuitem ',
+				'controller' => 'menu-item ',
 				'action' =>  'index',
 			));
 		}
@@ -176,7 +177,7 @@ class MenuItemController extends BaseController
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$menuItemCatalog->rollback();
 		}
-		$this->redirect()->toRoute(null,array('controller'=>'menuitem','action' => 'index',));
+		$this->redirect()->toRoute(null,array('controller'=>'menu-item','action' => 'index',));
 		return $this->view;
 	}
 		
@@ -232,7 +233,7 @@ class MenuItemController extends BaseController
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$menuItemCatalog->rollback();
 		}
-		$this->redirect()->toRoute(null,array('controller'=>'menuitem','action' => 'index',));
+		$this->redirect()->toRoute(null,array('controller'=>'menu-item','action' => 'index',));
 		return $this->view;
 	}
 		
@@ -264,7 +265,7 @@ class MenuItemController extends BaseController
 			$this->view->users = $users;
 		} catch (\Exception $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
-			$this->redirect()->toRoute(null,array('controller'=>'menuItem','action' => 'index',));
+			$this->redirect()->toRoute(null,array('controller'=>'menu-item','action' => 'index',));
 		}
 		return $this->view;
 	}

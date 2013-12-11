@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-09 16:59:16
+<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-10 17:11:04
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/core/config.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:11585970529fa52b01ab17-84818477%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'e90cef47272a1b89177e24f624e72acf2860501c' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/core/config.tpl',
-      1 => 1386629954,
+      1 => 1386717060,
       2 => 'file',
     ),
   ),
@@ -39,7 +39,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 /js/modules/core/config.js"></script>
 <fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Config");?>
-</legend>
+
+		<a href="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
+/core/core/flush-privileges"  class="btn btn-warning" data-toggle="tooltip" title="Flush Privileges"><i class="fa fa-refresh fa-spin"></i></a>
+	</legend>
 	<div class="table-responsive">
 	<?php  $_smarty_tpl->tpl_vars['module'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['module']->_loop = false;
  $_from = $_smarty_tpl->tpl_vars['modules']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
