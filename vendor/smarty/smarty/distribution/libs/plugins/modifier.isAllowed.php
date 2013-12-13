@@ -23,8 +23,12 @@ function smarty_modifier_isAllowed($resource)
 	/* @var $acl Acl */
 	$acl = $authStorage["acl"];
 	
+	if($acl instanceof Acl == false)
+		return false;
+	
 	/* @var $user User */
 	$user = $authStorage["user"];
+	
 	if(!$acl->hasResource($resource))
 		return false;
 	
