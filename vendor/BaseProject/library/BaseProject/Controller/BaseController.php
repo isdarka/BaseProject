@@ -214,4 +214,33 @@ class BaseController extends AbstractActionController
 	{
 		return strtolower(preg_replace('/(?<=[a-z])([A-Z])/', '-$1', $string));
 	}
+	
+	protected function setPaginator($total, $page, $method)
+	{
+		$paginatorAdapter = new Null($total);
+		$paginator = new Paginator($paginatorAdapter);
+		$paginator->setItemCountPerPage($this->maxPerPage);
+		$paginator->setCurrentPageNumber($page);
+		$paginator->setDefaultScrollingStyle("Sliding");
+	
+		$routeParams = $this->params()->fromRoute();
+		$params = $this->params()->fromQuery();
+		$idRoute = 0;
+		if(isset($routeParams['id']))
+			$idRoute = $routeParams['id'];
+	
+		$regex = '/(\\\|::)/i';
+		$replace = '/';
+		$path = preg_replace($regex, $replace, $method);
+		$regex = '/(Action|Controller\/|Controller)/i';
+		$replace = '/';
+		$path = preg_replace($regex, $replace, $path);
+		$path = str_replace("//", "/", $path);
+		$path = strtolower(substr($path, 0, -1));
+	
+		$this->view->path = $path;
+		$this->view->paginator = $paginator->getPages();
+		$this->view->params = $params;
+		$this->view->idRoute = $idRoute;
+	}
 }

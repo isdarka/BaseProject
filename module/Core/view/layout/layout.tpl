@@ -59,7 +59,7 @@
 		{include file="messages.tpl"}
 		
 		{$content}
-
+		{include file="paginator.tpl"}
       <hr>
 
       
