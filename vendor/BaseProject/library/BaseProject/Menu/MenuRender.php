@@ -13,6 +13,11 @@ use Core\Model\Collection\MenuItemCollection;
 use Core\Model\Bean\User;
 use Core\Query\ControllerQuery;
 use Core\Query\ActionQuery;
+use Core\Model\Bean\Role;
+use Core\Query\RoleQuery;
+use Core\Model\Collection\ActionCollection;
+use Core\Model\Bean\Action;
+use Core\Model\Bean\Controller;
 class MenuRender
 {
 	private $adapter;
@@ -20,12 +25,27 @@ class MenuRender
 	private $baseUrl;
 	private $menuItems;
 	private $user;
-	
+	private $role;
+	private $availableActions;
 	public function __construct($adapter, $baseUrl, User $user)
 	{
 		$this->adapter = $adapter;
 		$this->baseUrl = $baseUrl;
 		$this->user = $user;
+	}
+	
+	/**
+	 * 
+	 * @return Role
+	 */
+	public function getRole()
+	{
+		if($this->role instanceof Role == false)
+		{
+			$roleQuery = new RoleQuery($this->adapter);
+			$this->role = $roleQuery->findByPk($this->user->getIdRole());
+		}	
+		return $this->role;
 	}
 	
 	
@@ -57,6 +77,21 @@ class MenuRender
 		return $this->parents;
 	}
 	
+	/**
+	 * @return ActionCollection
+	 */
+	private function getAvailableActions()
+	{
+		if($this->availableActions instanceof ActionCollection == false)
+		{
+			$actionQuery = new ActionQuery($this->adapter);
+			$actionQuery->innerJoinRole();
+			$actionQuery->whereAdd(Role::ID_ROLE, $this->getRole()->getIdRole());
+			$this->availableActions = $actionQuery->find();
+		}
+		return $this->availableActions;
+	}
+	
 	private function getMenuItems()
 	{
 		$menuItemQuery = new MenuItemQuery($this->adapter);
@@ -75,8 +110,8 @@ class MenuRender
 		$controllerQuery = new ControllerQuery($this->adapter);
 		$actionQuery = new ActionQuery($this->adapter);
 		
-		$controllers = $controllerQuery->find();
-		$actions = $actionQuery->find();
+		$actions = $actionQuery->whereAdd(Action::ID_ACTION, $this->getAvailableActions()->getPrimaryKeys(), ActionQuery::IN )->find();
+		$controllers = $controllerQuery->whereAdd(Controller::ID_CONTROLLER, $actions->getControllerIds(), ControllerQuery::IN)->find();
 		
 		$menuItemsParents = $this->getParents();
 		foreach ($menuItemsParents as $menuItem)
@@ -85,25 +120,33 @@ class MenuRender
 			$childs = $this->menuItems->getByIdParent($menuItem->getIdMenuItem());
 			if(!$childs->isEmpty())
 			{
-				$html .= '<li class="dropdown">';
-				$html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $menuItem->getName() . ' <b class="caret"></b></a>';
-				$html .= '<ul class="dropdown-menu">';
+				$dropDown = '<li class="dropdown">';
+				$dropDown .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $menuItem->getName() . ' <b class="caret"></b></a>';
+				$dropDown .= '<ul class="dropdown-menu">';
+				$hasLinks = false;
 				/* @var $child MenuItem */
 				foreach ($childs as $child)
 				{
 					/* @var $action Action */
 					$action = $actions->getByPK($child->getIdAction());
-					$controller = $controllers->getByPK($action->getIdController());
+					if($action instanceof Action)
+					{
+						$controller = $controllers->getByPK($action->getIdController());
+							
+						$path = str_replace("controller", "", $controller->getName()) . "/" . str_replace("-action", "", $action->getName());
+						$path = str_replace("\\", "/", $path);
+						$path = str_replace("//", "/", $path);
+						$path = str_replace("-/", "/", $path);
+						$path = $this->getUnderscore($path);
+						$dropDown .= '<li><a href="' . $this->baseUrl . '/' . $path . '">' . $child->getName() . '</a></li>';
+						$hasLinks = true;
+					}
 					
-					$path = str_replace("controller", "", $controller->getName()) . "/" . str_replace("-action", "", $action->getName());
-					$path = str_replace("\\", "/", $path);
-					$path = str_replace("//", "/", $path);
-					$path = str_replace("-/", "/", $path);
-					$path = $this->getUnderscore($path);
-					$html .= '<li><a href="' . $this->baseUrl . '/' . $path . '">' . $child->getName() . '</a></li>';
 				}
-				$html .= '</ul>';
-				$html .= '</li>';
+				$dropDown .= '</ul>';
+				$dropDown .= '</li>';
+				if($hasLinks)
+					$html .= $dropDown;
 			}else{
 				$html .= '<li><a href="' . $this->baseUrl . '">' . $menuItem->getName() . '</a></li>';
 			}

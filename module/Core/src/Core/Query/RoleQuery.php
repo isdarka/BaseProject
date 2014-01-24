@@ -19,6 +19,7 @@ namespace Core\Query;
 
 use Query\Query;
 use Core\Model\Metadata\RoleMetadata;
+use Core\Model\Bean\Role;
 
 class RoleQuery extends Query
 {
@@ -33,6 +34,12 @@ class RoleQuery extends Query
 	{
 		$this->metadata = new RoleMetadata();
 		parent::__construct($adapter, $this->metadata->getTableName(), $this->metadata->getEntityName());
+	}
+	
+	public function enables()
+	{
+		$this->whereAdd(Role::STATUS, Role::ENABLE);
+		return $this;	
 	}
 	
 	public function innerJoinAction()

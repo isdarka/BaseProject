@@ -36,10 +36,16 @@ class PersonMetadata extends AbstractMetadata
 	{
 		return $bean->toArrayFor(
 			array(
+				Person::ID_ADDRESS,
 				Person::NAME,
 				Person::LAST_NAME,
 				Person::SECOND_LAST_NAME,
 				Person::BIRTHDATE,
+				Person::CURP,
+				Person::TAX_REFERENCE,
+				Person::REGISTRY_CORE,
+				Person::GENDER,
+				Person::MARITAL_STATUS,
 			)
 		);
 	}
@@ -59,6 +65,11 @@ class PersonMetadata extends AbstractMetadata
 				Person::LAST_NAME,
 				Person::SECOND_LAST_NAME,
 				Person::BIRTHDATE,
+				Person::CURP,
+				Person::TAX_REFERENCE,
+				Person::REGISTRY_CORE,
+				Person::GENDER,
+				Person::MARITAL_STATUS,
 			)
 		);
 	}
@@ -77,6 +88,11 @@ class PersonMetadata extends AbstractMetadata
 			Person::LAST_NAME,
 			Person::SECOND_LAST_NAME,
 			Person::BIRTHDATE,
+			Person::CURP,
+			Person::TAX_REFERENCE,
+			Person::REGISTRY_CORE,
+			Person::GENDER,
+			Person::MARITAL_STATUS,
 		);
 	}
 		

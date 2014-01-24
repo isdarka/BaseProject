@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-11 09:38:30
+<?php /* Smarty version Smarty-3.1-DEV, created on 2014-01-23 17:43:46
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/layout/layout.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:170758490552a68e1be2cd36-01947536%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'b33ebe71b48edc38529c85e0b2d2333d394cdc9c' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/layout/layout.tpl',
-      1 => 1386775596,
+      1 => 1387899038,
       2 => 'file',
     ),
   ),
@@ -53,6 +53,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /js/jquery.ui/jquery-ui-1.10.3.custom.js"></script>
 	
+<!--     ZipCode -->
+	<script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
+/js/zipcode.js"></script>
+	
     <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /js/bootstrap.js"></script>
     <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
@@ -66,6 +70,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 /js/jquery.validate/class.js"></script>
     <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /js/jquery.validate/messages.js"></script>
+    
 	<script type="text/javascript">
 		var baseUrl = "<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 ";
@@ -77,9 +82,14 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	<script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /js/model/collection/collection.js"></script>
 	
+<!-- 	Messages -->
+	<script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
+/js/Messages.js"></script>
+	
   </head>
 
   <body>
+  
   <div id="wrap">
 <!--   navbar-fixed-top -->
 <!--     <div class="navbar  navbar-inverse"> -->
@@ -92,12 +102,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project Name</a>
+          <a class="navbar-brand" href="#">S2Credit</a>
         </div>
        <?php echo $_smarty_tpl->tpl_vars['systemMenu']->value;?>
 
       </div><!-- /.container -->
     </div><!-- /.navbar -->
+    
+<!--     Progress Bar -->
+	<div class="progress progress-striped active navbar-fixed-top" id="progressBar" style="display:none; height: 3px; margin: 0px;">
+		<div class="progress-bar"  style="width: 0%">
+		</div>
+	</div>
+<!--    / Progress Bar -->
 
     <div id="wrap" class="container">
 		<?php echo $_smarty_tpl->getSubTemplate ("messages.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
@@ -105,11 +122,16 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		
 		<?php echo $_smarty_tpl->tpl_vars['content']->value;?>
 
+		<?php echo $_smarty_tpl->getSubTemplate ("paginator.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
 
       <hr>
 
       
-
+<div class="alert alert-danger navbar-fixed-top" id="alertMessages" style="display:none; width: 40%; left: 30%; top: -5px">
+<a class="close"  href="#" aria-hidden="true">&times;</a>
+  <strong>a</strong>
+  <p></p>
+  </div>
     </div><!--/.container-->
 		</div><!--  /.wrap -->
 <div id="footer">

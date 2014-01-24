@@ -11,14 +11,14 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:15:21 2013
+ * @created Fri Dec 20 17:00:49 2013
  * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
 use Core\Model\Bean\MenuItemLog;
-use Core\Model\Factory\LogFactory;
+use Core\Model\Exception\MenuItemLogException;
 
 class MenuItemLogFactory extends LogFactory
 {
@@ -46,7 +46,16 @@ class MenuItemLogFactory extends LogFactory
 	{
 		parent::populate($menuItemLog, $fields);
 		if(!($menuItemLog instanceof MenuItemLog))
-			throw new ActionException('$menuItemLog must be instance of MenuItemLog');
+			throw new MenuItemLogException('$menuItemLog must be instance of MenuItemLog');
+		
+		if($fields instanceof \stdClass)
+		{
+			$factory = self::getInstance();
+			$stdClass = clone $fields;
+			$fields = array();
+			foreach ($stdClass as $key => $value)
+				$fields[$factory->getUnderscore($key)] = $value;
+		}
 		
 		if(isset($fields[MenuItemLog::ID_MENU_ITEM_LOG])){
 			$menuItemLog->setIdMenuItemLog($fields[MenuItemLog::ID_MENU_ITEM_LOG]);

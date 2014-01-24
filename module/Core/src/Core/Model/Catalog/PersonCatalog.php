@@ -55,8 +55,12 @@ class PersonCatalog extends AbstractCatalog
 				self::getMetadata()->getPrimaryKey() => $this->getLastInsertId(),
 			));
 		} catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			var_dump($e->getMessage());
+			die();
 			throw $e;
 		} catch (PersonException $e) {
+			var_dump($e->getMessage());
+			die();
 			throw $e;
 		}
 	}
@@ -131,12 +135,12 @@ class PersonCatalog extends AbstractCatalog
  	 * Unlink all Person
  	 *
  	 */
-	public function unlinkAllPhonenumber($idPhoneNumber) 
+	public function unlinkAllPhonenumber($idPerson) 
 	{
 		try {
 			$this->delete = $this->sql->delete('common_persons_phone_numbers');
 			$where = new Where();
-			$where->equalTo('id_phone_number', $idPhoneNumber);
+			$where->equalTo('id_person', $idPerson);
 			$this->delete->where($where);
 			$this->execute($this->delete);
 		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
@@ -193,12 +197,136 @@ class PersonCatalog extends AbstractCatalog
  	 * Unlink all Person
  	 *
  	 */
-	public function unlinkAllEmail($idEmail) 
+	public function unlinkAllEmail($idPerson) 
 	{
 		try {
 			$this->delete = $this->sql->delete('common_persons_emails');
 			$where = new Where();
-			$where->equalTo('id_email', $idEmail);
+			$where->equalTo('id_person', $idPerson);
+			$this->delete->where($where);
+			$this->execute($this->delete);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Link to Companie
+ 	 *
+ 	 */
+	public function linkToCompany($idCompany, $idPerson) 
+	{
+		try {
+			$this->insert = $this->sql->insert('s2credit_companies_persons');
+			$this->insert->values(array(
+				'id_company' => $idCompany,
+				'id_person' => $idPerson,
+			));
+			$this->execute($this->insert);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Unlink from Person
+ 	 *
+ 	 */
+	public function unlinkFromCompany($idCompany, $idPerson) 
+	{
+		try {
+			$this->delete = $this->sql->delete('s2credit_companies_persons');
+			$where = new Where();
+			$where->equalTo('id_comapny', $idComapny);
+			$where->equalTo('id_person', $idPerson);
+			$this->delete->where($where);
+			$this->execute($this->delete);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Unlink all Person
+ 	 *
+ 	 */
+	public function unlinkAllCompany($idPerson) 
+	{
+		try {
+			$this->delete = $this->sql->delete('s2credit_companies_persons');
+			$where = new Where();
+			$where->equalTo('id_person', $idPerson);
+			$this->delete->where($where);
+			$this->execute($this->delete);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Link to Customer
+ 	 *
+ 	 */
+	public function linkToCustomer($idCustomer, $idPerson) 
+	{
+		try {
+			$this->insert = $this->sql->insert('s2credit_customers_persons');
+			$this->insert->values(array(
+				'id_customer' => $idCustomer,
+				'id_person' => $idPerson,
+			));
+			$this->execute($this->insert);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Unlink from Person
+ 	 *
+ 	 */
+	public function unlinkFromCustomer($idCustomer, $idPerson) 
+	{
+		try {
+			$this->delete = $this->sql->delete('s2credit_customers_persons');
+			$where = new Where();
+			$where->equalTo('id_customer', $idCustomer);
+			$where->equalTo('id_person', $idPerson);
+			$this->delete->where($where);
+			$this->execute($this->delete);
+		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
+			throw $e;
+		} catch (\Exception $e) {
+			throw $e;
+		}
+	}
+		
+ 	/**
+ 	 *
+ 	 * Unlink all Person
+ 	 *
+ 	 */
+	public function unlinkAllCustomer($idPerson) 
+	{
+		try {
+			$this->delete = $this->sql->delete('s2credit_customers_persons');
+			$where = new Where();
+			$where->equalTo('id_person', $idPerson);
 			$this->delete->where($where);
 			$this->execute($this->delete);
 		}catch (\Zend\Db\Exception\ExceptionInterface $e) {

@@ -23,15 +23,36 @@ use BaseProject\Security\AuthStorage;
 use Core\Model\Bean\User;
 use BaseProject\Menu\MenuRender;
 use BaseProject\Security\Acl;
+use Zend\Paginator\Adapter\Null;
+use Zend\Paginator\Paginator;
 
+/**
+ * BaseController
+ * @author isdarka 
+ *
+ * Convenience methods for pre-built plugins (@see __call):
+ *
+ * @method \Zend\View\Model\ModelInterface acceptableViewModelSelector(array $matchAgainst = null, bool $returnDefault = true, \Zend\Http\Header\Accept\FieldValuePart\AbstractFieldValuePart $resultReference = null)
+ * @method bool|array|\Zend\Http\Response fileprg(\Zend\Form\Form $form, $redirect = null, $redirectToUrl = false)
+ * @method bool|array|\Zend\Http\Response filePostRedirectGet(\Zend\Form\Form $form, $redirect = null, $redirectToUrl = false)
+ * @method \Zend\Mvc\Controller\Plugin\FlashMessenger flashMessenger()
+ * @method \Zend\Mvc\Controller\Plugin\Forward forward()
+ * @method mixed|null identity()
+ * @method \Zend\Mvc\Controller\Plugin\Layout|\Zend\View\Model\ModelInterface layout(string $template = null)
+ * @method \Zend\Mvc\Controller\Plugin\Params|mixed params(string $param = null, mixed $default = null)
+ * @method \Zend\Http\Response|array prg(string $redirect = null, bool $redirectToUrl = false)
+ * @method \Zend\Http\Response|array postRedirectGet(string $redirect = null, bool $redirectToUrl = false)
+ * @method \Zend\Mvc\Controller\Plugin\Redirect redirect()
+ * @method \Zend\Mvc\Controller\Plugin\Url url()
+ */
 class BaseController extends AbstractActionController
 {
 	
 	protected $view;
 	
-	protected $maxPerPage = 20;
+	protected $maxPerPage = 10;
 	/* @var $i18n Zend\Mvc\I18n\Translator */
-	public $i18n;
+	protected $i18n;
 	
 	public function __construct(){
 		$this->view  = new ViewModel();
@@ -39,15 +60,16 @@ class BaseController extends AbstractActionController
 	
 	protected function renderMenu()
 	{
-		$menuRender = new MenuRender($this->getAdatper(), $this->getBasePath(), $this->getUser());
+		$menuRender = new MenuRender($this->getAdapter(), $this->getBasePath(), $this->getUser());
 		$this->view->systemMenu = $menuRender->render();
 	}
 	
 	protected  function hasIdentity()
 	{
-		if(!$this->getAuthenticationService()->hasIdentity())
-			$this->redirect()->toRoute(null,array('module' => 'core',  'controller'=>'auth','action' => 'login',));
-		else{
+		if(!$this->getAuthenticationService()->hasIdentity()){
+			$this->plugin("redirect")->toUrl($this->getBasePath());
+			return false;
+		}else{
 			$this->renderMenu();
 			$acl = $this->getAcl();
 			$controller = $this->params()->fromRoute("controller");
@@ -55,22 +77,25 @@ class BaseController extends AbstractActionController
 			$action = $this->params()->fromRoute("action");
 			$resource = strtolower($controller) . "::" . strtolower($action);
 			if(!$acl->hasResource($resource)){
-				$this->redirect()->toRoute(null, array(
+				$this->redirect()->toRoute("core", array(
 						'module' => 'core',
 						'controller' => 'index',
 						'action' =>  'index',
 				));
 				$this->flashMessenger()->addErrorMessage("You don't have permission ");
+				return false;
 			}elseif(!$acl->isAllowed($this->getUser()->getIdRole(), $resource))
 			{
 				$this->flashMessenger()->addErrorMessage("You don't have permission ");
-				$this->redirect()->toRoute(null, array(
+				$this->redirect()->toRoute("core", array(
 						'module' => 'core',
 						'controller' => 'index',
 						'action' =>  'index',
 				));
+				return false;
 			}
 		}
+		return true;
 	}
 	
 	
@@ -89,9 +114,10 @@ class BaseController extends AbstractActionController
 	 */
 	public function dispatch(Request $request, Response $response = null)
 	{
-		$this->hasIdentity();
+		$allowed = $this->hasIdentity();
 		$this->tranlate();
-		return parent::dispatch($request, $response);
+		if($allowed || is_null($allowed))
+			return parent::dispatch($request, $response);
 	}
 	
 	public function getBasePath()
@@ -140,16 +166,16 @@ class BaseController extends AbstractActionController
 		return $authStorage["acl"];
 	}
 	
-	protected function attachDefaultListeners()
-	{
-		$events = $this->getEventManager();
-		$events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatch'),2);
-		$events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'),10);
-		$events->attach(MvcEvent::EVENT_FINISH, array($this, 'onFinish'));
-		$events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'));
-		$events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'));
+// 	protected function attachDefaultListeners()
+// 	{
+// 		$events = $this->getEventManager();
+// 		$events->attach(MvcEvent::EVENT_DISPATCH, array($this, 'onDispatch'),2);
+// 		$events->attach(MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'),10);
+// 		$events->attach(MvcEvent::EVENT_FINISH, array($this, 'onFinish'));
+// 		$events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'));
+// 		$events->attach(MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'));
 		
-	}
+// 	}
 	
 	public function onDispatchError(MvcEvent $e)
 	{
@@ -180,6 +206,7 @@ class BaseController extends AbstractActionController
 	 */
 	public function notFoundAction()
 	{
+		$this->layout('layout/noMenuLayout.tpl');
 		$this->view->setTemplate("error/404.tpl");
 		return parent::notFoundAction();
 	}
@@ -199,7 +226,7 @@ class BaseController extends AbstractActionController
 	 * 
 	 * @return Zend\Db\Adapter\Adapter
 	 */
-	protected function getAdatper()
+	protected function getAdapter()
 	{
 		return $this->getServiceLocator()->get("Adapter");
 	} 
@@ -222,20 +249,20 @@ class BaseController extends AbstractActionController
 		$paginator->setItemCountPerPage($this->maxPerPage);
 		$paginator->setCurrentPageNumber($page);
 		$paginator->setDefaultScrollingStyle("Sliding");
-	
+		
 		$routeParams = $this->params()->fromRoute();
 		$params = $this->params()->fromQuery();
 		$idRoute = 0;
 		if(isset($routeParams['id']))
 			$idRoute = $routeParams['id'];
-	
+		$method = $this->getUnderscore($method);
 		$regex = '/(\\\|::)/i';
 		$replace = '/';
 		$path = preg_replace($regex, $replace, $method);
-		$regex = '/(Action|Controller\/|Controller)/i';
+		$regex = '/(-Action|-Controller\/|Controller)/i';
 		$replace = '/';
 		$path = preg_replace($regex, $replace, $path);
-		$path = str_replace("//", "/", $path);
+		$path = str_replace("///", "/", $path);
 		$path = strtolower(substr($path, 0, -1));
 	
 		$this->view->path = $path;

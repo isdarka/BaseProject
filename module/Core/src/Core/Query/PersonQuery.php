@@ -52,6 +52,32 @@ class PersonQuery extends Query
 		
  	/**
  	 *
+ 	 * Inner Join Companie
+ 	 *
+ 	 */
+	public function innerJoinCompany() 
+	{
+		$this->join("s2credit_companies_persons",
+			"s2credit_companies_persons.".$this->metadata->getPrimaryKey()."=".
+			$this->metadata->getEntityName().".".$this->metadata->getPrimaryKey());
+		return $this;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Inner Join Customer
+ 	 *
+ 	 */
+	public function innerJoinCustomer() 
+	{
+		$this->join("s2credit_customers_persons",
+			"s2credit_customers_persons.".$this->metadata->getPrimaryKey()."=".
+			$this->metadata->getEntityName().".".$this->metadata->getPrimaryKey());
+		return $this;
+	}
+		
+ 	/**
+ 	 *
  	 * Contruct PersonQuery
  	 *
  	 */

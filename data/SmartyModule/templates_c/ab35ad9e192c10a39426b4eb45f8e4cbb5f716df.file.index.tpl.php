@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-10 18:15:21
+<?php /* Smarty version Smarty-3.1-DEV, created on 2014-01-23 17:45:10
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:5579900052a546dee30652-81344531%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'ab35ad9e192c10a39426b4eb45f8e4cbb5f716df' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/menu-item/index.tpl',
-      1 => 1386720918,
+      1 => 1387396697,
       2 => 'file',
     ),
   ),
@@ -22,17 +22,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'i18n' => 0,
     'baseUrl' => 0,
     'queryParams' => 0,
+    'statuses' => 0,
     'menuItems' => 0,
     'menuItem' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_52a546df010887_89228587')) {function content_52a546df010887_89228587($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_isAllowed')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/modifier.isAllowed.php';
+if (!is_callable('smarty_function_html_options')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.html_options.php';
 if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
 ?><fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("MenuItem");?>
  
-		<?php if (smarty_modifier_isAllowed("core\controller\menu-item::create")) {?>
+		<?php if (smarty_modifier_isAllowed('core\controller\menu-item::create')) {?>
 			<a href="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /core/menu-item/create" class="btn btn-success pull-right"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("New MenuItem");?>
 </a>
@@ -59,9 +61,10 @@ if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/
 					<th><input type="text" class="form-control" name="order" placeholder="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('ORDER');?>
 " value="<?php echo $_smarty_tpl->tpl_vars['queryParams']->value['order'];?>
 "></th>
-					<th><input type="text" class="form-control" name="status" placeholder="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('STATUS');?>
-" value="<?php echo $_smarty_tpl->tpl_vars['queryParams']->value['status'];?>
-"></th>
+					<th>
+						<?php echo smarty_function_html_options(array('options'=>array(((string)$_smarty_tpl->tpl_vars['i18n']->value->translate("Select a option")))+$_smarty_tpl->tpl_vars['statuses']->value,'name'=>"status",'id'=>"status",'class'=>"form-control",'selected'=>((string)$_smarty_tpl->tpl_vars['queryParams']->value['status'])),$_smarty_tpl);?>
+
+					</th>
 					<th class="col-xs-2"><button type="submit" class="form-control btn btn-primary "><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Filter");?>
 </button></th>
 				</tr>
@@ -103,26 +106,26 @@ $_smarty_tpl->tpl_vars['menuItem']->_loop = true;
 </td>
 					<td>
 						<div class="btn-group">
-						<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::update")) {?>
-							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'update','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+						<?php if (smarty_modifier_isAllowed('core\controller\menu-item::update')) {?>
+							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu-item','action'=>'update','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Edit');?>
 "><span class="fa fa-pencil"></span></a>
 						<?php }?>
 							<?php if ($_smarty_tpl->tpl_vars['menuItem']->value->isEnabled()) {?>
-								<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::disable")) {?>
-									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'disable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+								<?php if (smarty_modifier_isAllowed('core\controller\menu-item::disable')) {?>
+									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu-item','action'=>'disable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Disable');?>
 "><span class="fa fa-times-circle-o"></span></a>
 								<?php }?>
 							<?php } elseif ($_smarty_tpl->tpl_vars['menuItem']->value->isDisabled()) {?>
-								<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::enable")) {?>
-									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'enable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+								<?php if (smarty_modifier_isAllowed('core\controller\menu-item::enable')) {?>
+									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu-item','action'=>'enable','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Enable');?>
 "><span class="fa fa-check-circle-o"></span></a>
 								<?php }?>
 							<?php }?>
-						<?php if (smarty_modifier_isAllowed("Core\Controller\MenuItem::history")) {?>
-							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu'-'item','action'=>'history','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
+						<?php if (smarty_modifier_isAllowed('core\controller\menu-item::history')) {?>
+							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'menu-item','action'=>'history','id'=>$_smarty_tpl->tpl_vars['menuItem']->value->getIdMenuItem()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('History');?>
 "><span class="fa fa-book"></span></a>
 						<?php }?>

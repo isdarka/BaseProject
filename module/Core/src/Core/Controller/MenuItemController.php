@@ -44,11 +44,13 @@ class MenuItemController extends BaseController
  	 */
 	public function indexAction() 
 	{
- 		$queryParams = $this->params()->fromQuery();
-		$menuItemQuery = new MenuItemQuery($this->getAdatper());
+		$queryParams = $this->params()->fromQuery();
+		$menuItemQuery = new MenuItemQuery($this->getAdapter());
+		$menuItemQuery->filter($queryParams);
 		$total = $menuItemQuery->count();
 		$page = $this->params()->fromRoute("page", 1);
-		$menuItems = $menuItemQuery->filter($queryParams)->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
+		$menuItems = $menuItemQuery->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage)->find();
+		$this->setPaginator($total, $page, __METHOD__);
 		
 		//Views
 		$this->view->menuItems = $menuItems;
@@ -56,6 +58,7 @@ class MenuItemController extends BaseController
 		$this->view->currentPage = $page;
 		$this->view->total = $total;
 		$this->view->queryParams = $queryParams;
+		$this->view->statuses = MenuItem::$statuses;
 		return $this->view;
 	}
 		
@@ -69,13 +72,13 @@ class MenuItemController extends BaseController
 		$menuItem = new MenuItem();
 		$this->view->menuItem = $menuItem;
 		
-		$menuParentQuery = new MenuItemQuery($this->getAdatper());
+		$menuParentQuery = new MenuItemQuery($this->getAdapter());
 		$menuParentQuery->whereAdd(MenuItem::ID_PARENT, null, MenuItemQuery::IS_NULL);
 		$menuParents = $menuParentQuery->find();
-		$actionQuery = new ActionQuery($this->getAdatper());
+		$actionQuery = new ActionQuery($this->getAdapter());
 		$actions = $actionQuery->find();
 		
-		$controllerQuery = new ControllerQuery($this->getAdatper());
+		$controllerQuery = new ControllerQuery($this->getAdapter());
 		$controllerQuery->whereAdd(Controller::ID_CONTROLLER, $actions->getControllerIds(), ControllerQuery::IN);
 		$controllers = $controllerQuery->find();
 		$comboControllersActions = array();
@@ -104,17 +107,17 @@ class MenuItemController extends BaseController
 			if(!$idMenuItem)
 				throw new \Exception($this->i18n->translate('MenuItem not defined.'));
 		
-			$menuItemQuery = new MenuItemQuery($this->getAdatper());
+			$menuItemQuery = new MenuItemQuery($this->getAdapter());
 			$menuItem = $menuItemQuery->findByPkOrThrow($idMenuItem, $this->i18n->translate("MenuItem not found."));
 		
-			$menuParentQuery = new MenuItemQuery($this->getAdatper());
+			$menuParentQuery = new MenuItemQuery($this->getAdapter());
 			$menuParentQuery->whereAdd(MenuItem::ID_PARENT, null, MenuItemQuery::IS_NULL);
 			$menuParents = $menuParentQuery->find();
 			
-			$actionQuery = new ActionQuery($this->getAdatper());
+			$actionQuery = new ActionQuery($this->getAdapter());
 			$actions = $actionQuery->find();
 			
-			$controllerQuery = new ControllerQuery($this->getAdatper());
+			$controllerQuery = new ControllerQuery($this->getAdapter());
 			$controllerQuery->whereAdd(Controller::ID_CONTROLLER, $actions->getControllerIds(), ControllerQuery::IN);
 			
 			$controllers = $controllerQuery->find();
@@ -154,14 +157,14 @@ class MenuItemController extends BaseController
 		$idMenuItem = $this->params()->fromPost("idMenuItem", 0);
 		if($idMenuItem)
 		{
-			$menuItemQuery = new MenuItemQuery($this->getAdatper());
+			$menuItemQuery = new MenuItemQuery($this->getAdapter());
 			$menuItem = $menuItemQuery->findByPkOrThrow($idMenuItem, $this->i18n->translate("MenuItem not found."));
 		}else{
 			$menuItem = new MenuItem();
 			$menuItem->setStatus(MenuItem::ENABLE);
 		}
 		
-		$menuItemCatalog = new MenuItemCatalog($this->getAdatper());
+		$menuItemCatalog = new MenuItemCatalog($this->getAdapter());
 		$menuItemCatalog->beginTransaction();
 		try {
 			MenuItemFactory::populate($menuItem, $this->params()->fromPost());
@@ -188,13 +191,13 @@ class MenuItemController extends BaseController
  	 */
 	public function enableAction() 
 	{
-		$menuItemCatalog = new MenuItemCatalog($this->getAdatper());
+		$menuItemCatalog = new MenuItemCatalog($this->getAdapter());
 		$menuItemCatalog->beginTransaction();
 		try {
 			$idMenuItem = $this->params()->fromRoute("id", 0);
 			if(!$idMenuItem)
 				throw new \Exception($this->i18n("MenuItem not defined."));
-			$menuItemQuery = new MenuItemQuery($this->getAdatper());
+			$menuItemQuery = new MenuItemQuery($this->getAdapter());
 			$menuItem = $menuItemQuery->findByPkOrThrow($idMenuItem, $this->i18n->translate("MenuItem not found."));
 			$menuItem->setStatus(MenuItem::ENABLE);
 			$menuItemCatalog->save($menuItem);
@@ -216,13 +219,13 @@ class MenuItemController extends BaseController
  	 */
 	public function disableAction() 
 	{
-		$menuItemCatalog = new MenuItemCatalog($this->getAdatper());
+		$menuItemCatalog = new MenuItemCatalog($this->getAdapter());
 		$menuItemCatalog->beginTransaction();
 		try {
 			$idMenuItem = $this->params()->fromRoute("id", 0);
 			if(!$idMenuItem)
 				throw new \Exception($this->i18n("MenuItem not defined."));
-			$menuItemQuery = new MenuItemQuery($this->getAdatper());
+			$menuItemQuery = new MenuItemQuery($this->getAdapter());
 			$menuItem = $menuItemQuery->findByPkOrThrow($idMenuItem, $this->i18n->translate("MenuItem not found."));
 			$menuItem->setStatus(MenuItem::DISABLE);
 			$menuItemCatalog->save($menuItem);
@@ -248,15 +251,15 @@ class MenuItemController extends BaseController
 			$idMenuItem = $this->params()->fromRoute("id", 0);
 			if(!$idMenuItem )
 				throw new \Exception($this->i18n("MenuItem not defined."));
-			$userQuery = new UserQuery($this->getAdatper());
+			$userQuery = new UserQuery($this->getAdapter());
 			$users = $userQuery->find();
-			$menuItemQuery = new MenuItemQuery($this->getAdatper());
+			$menuItemQuery = new MenuItemQuery($this->getAdapter());
 			$menuItem = $menuItemQuery->findByPkOrThrow($idMenuItem, $this->i18n->translate("MenuItem not found."));
-			$menuItemLogQuery = new MenuItemLogQuery($this->getAdatper());
+			$menuItemLogQuery = new MenuItemLogQuery($this->getAdapter());
 			$menuItemLogQuery->whereAdd(MenuItemLog::ID_MENU_ITEM, $menuItem->getIdMenuItem());
 			$menuItemLogQuery->addDescendingOrderBy(MenuItemLog::ID_MENU_ITEM_LOG );
 			$menuItemLogs = $menuItemLogQuery->find();
-			$menuItemQuery = new MenuItemQuery($this->getAdatper());
+			$menuItemQuery = new MenuItemQuery($this->getAdapter());
 			$menuItems = $menuItemQuery->find();
 		
 			 //Views
@@ -277,7 +280,7 @@ class MenuItemController extends BaseController
  	 */
 	private function newLog( AbstractBean $bean, $event, $note = "") 
 	{
-		$menuItemLogCatalog = new MenuItemLogCatalog($this->getAdatper());
+		$menuItemLogCatalog = new MenuItemLogCatalog($this->getAdapter());
 		$date = new \DateTime("now");
 		$menuItemLog = MenuItemLogFactory::createFromArray(array(
 			MenuItemLog::ID_MENU_ITEM => $bean->getIdMenuItem(),

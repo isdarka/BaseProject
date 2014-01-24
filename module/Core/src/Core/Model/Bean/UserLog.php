@@ -131,4 +131,31 @@ class UserLog extends Log
 		);
 		return array_merge(parent::toArray(), $array);
 	}
+	
+	public function getEventString()
+	{
+		return self::$events[$this->getEvent()];
+	}
+	
+	const ENABLED = 1;
+	const DISABLED = 2;
+	const CREATED = 3;
+	const UPDATED = 4;
+	const LOGIN = 5;
+	const LOGOUT = 6;
+	const CHANGE_PASSWORD = 7;
+    const FAILED_LOGIN = 8;
+    const RESET = 9;
+	
+	public static $events = array(
+			self::ENABLED => 'Enabled',
+			self::DISABLED => 'Disabled',
+			self::CREATED => 'Created',
+			self::UPDATED => 'Updated',
+			self::LOGIN => 'Login',
+			self::LOGOUT => 'Logout',
+			self::CHANGE_PASSWORD => 'Change Password',
+			self::FAILED_LOGIN => 'Failed Login',
+			self::RESET => 'Password Reset',
+	);
 }

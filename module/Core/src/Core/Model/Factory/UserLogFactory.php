@@ -11,14 +11,14 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:15:21 2013
+ * @created Fri Dec 20 17:00:49 2013
  * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
 use Core\Model\Bean\UserLog;
-use Core\Model\Factory\LogFactory;
+use Core\Model\Exception\UserLogException;
 
 class UserLogFactory extends LogFactory
 {
@@ -46,7 +46,16 @@ class UserLogFactory extends LogFactory
 	{
 		parent::populate($userLog, $fields);
 		if(!($userLog instanceof UserLog))
-			throw new ActionException('$userLog must be instance of UserLog');
+			throw new UserLogException('$userLog must be instance of UserLog');
+		
+		if($fields instanceof \stdClass)
+		{
+			$factory = self::getInstance();
+			$stdClass = clone $fields;
+			$fields = array();
+			foreach ($stdClass as $key => $value)
+				$fields[$factory->getUnderscore($key)] = $value;
+		}
 		
 		if(isset($fields[UserLog::ID_USER_LOG])){
 			$userLog->setIdUserLog($fields[UserLog::ID_USER_LOG]);

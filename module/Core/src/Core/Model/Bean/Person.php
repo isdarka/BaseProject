@@ -36,6 +36,16 @@ class Person extends AbstractBean
 
 	const BIRTHDATE = 'birthdate';
 
+	const CURP = 'curp';
+
+	const TAX_REFERENCE = 'tax_reference';
+
+	const REGISTRY_CORE = 'registry_core';
+
+	const GENDER = 'gender';
+
+	const MARITAL_STATUS = 'marital_status';
+
 	private $idPerson;
 
 	private $idAddress;
@@ -47,6 +57,16 @@ class Person extends AbstractBean
 	private $secondLastName;
 
 	private $birthdate;
+
+	private $curp;
+
+	private $taxReference;
+
+	private $registryCore;
+
+	private $gender = '1';
+
+	private $maritalStatus = '1';
 
 		
  	/**
@@ -134,6 +154,66 @@ class Person extends AbstractBean
 		
  	/**
  	 *
+ 	 * Set the curp property
+ 	 *
+ 	 * @param string $curp
+ 	 */
+	public function setCurp($curp) 
+	{
+		$this->curp = $curp;
+		return $this;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Set the taxReference property
+ 	 *
+ 	 * @param string $taxReference
+ 	 */
+	public function setTaxReference($taxReference) 
+	{
+		$this->taxReference = $taxReference;
+		return $this;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Set the registryCore property
+ 	 *
+ 	 * @param string $registryCore
+ 	 */
+	public function setRegistryCore($registryCore) 
+	{
+		$this->registryCore = $registryCore;
+		return $this;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Set the gender property
+ 	 *
+ 	 * @param int $gender
+ 	 */
+	public function setGender($gender) 
+	{
+		$this->gender = $gender;
+		return $this;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Set the maritalStatus property
+ 	 *
+ 	 * @param int $maritalStatus
+ 	 */
+	public function setMaritalStatus($maritalStatus) 
+	{
+		$this->maritalStatus = $maritalStatus;
+		return $this;
+	}
+		
+ 	/**
+ 	 *
  	 * Get the idPerson property
  	 *
  	 * @return int $idPerson
@@ -204,6 +284,61 @@ class Person extends AbstractBean
 		
  	/**
  	 *
+ 	 * Get the curp property
+ 	 *
+ 	 * @return string $curp
+ 	 */
+	public function getCurp() 
+	{
+		return $this->curp;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the taxReference property
+ 	 *
+ 	 * @return string $taxReference
+ 	 */
+	public function getTaxReference() 
+	{
+		return $this->taxReference;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the registryCore property
+ 	 *
+ 	 * @return string $registryCore
+ 	 */
+	public function getRegistryCore() 
+	{
+		return $this->registryCore;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the gender property
+ 	 *
+ 	 * @return int $gender
+ 	 */
+	public function getGender() 
+	{
+		return $this->gender;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get the maritalStatus property
+ 	 *
+ 	 * @return int $maritalStatus
+ 	 */
+	public function getMaritalStatus() 
+	{
+		return $this->maritalStatus;
+	}
+		
+ 	/**
+ 	 *
  	 * Get the Array
  	 *
  	 * @return array
@@ -217,7 +352,30 @@ class Person extends AbstractBean
 			self::LAST_NAME => $this->getLastName(),
 			self::SECOND_LAST_NAME => $this->getSecondLastName(),
 			self::BIRTHDATE => $this->getBirthdate(),
+			self::CURP => $this->getCurp(),
+			self::TAX_REFERENCE => $this->getTaxReference(),
+			self::REGISTRY_CORE => $this->getRegistryCore(),
+			self::GENDER => $this->getGender(),
+			self::MARITAL_STATUS => $this->getMaritalStatus(),
 		);
 		return $array;
 	}
+	const MALE = 1;
+	const FEMALE = 2;
+	public static $genders = array(
+			self::MALE => "Masculino",
+			self::FEMALE => "Femenino",
+	);
+
+	const SINGLE = 1;
+	const DIVORCED = 2;
+	const MARRIED = 3;
+	const WIDOWER = 4;
+	
+	public static $maritalStatuses = array(
+			self::SINGLE => "Soltero",
+			self::DIVORCED => "Divorciado",
+			self::MARRIED => "Casado",
+			self::WIDOWER => "Viudo",
+	);
 }

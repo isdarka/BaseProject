@@ -18,6 +18,7 @@
 namespace Core\Model\Collection;
 
 use Model\Collection\AbstractCollection;
+use Core\Model\Bean\Role;
 
 class RoleCollection extends AbstractCollection
 {
@@ -30,7 +31,7 @@ class RoleCollection extends AbstractCollection
 	public function toCombo() 
 	{
 		return $this->map(function(Role $role){
-			return array( $role->getidRole() => $role->getName() );
+			return array( $role->getIdRole() => $role->getName() );
 		});
 	}
 }

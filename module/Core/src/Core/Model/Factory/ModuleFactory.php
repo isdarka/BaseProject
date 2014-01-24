@@ -11,16 +11,15 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:15:21 2013
+ * @created Fri Dec 20 17:00:49 2013
  * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
-use Core\Model\Bean\Module;
 use Model\Factory\AbstractFactory;
-use Core\Model\Bean\ModuleBean;
 use Core\Model\Exception\ModuleException;
+use Core\Model\Bean\ModuleBean;
 
 class ModuleFactory extends AbstractFactory
 {
@@ -49,11 +48,20 @@ class ModuleFactory extends AbstractFactory
 		if(!($module instanceof ModuleBean))
 			throw new ModuleException('$module must be instance of ModuleBean');
 		
+		if($fields instanceof \stdClass)
+		{
+			$factory = self::getInstance();
+			$stdClass = clone $fields;
+			$fields = array();
+			foreach ($stdClass as $key => $value)
+				$fields[$factory->getUnderscore($key)] = $value;
+		}
+		
 		if(isset($fields[ModuleBean::ID_MODULE])){
 			$module->setIdModule($fields[ModuleBean::ID_MODULE]);
 		}
 		
-		if(isset($fields[ModuleBean::NAME])){
+		if(isset($fields[ModuleBean::NAME]) && !empty($fields[ModuleBean::NAME])){
 			$module->setName($fields[ModuleBean::NAME]);
 		}
 		

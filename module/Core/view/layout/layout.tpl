@@ -19,6 +19,9 @@
 	<link href="{$baseUrl}/css/jquery.ui/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	<script type="text/javascript" src="{$baseUrl}/js/jquery.ui/jquery-ui-1.10.3.custom.js"></script>
 	
+<!--     ZipCode -->
+	<script type="text/javascript" src="{$baseUrl}/js/zipcode.js"></script>
+	
     <script type="text/javascript" src="{$baseUrl}/js/bootstrap.js"></script>
     <script type="text/javascript" src="{$baseUrl}/js/scripts.js"></script>
     
@@ -26,6 +29,7 @@
     <script type="text/javascript" src="{$baseUrl}/js/jquery.validate/additional-methods.js"></script>
     <script type="text/javascript" src="{$baseUrl}/js/jquery.validate/class.js"></script>
     <script type="text/javascript" src="{$baseUrl}/js/jquery.validate/messages.js"></script>
+    
 	<script type="text/javascript">
 		var baseUrl = "{$baseUrl}";
 	</script>
@@ -34,9 +38,13 @@
 	<script type="text/javascript" src="{$baseUrl}/js/model/bean/bean.js"></script>
 	<script type="text/javascript" src="{$baseUrl}/js/model/collection/collection.js"></script>
 	
+<!-- 	Messages -->
+	<script type="text/javascript" src="{$baseUrl}/js/Messages.js"></script>
+	
   </head>
 
   <body>
+  
   <div id="wrap">
 <!--   navbar-fixed-top -->
 <!--     <div class="navbar  navbar-inverse"> -->
@@ -49,11 +57,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project Name</a>
+          <a class="navbar-brand" href="#">S2Credit</a>
         </div>
        {$systemMenu}
       </div><!-- /.container -->
     </div><!-- /.navbar -->
+    
+<!--     Progress Bar -->
+	<div class="progress progress-striped active navbar-fixed-top" id="progressBar" style="display:none; height: 3px; margin: 0px;">
+		<div class="progress-bar"  style="width: 0%">
+		</div>
+	</div>
+<!--    / Progress Bar -->
 
     <div id="wrap" class="container">
 		{include file="messages.tpl"}
@@ -63,7 +78,11 @@
       <hr>
 
       
-
+<div class="alert alert-danger navbar-fixed-top" id="alertMessages" style="display:none; width: 40%; left: 30%; top: -5px">
+<a class="close"  href="#" aria-hidden="true">&times;</a>
+  <strong>a</strong>
+  <p></p>
+  </div>
     </div><!--/.container-->
 		</div><!--  /.wrap -->
 <div id="footer">

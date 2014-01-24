@@ -11,7 +11,7 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:15:21 2013
+ * @created Fri Dec 20 17:00:49 2013
  * @version 1.0
  */
 
@@ -19,6 +19,7 @@ namespace Core\Model\Factory;
 
 use Core\Model\Bean\Action;
 use Model\Factory\AbstractFactory;
+use Core\Model\Exception\ActionException;
 
 class ActionFactory extends AbstractFactory
 {
@@ -47,6 +48,15 @@ class ActionFactory extends AbstractFactory
 		if(!($action instanceof Action))
 			throw new ActionException('$action must be instance of Action');
 		
+		if($fields instanceof \stdClass)
+		{
+			$factory = self::getInstance();
+			$stdClass = clone $fields;
+			$fields = array();
+			foreach ($stdClass as $key => $value)
+				$fields[$factory->getUnderscore($key)] = $value;
+		}
+		
 		if(isset($fields[Action::ID_ACTION])){
 			$action->setIdAction($fields[Action::ID_ACTION]);
 		}
@@ -55,7 +65,7 @@ class ActionFactory extends AbstractFactory
 			$action->setIdController($fields[Action::ID_CONTROLLER]);
 		}
 		
-		if(isset($fields[Action::NAME])){
+		if(isset($fields[Action::NAME]) && !empty($fields[Action::NAME])){
 			$action->setName($fields[Action::NAME]);
 		}
 		

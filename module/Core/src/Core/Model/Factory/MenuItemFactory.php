@@ -11,7 +11,7 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:15:21 2013
+ * @created Fri Dec 20 17:00:49 2013
  * @version 1.0
  */
 
@@ -19,6 +19,7 @@ namespace Core\Model\Factory;
 
 use Core\Model\Bean\MenuItem;
 use Model\Factory\AbstractFactory;
+use Core\Model\Exception\MenuItemException;
 
 class MenuItemFactory extends AbstractFactory
 {
@@ -45,25 +46,34 @@ class MenuItemFactory extends AbstractFactory
 	public static  function populate($menuItem, $fields) 
 	{
 		if(!($menuItem instanceof MenuItem))
-			throw new ActionException('$menuItem must be instance of MenuItem');
+			throw new MenuItemException('$menuItem must be instance of MenuItem');
+		
+		if($fields instanceof \stdClass)
+		{
+			$factory = self::getInstance();
+			$stdClass = clone $fields;
+			$fields = array();
+			foreach ($stdClass as $key => $value)
+				$fields[$factory->getUnderscore($key)] = $value;
+		}
 		
 		if(isset($fields[MenuItem::ID_MENU_ITEM])){
 			$menuItem->setIdMenuItem($fields[MenuItem::ID_MENU_ITEM]);
 		}
 		
-		if(isset($fields[MenuItem::ID_ACTION])){
+		if(isset($fields[MenuItem::ID_ACTION]) && !empty($fields[MenuItem::ID_ACTION])){
 			$menuItem->setIdAction($fields[MenuItem::ID_ACTION]);
 		}
 		
-		if(isset($fields[MenuItem::ID_PARENT])){
+		if(isset($fields[MenuItem::ID_PARENT]) && !empty($fields[MenuItem::ID_PARENT])){
 			$menuItem->setIdParent($fields[MenuItem::ID_PARENT]);
 		}
 		
-		if(isset($fields[MenuItem::NAME])){
+		if(isset($fields[MenuItem::NAME]) && !empty($fields[MenuItem::NAME])){
 			$menuItem->setName($fields[MenuItem::NAME]);
 		}
 		
-		if(isset($fields[MenuItem::ORDER])){
+		if(isset($fields[MenuItem::ORDER]) && !empty($fields[MenuItem::ORDER])){
 			$menuItem->setOrder($fields[MenuItem::ORDER]);
 		}
 		

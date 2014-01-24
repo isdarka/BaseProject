@@ -42,6 +42,7 @@ use Zend\Paginator\Paginator;
 use Zend\View\Helper\PaginationControl;
 use Zend\Paginator\Adapter\DbTableGateway;
 use Core\Query\RoleQuery;
+use Core\Model\Bean\Role;
 
 
 
@@ -50,8 +51,8 @@ class UserController extends BaseController
 {
 	public function indexAction()
 	{
-		$userQuery = new UserQuery($this->getAdatper());
-		$roleQuery = new RoleQuery($this->getAdatper());
+		$userQuery = new UserQuery($this->getAdapter());
+		$roleQuery = new RoleQuery($this->getAdapter());
 		$total = $userQuery->count();
 		$maxPerPage = 5;
 		$page = $this->params()->fromRoute("page", 1);
@@ -70,7 +71,10 @@ class UserController extends BaseController
 		$user = new User();
 		$this->view->user = $user;
 		
+		$roleQuery = new RoleQuery($this->getAdapter());
+		$roleCollection = $roleQuery->whereAdd(Role::STATUS, Role::ENABLE)->find();
 		$this->view->setTemplate("core/user/form.tpl");
+		$this->view->roleCollection = $roleCollection;
 		return $this->view;
 	}
 	
@@ -80,12 +84,12 @@ class UserController extends BaseController
 		
 		if($idUser)
 		{
-			$userQuery = new UserQuery($this->getAdatper());
+			$userQuery = new UserQuery($this->getAdapter());
 			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
 		}else 
 			$user = new User();
 		
-		$userCatalog = new UserCatalog($this->getAdatper());
+		$userCatalog = new UserCatalog($this->getAdapter());
 		$userCatalog->beginTransaction();
 		try {
 			UserFactory::populate($user, $this->params()->fromPost());
@@ -109,9 +113,11 @@ class UserController extends BaseController
 			if(!$idUser)
 				throw new \Exception($this->i18n->translate('User not defined.'));
 			
-			$userQuery = new UserQuery($this->getAdatper());
+			$userQuery = new UserQuery($this->getAdapter());
 			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
-			
+			$roleQuery = new RoleQuery($this->getAdapter());
+			$roleCollection = $roleQuery->whereAdd(Role::STATUS, Role::ENABLE)->find();
+			$this->view->roleCollection = $roleCollection;
 			$this->view->user = $user;
 			$this->view->setTemplate("core/user/form.tpl");
 			return $this->view;
@@ -126,13 +132,13 @@ class UserController extends BaseController
 	
 	public function enableAction()
 	{
-		$userCatalog = new UserCatalog($this->getAdatper());
+		$userCatalog = new UserCatalog($this->getAdapter());
 		$userCatalog->beginTransaction();
 		try {
 			$idUser = $this->params()->fromRoute("id", 0);
 			if(!$idUser)
 				throw new \Exception($this->i18n("User not defined."));
-			$userQuery = new UserQuery($this->getAdatper());
+			$userQuery = new UserQuery($this->getAdapter());
 			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
 			$user->setStatus(User::ENABLE);			
 			$userCatalog->save($user);
@@ -149,13 +155,13 @@ class UserController extends BaseController
 	
 	public function disableAction()
 	{
-		$userCatalog = new UserCatalog($this->getAdatper());
+		$userCatalog = new UserCatalog($this->getAdapter());
 		$userCatalog->beginTransaction();
 		try {
 			$idUser = $this->params()->fromRoute("id", 0);
 			if(!$idUser)
 				throw new \Exception($this->i18n("User not defined."));
-			$userQuery = new UserQuery($this->getAdatper());
+			$userQuery = new UserQuery($this->getAdapter());
 			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
 			$user->setStatus(User::DISABLE);
 			$userCatalog->save($user);
@@ -172,7 +178,7 @@ class UserController extends BaseController
 
 	private function newLog(AbstractBean $bean, $event, $note = "")
 	{
-		$userLogCatalog = new UserLogCatalog($this->getAdatper());
+		$userLogCatalog = new UserLogCatalog($this->getAdapter());
 		$date = new \DateTime("now");
 		$userLog = UserLogFactory::createFromArray(array(
 				UserLog::ID_USER => $bean->getIdUser(),
@@ -185,31 +191,66 @@ class UserController extends BaseController
 		$userLogCatalog->save($userLog);
 	}
 	
+	
 	public function historyAction()
 	{
 		try {
 			$idUser = $this->params()->fromRoute("id", 0);
-			if(!$idUser)
+			$page = $this->params()->fromRoute("page", 1);
+			if(!$idUser )
 				throw new \Exception($this->i18n("User not defined."));
-			$userQuery = new UserQuery($this->getAdatper());
-			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
-
-			$userLogQuery = new UserLogQuery($this->getAdatper());
-			$userLogQuery->whereAdd(UserLog::ID_USER, $user->getIdUser());
-			$userLogQuery->addDescendingOrderBy(UserLog::ID_USER_LOG);
-			$userLogs = $userLogQuery->find();
-			
-			$userQuery = new UserQuery($this->getAdatper());
+			$userQuery = new UserQuery($this->getAdapter());
 			$users = $userQuery->find();
+			$userQuery = new UserQuery($this->getAdapter());
+			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
+			$userLogQuery = new UserLogQuery($this->getAdapter());
+			$userLogQuery->whereAdd("UserLog." . UserLog::ID_USER, $user->getIdUser());
+// 			var_dump($userLogQuery->toSql());
+// 			die("a");
+			$total = $userLogQuery->count();
+			$userLogQuery->addDescendingOrderBy(UserLog::ID_USER_LOG );
+			$userLogQuery->limit($this->maxPerPage)->offset(($page -1) * $this->maxPerPage);
+			$userLogs = $userLogQuery->find();
+			$userQuery = new UserQuery($this->getAdapter());
+			$users = $userQuery->find();
+			$this->setPaginator($total, $page, __METHOD__);
+	
+			//Views
 			$this->view->userLogs = $userLogs;
+			$this->view->users = $users;
 			$this->view->users = $users;
 		} catch (\Exception $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
-			$this->redirect()->toRoute(null,array('controller'=>"user",'action' => "index",));
+			$this->redirect()->toRoute(null,array('controller'=>'user','action' => 'index',));
 		}
-		
 		return $this->view;
 	}
+	
+// 	public function historyAction()
+// 	{
+// 		try {
+// 			$idUser = $this->params()->fromRoute("id", 0);
+// 			if(!$idUser)
+// 				throw new \Exception($this->i18n("User not defined."));
+// 			$userQuery = new UserQuery($this->getAdapter());
+// 			$user = $userQuery->findByPkOrThrow($idUser, $this->i18n->translate("User not found."));
+
+// 			$userLogQuery = new UserLogQuery($this->getAdapter());
+// 			$userLogQuery->whereAdd(UserLog::ID_USER, $user->getIdUser());
+// 			$userLogQuery->addDescendingOrderBy(UserLog::ID_USER_LOG);
+// 			$userLogs = $userLogQuery->find();
+// 			die();
+// 			$userQuery = new UserQuery($this->getAdapter());
+// 			$users = $userQuery->find();
+// 			$this->view->userLogs = $userLogs;
+// 			$this->view->users = $users;
+// 		} catch (\Exception $e) {
+// 			$this->flashMessenger()->addErrorMessage($e->getMessage());
+// 			$this->redirect()->toRoute(null,array('controller'=>"user",'action' => "index",));
+// 		}
+		
+// 		return $this->view;
+// 	}
 	
 	public function searchAction()
 	{

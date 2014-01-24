@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1-DEV, created on 2013-12-10 17:03:22
+<?php /* Smarty version Smarty-3.1-DEV, created on 2014-01-23 17:45:15
          compiled from "/home/isdarka/WWW/BaseProject/module/Core/view/core/role/index.tpl" */ ?>
 <?php /*%%SmartyHeaderCode:193785396752a68e1bd21aa0-33445181%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '8b1e4bc5b3ad0bff0ada02d2268fafbb933c1411' => 
     array (
       0 => '/home/isdarka/WWW/BaseProject/module/Core/view/core/role/index.tpl',
-      1 => 1386716569,
+      1 => 1386975189,
       2 => 'file',
     ),
   ),
@@ -22,17 +22,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'i18n' => 0,
     'baseUrl' => 0,
     'queryParams' => 0,
+    'statuses' => 0,
     'roles' => 0,
     'role' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
 <?php if ($_valid && !is_callable('content_52a68e1be203c8_37281621')) {function content_52a68e1be203c8_37281621($_smarty_tpl) {?><?php if (!is_callable('smarty_modifier_isAllowed')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/modifier.isAllowed.php';
+if (!is_callable('smarty_function_html_options')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.html_options.php';
 if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/vendor/smarty/smarty/distribution/libs/plugins/function.url.php';
 ?><fieldset>
 	<legend><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Role");?>
  
-		<?php if (smarty_modifier_isAllowed("Core\Controller\Role::create")) {?>
+		<?php if (smarty_modifier_isAllowed('core\controller\role::create')) {?>
 			<a href="<?php echo $_smarty_tpl->tpl_vars['baseUrl']->value;?>
 /core/role/create" class="btn btn-success pull-right"><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("New Role");?>
 </a>
@@ -50,9 +52,10 @@ if (!is_callable('smarty_function_url')) include '/home/isdarka/WWW/BaseProject/
 					<th><input type="text" class="form-control" name="name" placeholder="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('NAME');?>
 " value="<?php echo $_smarty_tpl->tpl_vars['queryParams']->value['name'];?>
 "></th>
-					<th><input type="text" class="form-control" name="status" placeholder="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('STATUS');?>
-" value="<?php echo $_smarty_tpl->tpl_vars['queryParams']->value['status'];?>
-"></th>
+					<th>
+						<?php echo smarty_function_html_options(array('options'=>array(((string)$_smarty_tpl->tpl_vars['i18n']->value->translate("Select a option")))+$_smarty_tpl->tpl_vars['statuses']->value,'name'=>"status",'id'=>"status",'class'=>"form-control",'selected'=>((string)$_smarty_tpl->tpl_vars['queryParams']->value['status'])),$_smarty_tpl);?>
+
+					</th>
 					<th class="col-xs-2"><button type="submit" class="form-control btn btn-primary "><?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate("Filter");?>
 </button></th>
 				</tr>
@@ -82,25 +85,25 @@ $_smarty_tpl->tpl_vars['role']->_loop = true;
 </td>
 					<td>
 						<div class="btn-group">
-						<?php if (smarty_modifier_isAllowed("Core\Controller\Role::update")) {?>
+						<?php if (smarty_modifier_isAllowed('core\controller\role::update')) {?>
 							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'role','action'=>'update','id'=>$_smarty_tpl->tpl_vars['role']->value->getIdRole()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Edit');?>
 "><span class="fa fa-pencil"></span></a>
 						<?php }?>
 							<?php if ($_smarty_tpl->tpl_vars['role']->value->isEnabled()) {?>
-								<?php if (smarty_modifier_isAllowed("Core\Controller\Role::disable")) {?>
+								<?php if (smarty_modifier_isAllowed('core\controller\role::disable')) {?>
 									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'role','action'=>'disable','id'=>$_smarty_tpl->tpl_vars['role']->value->getIdRole()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Disable');?>
 "><span class="fa fa-times-circle-o"></span></a>
 								<?php }?>
 							<?php } elseif ($_smarty_tpl->tpl_vars['role']->value->isDisabled()) {?>
-								<?php if (smarty_modifier_isAllowed("Core\Controller\Role::enable")) {?>
+								<?php if (smarty_modifier_isAllowed('core\controller\role::enable')) {?>
 									<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'role','action'=>'enable','id'=>$_smarty_tpl->tpl_vars['role']->value->getIdRole()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('Enable');?>
 "><span class="fa fa-check-circle-o"></span></a>
 								<?php }?>
 							<?php }?>
-						<?php if (smarty_modifier_isAllowed("Core\Controller\Role::history")) {?>
+						<?php if (smarty_modifier_isAllowed('core\controller\role::history')) {?>
 							<a href="<?php echo smarty_function_url(array('module'=>'core','controller'=>'role','action'=>'history','id'=>$_smarty_tpl->tpl_vars['role']->value->getIdRole()),$_smarty_tpl);?>
 " class="btn btn-default" data-toggle="tooltip" title="<?php echo $_smarty_tpl->tpl_vars['i18n']->value->translate('History');?>
 "><span class="fa fa-book"></span></a>

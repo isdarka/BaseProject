@@ -18,6 +18,7 @@
 namespace Core\Model\Collection;
 
 use Model\Collection\AbstractCollection;
+use Core\Model\Bean\Person;
 
 class PersonCollection extends AbstractCollection
 {
@@ -30,7 +31,7 @@ class PersonCollection extends AbstractCollection
 	public function toCombo() 
 	{
 		return $this->map(function(Person $person){
-			return array( $person->getidPerson() => $person->getName() );
+			return array( $person->getIdPerson() => $person->getName() );
 		});
 	}
 }

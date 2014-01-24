@@ -19,6 +19,8 @@ namespace Core\Query;
 
 use Query\Query;
 use Core\Model\Metadata\EmailMetadata;
+use Core\Model\Bean\Email;
+use Core\Model\Bean\Person;
 
 class EmailQuery extends Query
 {

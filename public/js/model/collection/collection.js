@@ -17,12 +17,11 @@ Collection.prototype.append = function(bean)
 	try{
 		if (bean instanceof Bean) {
 			this.storage[bean.getIndex()] = bean;
-			
 		} else {
 			throw "bean must be an instanceof Bean";
 		}
 	}catch(e){
-		console.log("Error: " +  e);
+		throw e;
 	}
 };
 
@@ -66,7 +65,7 @@ Collection.prototype.deleteByIndex = function(index) {
  */
 Collection.prototype.getHidden = function()
 {
-	var hidden = "<input class='entries' type='hidden' name='entries' value='" + this.toJson() + "'>";
+	var hidden = "<input class='entries' type='hidden' name='" + this.getClassName() + "' value='" + this.toJson() + "'>";
 	return hidden;
 };
 
@@ -82,4 +81,11 @@ Collection.prototype.count = function()
 			count ++;
 	});
 	return count;
+};
+
+
+Collection.prototype.getClassName = function(){
+	  var str = this.constructor.name;
+	  var f = str.charAt(0).toLowerCase();
+	  return f + str.substr(1);
 };

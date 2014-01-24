@@ -11,7 +11,7 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:15:21 2013
+ * @created Fri Dec 20 17:00:49 2013
  * @version 1.0
  */
 
@@ -19,6 +19,7 @@ namespace Core\Model\Factory;
 
 use Core\Model\Bean\Role;
 use Model\Factory\AbstractFactory;
+use Core\Model\Exception\RoleException;
 
 class RoleFactory extends AbstractFactory
 {
@@ -45,7 +46,16 @@ class RoleFactory extends AbstractFactory
 	public static  function populate($role, $fields) 
 	{
 		if(!($role instanceof Role))
-			throw new ActionException('$role must be instance of Role');
+			throw new RoleException('$role must be instance of Role');
+		
+		if($fields instanceof \stdClass)
+		{
+			$factory = self::getInstance();
+			$stdClass = clone $fields;
+			$fields = array();
+			foreach ($stdClass as $key => $value)
+				$fields[$factory->getUnderscore($key)] = $value;
+		}
 		
 		if(isset($fields[Role::ID_ROLE])){
 			$role->setIdRole($fields[Role::ID_ROLE]);

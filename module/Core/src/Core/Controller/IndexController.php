@@ -28,6 +28,9 @@ use Core\Module;
 use Zend\Mail\Message;
 use Zend\Mail\Transport\Sendmail;
 use Zend\Mvc\I18n\Translator;
+use Core\Query\MexicoZipCodeQuery;
+use Core\Model\Bean\MexicoZipCode;
+use Zend\Json\Json;
 // use Zend\I18n\View\Helper\Translate;
 // use Zend\I18n\Translator\Translator;
 
@@ -329,5 +332,19 @@ class IndexController extends BaseController
 				'controller' => 'index',
 				'action' =>  'message',
 		));
+	}
+	
+	
+	public function zipcodeAction()
+	{
+		header('Content-type: application/json');
+		$zipcode = $this->params()->fromPost("zipcode");
+		
+		$search = array(MexicoZipCode::D_CODIGO => $zipcode);
+		$zipcodeQuery = new MexicoZipCodeQuery($this->getAdapter());
+		$zipcodeQuery->filter($search);
+		
+		$zipcodes = $zipcodeQuery->find();
+		die(Json::encode($zipcodes->toArray()));
 	}
 }

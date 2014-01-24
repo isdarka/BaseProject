@@ -188,4 +188,16 @@ class PhoneNumber extends AbstractBean
 		);
 		return $array;
 	}
+	
+	const HOME = 1;
+	const WORK = 2;
+	const MOBIL = 3;
+	const OTHER = 4;
+	
+	public static $types = array(
+			self::HOME => "Home",
+			self::WORK => "Work",
+			self::MOBIL => "Mobil",
+			self::OTHER => "Other",
+	);
 }

@@ -3,6 +3,13 @@
 	<form class="form-horizontal validate" method="post" action="{$baseUrl}/core/user/save">
 		<input type="hidden" name="idUser" id="idUser" value="{$user->getIdUser()}">
 		<div class="form-group">
+			<label for="username" class="col-sm-2 control-label">{$i18n->translate("Role")}</label>
+		  		<div class="col-sm-10">
+		  			{html_options options=array("{$i18n->translate("Select a option")}") + $roleCollection->toCombo() name="id_role" id="idRole" class="form-control" selected=$user->getIdRole()}
+		    		
+		  		</div>
+		</div>
+		<div class="form-group">
 			<label for="username" class="col-sm-2 control-label">{$i18n->translate("Username")}</label>
 		  		<div class="col-sm-10">
 		    		<input type="text" class="form-control name" id="username" name="username" value="{$user->getUsername()}" required>

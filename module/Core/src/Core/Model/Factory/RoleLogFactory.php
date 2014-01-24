@@ -11,14 +11,14 @@
  * @package Factory
  * @copyright 
  * @license 
- * @created Mon Dec 9 11:15:21 2013
+ * @created Fri Dec 20 17:00:49 2013
  * @version 1.0
  */
 
 namespace Core\Model\Factory;
 
 use Core\Model\Bean\RoleLog;
-use Core\Model\Factory\LogFactory;
+use Core\Model\Exception\RoleLogException;
 
 class RoleLogFactory extends LogFactory
 {
@@ -46,7 +46,16 @@ class RoleLogFactory extends LogFactory
 	{
 		parent::populate($roleLog, $fields);
 		if(!($roleLog instanceof RoleLog))
-			throw new ActionException('$roleLog must be instance of RoleLog');
+			throw new RoleLogException('$roleLog must be instance of RoleLog');
+		
+		if($fields instanceof \stdClass)
+		{
+			$factory = self::getInstance();
+			$stdClass = clone $fields;
+			$fields = array();
+			foreach ($stdClass as $key => $value)
+				$fields[$factory->getUnderscore($key)] = $value;
+		}
 		
 		if(isset($fields[RoleLog::ID_ROLE_LOG])){
 			$roleLog->setIdRoleLog($fields[RoleLog::ID_ROLE_LOG]);

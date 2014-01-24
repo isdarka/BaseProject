@@ -60,6 +60,20 @@ class RoleMetadata extends AbstractMetadata
 		
  	/**
  	 *
+ 	 * Get fields
+ 	 *
+ 	 */
+	public function getFields() 
+	{
+		return array(
+			Role::ID_ROLE,
+			Role::NAME,
+			Role::STATUS,
+		);
+	}
+		
+ 	/**
+ 	 *
  	 * Get Entity Name
  	 *
  	 * @return string

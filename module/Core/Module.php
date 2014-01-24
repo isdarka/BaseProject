@@ -15,6 +15,7 @@ use Zend\Mail\Transport\Smtp;
 use Zend\EventManager\EventManager;
 use Zend\Http\PhpEnvironment\Request;
 use Zend\Mail\Message;
+use Zend\Http\PhpEnvironment\Response;
 
 class Module
 {
@@ -27,6 +28,7 @@ class Module
 		$moduleRouteListener = new ModuleRouteListener();
 		$moduleRouteListener->attach($eventManager);
 		$eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'onDispatchError'));
+		$eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_RENDER_ERROR, array($this, 'onRenderError'));
 		
 		
 // 		$e->getApplication()->getServiceManager()->get('ViewHelperManager')->setAlias('i18n->_', 'translate');
@@ -54,8 +56,16 @@ class Module
 
 	public function onDispatchError(MvcEvent $e)
 	{
-		
-		
+		$reponse = $e->getResponse();
+		$reponse instanceof Response;
+		$reponse->setStatusCode(500);
+// 		var_dump($reponse);
+// 		$response->StatusCode(404);
+		$viewModel = $e->getViewModel();
+		$viewModel->setTemplate('layout/noMenuLayout.tpl');
+// 		var_dump($e);
+// 		var_dump($e->getResponse()->getContent());
+// 		die();
 // 		$sm = $e->getApplication()->getServiceManager();
 		
 // // 		var_dump($sm);
@@ -89,7 +99,11 @@ class Module
 // 		$result = $e->getResult();
 // 		$request = $e->getRequest();
 // 		$request instanceof Request;
-// 		var_dump($request->getRequestUri());
+		
+// 		$request->getServer()->set("REDIRECT_URL", "/");
+// 		$request->setRequestUri("/");
+// 		$request->getUri()->setPath('/');
+// 		var_dump($request->getUri());
 // 		var_dump($e->getParams());
 // 		die("AAA");
 	}
@@ -144,6 +158,18 @@ class Module
 // 		);
 	}
 	
+	public function onRenderError(MvcEvent $e)
+	{
+// 		$reponse = $e->getResponse();
+// 		$reponse instanceof Response;
+// 		$reponse->setStatusCode(500);
+// 		// 		var_dump($reponse);
+// 		// 		$response->StatusCode(404);
+// 		$viewModel = $e->getViewModel();
+// 		$viewModel->setTemplate('layout/noMenuLayout.tpl');
+// 		var_dump($e);
+// 		var_dump("Module renderError");
+	}
 	
 	public function getViewHelperConfig()
 	{

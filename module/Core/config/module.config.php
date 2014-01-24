@@ -40,7 +40,7 @@ return array(
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/[:controller[/:action][/:id][page/:page]]',
+                            'route'    => '/[:controller[/:action][/:id][/page/:page][page/:page]]',
                             'constraints' => array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
@@ -105,6 +105,7 @@ return array(
         		'Core\Controller\Role' => 'Core\Controller\RoleController',
         		'Core\Controller\Auth' => 'Core\Controller\AuthController',
         		'Core\Controller\MenuItem' => 'Core\Controller\MenuItemController',
+        		'Core\Controller\File' => 'Core\Controller\FileController',
         		
         ),
     ),
@@ -121,6 +122,7 @@ return array(
     				'error/404'               => __DIR__ . '/../view/error/404.tpl',
     				'error/index'             => __DIR__ . '/../view/error/index.tpl',
     		),
+    		'not_found_template'       => __DIR__ . '/../view/error/index.tpl',
     		'template_path_stack' => array(
     				__DIR__ . '/../view',
     		),

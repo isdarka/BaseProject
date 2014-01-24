@@ -1,19 +1,19 @@
 {
-    "name": "isdarka/BaseProject",
-    "description": "BaseProject ZF2",
-    "license": "isdarka",
-    "keywords": [
-        "isdarka",
-        "zf2"
-    ],
-    "homepage": "https://github.com/isdarka/BaseProject",
-    "require": {
-        "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.*",
-		"murganikolay/smarty-module": "1.2.0",
-        "isdarka/query": "1.0"
-    },
-    "autoload": {
-		"psr-0": {"BaseProject\\": "vendor/BaseProject/library/"}
-	}
+  "name" : "isdarka/BaseProject",
+  "description" : "BaseProject ZF2",
+  "require" : {
+    "php" : ">=5.3.3",
+    "zendframework/zendframework" : "2.2.*",
+    "murganikolay/smarty-module" : "1.2.0",
+    "isdarka/query" : "1.0",
+    "isdarka/model" : "dev-master"
+  },
+  "keywords" : [ "isdarka", "zf2" ],
+  "autoload" : {
+    "psr-0" : {
+      "BaseProject\\" : "vendor/BaseProject/library/"
+    }
+  },
+  "license" : "isdarka",
+  "homepage" : "https://github.com/isdarka/BaseProject"
 }

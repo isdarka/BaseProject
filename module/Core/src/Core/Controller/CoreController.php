@@ -58,12 +58,12 @@ class CoreController extends BaseController
 	public function inspectAction()
 	{
 		// Get all Modules and save new
-		$moduleCatalog = new ModuleCatalog($this->getAdatper());
+		$moduleCatalog = new ModuleCatalog($this->getAdapter());
 		$moduleCatalog->beginTransaction();
 		try{
 			$applicationConfig = include 'config/application.config.php';
 			$moduleMetadata = new ModuleMetadata();
-			$moduleQuery = new ModuleQuery($this->getAdatper());
+			$moduleQuery = new ModuleQuery($this->getAdapter());
 			$moduleCollection = $moduleQuery->find();
 			foreach ($applicationConfig['modules'] as $name)
 			{
@@ -95,10 +95,10 @@ class CoreController extends BaseController
 	 
 	private function inspectControllers(ModuleCollection $moduleCollection)
 	{
-		$controllerCatalog = new ControllerCatalog($this->getAdatper());
+		$controllerCatalog = new ControllerCatalog($this->getAdapter());
 		try {
 			/* @var $module ModuleBean */
-			$controllerQuery = new ControllerQuery($this->getAdatper());
+			$controllerQuery = new ControllerQuery($this->getAdapter());
 			$controllers = $controllerQuery->find();
 			foreach ($moduleCollection as $module)
 			{
@@ -134,9 +134,9 @@ class CoreController extends BaseController
 	
 	private function inspectActions(Controller $controller,array $methods)
 	{
-		$actionCatalog = new ActionCatalog($this->getAdatper());
+		$actionCatalog = new ActionCatalog($this->getAdapter());
 		try {
-			$actionQuery = new ActionQuery($this->getAdatper());
+			$actionQuery = new ActionQuery($this->getAdapter());
 			$actionQuery->whereAdd(Action::ID_CONTROLLER, $controller->getIdController());
 			$actions = $actionQuery->find();
 			foreach ($methods as $method)
@@ -168,18 +168,18 @@ class CoreController extends BaseController
 	
 	public function configAction()
 	{
-		$moduleQuery = new ModuleQuery($this->getAdatper());
-		$controllerQuery = new ControllerQuery($this->getAdatper());
-		$actionQuery = new ActionQuery($this->getAdatper());
-		$roleQuery = new RoleQuery($this->getAdatper());
-		
+		$moduleQuery = new ModuleQuery($this->getAdapter());
+		$controllerQuery = new ControllerQuery($this->getAdapter());
+		$actionQuery = new ActionQuery($this->getAdapter());
+		$roleQuery = new RoleQuery($this->getAdapter());
+		$roleQuery->enables();
 		$controllers = $controllerQuery->find();
 		$moduleQuery->whereAdd(ModuleBean::ID_MODULE, $controllers->getModuleIds(), ModuleQuery::IN);
 		$modules = $moduleQuery->find();
 		$actions = $actionQuery->find();
 		$roles = $roleQuery->find();
 		
-		$roleActionsQuery = new RoleQuery($this->getAdatper());
+		$roleActionsQuery = new RoleQuery($this->getAdapter());
 		$roleActionsQuery->innerJoinAction();
 		$roleActions = $roleActionsQuery->fecthAll();
 		$actionRoles = array();
@@ -205,11 +205,11 @@ class CoreController extends BaseController
 		$idAction = $this->params()->fromPost('idAction');
 		$idRole = $this->params()->fromPost('idRole');
 		$allow = (int) $this->params()->fromPost('allow');
-		$roleCatalog = new RoleCatalog($this->getAdatper());
+		$roleCatalog = new RoleCatalog($this->getAdapter());
 		$roleCatalog->beginTransaction();
 		try {
-			$actionQuery = new ActionQuery($this->getAdatper());
-			$roleQuery = new RoleQuery($this->getAdatper());
+			$actionQuery = new ActionQuery($this->getAdapter());
+			$roleQuery = new RoleQuery($this->getAdapter());
 			
 			$role = $roleQuery->findByPkOrThrow($idRole, $this->i18n->translate('Role not found.'));
 			$action = $actionQuery->findByPkOrThrow($idAction, $this->i18n->translate('Action not found.'));
@@ -228,7 +228,7 @@ class CoreController extends BaseController
 	public function flushPrivilegesAction()
 	{
 		try {
-			$acl = new Acl($this->getAdatper(), $this->getUser());
+			$acl = new Acl($this->getAdapter(), $this->getUser());
 			$user = $this->getUser();
 			$acl->removeAll();
 			$acl->flushPrivileges();
