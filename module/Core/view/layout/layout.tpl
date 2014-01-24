@@ -57,7 +57,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">S2Credit</a>
+          <a class="navbar-brand" href="#">IsdarkA</a>
         </div>
        {$systemMenu}
       </div><!-- /.container -->
