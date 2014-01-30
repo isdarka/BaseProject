@@ -135,6 +135,12 @@ class Query extends Select implements Comparision
 			case self::LIKE:
 				$this->predicate->like($field, '%'.$value.'%');
 				break;
+			case self::NOT_EQUAL:
+				$this->predicate->notEqualTo($field, $value);
+				break;
+			case self::NOT_IN:
+// 				$this->predicate->($left, $right)EqualTo($field, $value);
+				break;
 			default:
 				$this->predicate->equalTo($field, $value, $comparision);
 				break;

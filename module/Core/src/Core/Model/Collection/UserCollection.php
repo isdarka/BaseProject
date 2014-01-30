@@ -81,4 +81,33 @@ class UserCollection extends PersonCollection
 		});
 		return $userCollection;
 	}
+		
+ 	/**
+ 	 *
+ 	 * Get Ids
+ 	 *
+ 	 * @return array
+ 	 */
+	public function getFileIds() 
+	{
+		return $this->map(function(User $user){
+			return array($user->getIdFile() => $user->getIdFile());
+		});
+	}
+		
+ 	/**
+ 	 *
+ 	 * Get Ids
+ 	 *
+ 	 * @return UserCollection
+ 	 */
+	public function getByIdFile($idFile) 
+	{
+		$userCollection = new UserCollection();
+		$this->each(function(User $user) use ($idFile, $userCollection){
+			if($user->getIdFile() == $idFile)
+				$userCollection->append($user);
+		});
+		return $userCollection;
+	}
 }

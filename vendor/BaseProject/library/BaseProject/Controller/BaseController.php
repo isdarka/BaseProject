@@ -25,6 +25,7 @@ use BaseProject\Menu\MenuRender;
 use BaseProject\Security\Acl;
 use Zend\Paginator\Adapter\Null;
 use Zend\Paginator\Paginator;
+use Core\Query\UserQuery;
 
 /**
  * BaseController
@@ -104,6 +105,17 @@ class BaseController extends AbstractActionController
 		$this->view->i18n = $this->i18n;
 		$this->view->baseUrl = $this->getBasePath();
 		$this->view->flashMessenger = $this->flashMessenger();
+		
+		if($this->getUser() instanceof User)
+		{
+			$userQuery = new UserQuery($this->getAdapter());
+			$userQuery->whereAdd(User::ID_USER, $this->getUser()->getIdUser(), UserQuery::NOT_EQUAL);
+			$userQuery->whereAdd(User::STATUS, User::ENABLE);
+			$users = $userQuery->find();
+			
+			$this->view->messageUsers = $users;
+		}
+		
 		return parent::onDispatch($e);
 	}
 	

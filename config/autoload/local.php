@@ -41,7 +41,7 @@ return array(
 		'username' => 'root',
 		'password' => 'r007',
 		'driver' => 'Pdo',
-		'dsn' => 'mysql:dbname=baseProject;host:localhost',
+		'dsn' => 'mysql:dbname=baseProjectZend;host:localhost',
 		'driver_options' => array(
 			PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'utf8\'',
 		),

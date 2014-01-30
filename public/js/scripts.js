@@ -7,13 +7,17 @@
 //ProgressBar Ajax
 var ajaxSend = 0;
 var complete = 0;
+var ajaxBar = true;
 $(document).ajaxSend(function(){
 	ajaxSend++;
 });
 
 $(document).ajaxStart(function(){
-	$("#progressBar").show(0);
-	$("#progressBar .progress-bar").width("0%");
+	if(ajaxBar)
+	{
+		$("#progressBar").show(0);
+		$("#progressBar .progress-bar").width("0%");
+	}
 });
 
 $(document).ajaxStop(function(){
@@ -79,4 +83,166 @@ $(document).ready(function() {
 	});
 	
 
+	$(".gear").bind('mouseover',function(event){
+    	$(this).find("i").addClass("fa-spin");
+    }).bind('mouseleave',function(){
+    	$(this).find("i").removeClass("fa-spin");
+    });
+	
+//	Multiselect
+	$('.multiselect').multiselect();
+	
+	
+	
+//	Messages
+	
+	$("#newMessage").click(function(e){
+		e.preventDefault();
+		$("#sendMessageModal").modal("show");
+	});
+	
+	$("#saveSendMessage").click(function(){
+		try {
+			var idUsers = $("#messageUsers").val();
+			
+			if($("#sendMessageForm").valid())
+			{
+				var subject = $("#subject").val();
+				var body = $("#body").val();
+				
+				$.ajax({
+					type: "POST",
+					url: baseUrl +  '/core/message/save-message',
+					data: {
+						idUsers : idUsers,
+						subject : subject,
+						body : body
+					},
+					success: function(data){
+						if(data.status)
+							new Messages(1, data.msn);
+						else
+							new Messages(2, data.msn);
+						$("#sendMessageModal").modal("hide");
+					},
+					error : function(jqXHR, textStatus, errorThrown){
+						throw textStatus;
+					}
+				});
+			}
+		} catch (e) {
+			new Messages(2, e);
+		}
+		
+	});
+	
+	function hasMessages()
+	{
+		ajaxBar = false;
+		$.ajax({
+			type: "POST",
+			url: baseUrl +  '/core/message/has-messages',
+			data: {
+			},
+			success: function(data){
+				ajaxBar = true;
+				$("#notification").find(".badge").text("");
+				if(data.status)
+					if(data.messages > 0){
+						$("#notification").find(".badge").text(data.messages);
+						$(".msnNotifications").find(".dropdown-header").find("a").text('You have ' + data.messages + ' new notifications');
+					}
+				
+				
+				 setTimeout(hasMessages,15000);
+				 
+			},
+			error : function(jqXHR, textStatus, errorThrown){
+				ajaxBar = true;
+			}
+		});
+	}
+	hasMessages();
+
+	$("#notification").click(function(e){
+		try {
+			$.ajax({
+				type: "POST",
+				url: baseUrl +  '/core/message/get-messages',
+				data: {
+				},
+				success: function(data){
+					if(data.status){
+						var userAvatarCollection = new UserAvatarCollection();
+						$.each(data.userAvatars, function( index, item ) {
+							var userAvatar = new UserAvatar();
+								userAvatar.setIdUser(item.idUser);
+								userAvatar.setAvatar(item.avatar);
+								
+							userAvatarCollection.append(userAvatar);
+						});
+
+						var messageCollection = new MessageCollection();
+						$.each(data.messages, function( index, item ) {
+							var message = new Message();
+							message.setIdMessage(item.id_message);
+							message.setStatus(item.status);
+							message.setTimestamp(item.timestamp);
+							message.setSubject(item.subject);
+							message.setMessage(item.message);
+							message.setUserAvatar(userAvatarCollection.getByIndex(item.id_user));
+							messageCollection.append(message);
+						});
+					}else
+						new Messages(2, data.msn);
+					 
+				},
+				error : function(jqXHR, textStatus, errorThrown){
+				}
+			});
+		} catch (e) {
+		}
+	});
+
+	$(".msnNotifications").on("click", ".readMessage", function(e){
+		e.preventDefault();
+		try {
+			var index = $(this).closest("li").data("index");
+			
+			$.ajax({
+				type: "POST",
+				url: baseUrl +  '/core/message/get-message',
+				data: {
+					idMessage : index
+				},
+				success: function(data){
+					if(data.status){
+						var userAvatar = new UserAvatar();
+						userAvatar.setIdUser(data.message.id_user);
+						userAvatar.setAvatar(data.userAvatar.path + "/" + data.userAvatar.name);
+					
+						var message = new Message();
+							message.setIdMessage(data.message.id_message);
+							message.setStatus(data.message.status);
+							message.setTimestamp(data.message.timestamp);
+							message.setSubject(data.message.subject);
+							message.setMessage(data.message.message);
+							message.setUserAvatar(userAvatar);
+							
+						message.renderFullMessage($("#readMessageModal div.modal-dialog div.modal-content div.modal-body"));
+						$("#readMessageModal").modal("show");
+					}else
+						new Messages(2, data.msn);
+					
+				},
+				error : function(jqXHR, textStatus, errorThrown){
+				}
+			});
+			
+			
+		} catch (e) {
+			console.log(e);
+		}
+	});
+	
 });

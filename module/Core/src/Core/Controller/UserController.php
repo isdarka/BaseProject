@@ -3,30 +3,8 @@
 
 namespace Core\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
 use BaseProject\Controller\BaseController;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Form\Annotation\Object;
-use Zend\Db\Sql\Sql;
-use Zend\Db\Sql\Select;
-use Zend\Db\ResultSet\ResultSet;
-use Zend\Db\Sql\Where;
-use Zend\Db\Sql\Predicate\PredicateSet;
-use Zend\Db\Adapter\Platform\PlatformInterface;
-use Zend\Db\Sql\Platform\Mysql\Mysql;
-use Zend\Db\Metadata\Metadata;
-use Zend\Db\Adapter\Adapter;
-use Core\Model\Metadata\PersonMetadata;
-use Zend\Db\Sql\Predicate\Predicate;
-use Zend\Db\Sql\Expression;
 use Query\Query;
-use Core\Model\Catalog\ModuleCatalog;
-use Core\Model\Bean\ModuleBean;
-use Core\Query\ModuleQuery;
-use Core\Module;
-use Zend\Mail\Message;
-use Zend\Mail\Transport\Sendmail;
 use Core\Model\Bean\User;
 use Core\Model\Factory\UserFactory;
 use Core\Model\Catalog\UserCatalog;
@@ -38,11 +16,14 @@ use Core\Model\Bean\UserLog;
 use Core\Model\Bean\Log;
 use Core\Query\UserLogQuery;
 use Zend\View\Model\JsonModel;
-use Zend\Paginator\Paginator;
-use Zend\View\Helper\PaginationControl;
-use Zend\Paginator\Adapter\DbTableGateway;
 use Core\Query\RoleQuery;
 use Core\Model\Bean\Role;
+use Core\Model\Exception\UserException;
+use Core\Model\Bean\File;
+use Core\Helper\File\Upload;
+use Core\Model\Catalog\FileCatalog;
+use Zend\Json\Json;
+use Core\Query\FileQuery;
 
 
 
@@ -98,7 +79,7 @@ class UserController extends BaseController
 			($idUser)?$this->newLog($user, Log::UPDATED):$this->newLog($user, Log::CREATED);
 			$userCatalog->commit();
 			$this->flashMessenger()->addSuccessMessage('User Saved.');
-		} catch (Exception $e) {
+		} catch (UserException $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$userCatalog->rollback();
 		}
@@ -121,7 +102,7 @@ class UserController extends BaseController
 			$this->view->user = $user;
 			$this->view->setTemplate("core/user/form.tpl");
 			return $this->view;
-		} catch (\Exception $e) {
+		} catch (UserException $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$this->redirect()->toRoute(null, array(
 					'controller' => 'user',
@@ -145,7 +126,7 @@ class UserController extends BaseController
 			$this->newLog($user, Log::ENABLED);
 			$userCatalog->commit();
 			$this->flashMessenger()->addSuccessMessage('User has been enabled.');
-		} catch (Exception $e) {
+		} catch (UserException $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$userCatalog->rollback();
 		}
@@ -168,7 +149,7 @@ class UserController extends BaseController
 			$this->newLog($user, Log::DISABLED);
 			$userCatalog->commit();
 			$this->flashMessenger()->addSuccessMessage('User has been disabled.');
-		} catch (\Exception $e) {
+		} catch (UserException $e) {
 			$this->flashMessenger()->addErrorMessage($e->getMessage());
 			$userCatalog->rollback();
 		}
@@ -260,5 +241,173 @@ class UserController extends BaseController
 				"demo2" => "12",
 		));
 		return  $jsonModel;
+	}
+	
+	
+	public function changePasswordAction()
+	{
+		try {
+			if(!$this->getUser()->getIdUser())
+				throw new UserException("User not Defined");
+			
+			$userQuery = new UserQuery($this->getAdapter());
+			$user = $userQuery->findByPkOrThrow($this->getUser()->getIdUser(), $this->i18n->translate("User not Found."));
+			
+			$this->view->user = $user;
+		} catch (UserException $e) {
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+			$this->redirect()->toRoute("core", array(
+						'module' => 'core',
+						'controller' => 'index',
+						'action' =>  'index',
+				));
+		}
+		return $this->view;
+	}
+	
+	public function profileAction()
+	{
+		try {
+			if(!$this->getUser()->getIdUser())
+				throw new UserException("User not Defined");
+			
+			$userQuery = new UserQuery($this->getAdapter());
+			$user = $userQuery->findByPkOrThrow($this->getUser()->getIdUser(), $this->i18n->translate("User not Found."));
+				
+			$fileQuery = new FileQuery($this->getAdapter());
+			$file = $fileQuery->findByPK($user->getIdFile());
+			
+			if($file instanceof File == false)
+			{
+				$file = new File();
+				$file->setName("no_image.png");
+			}
+			
+			$file->setPath(Upload::$publicDestinations[Upload::AVATAR]);
+			$this->view->user = $user;
+			$this->view->file = $file;
+		} catch (UserException $e) {
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+			$this->redirect()->toRoute("core", array(
+					'module' => 'core',
+					'controller' => 'index',
+					'action' =>  'index',
+			));
+		}
+		return $this->view;
+	}
+	
+	public function saveProfileAction()
+	{
+		$userCatalog = new UserCatalog($this->getAdapter());
+		$userCatalog->beginTransaction();
+		try {
+			if(!$this->getUser()->getIdUser())
+				throw new UserException("User not Defined");
+			UserFactory::populate($this->getUser(), $this->params()->fromPost());
+			$userCatalog->save($this->getUser());
+			$userCatalog->commit();
+			$this->flashMessenger()->addSuccessMessage($this->i18n->translate("Profile updated"));
+		} catch (UserException $e) {
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+		}
+		
+		$this->redirect()->toRoute(null, array(
+				'module' => 'core',
+				'controller' => 'user',
+				'action' =>  'profile',
+		));
+	}
+	
+	public function avatarAction()
+	{
+// 		var_dump($this->getUser());
+		return $this->view;
+	}
+	
+	public function uploadAction()
+	{
+// 		header('Content-type: application/json');
+		$fileCatalog = new FileCatalog($this->getAdapter());
+		$fileCatalog->beginTransaction();
+		try{
+			$fileHttp = (array)$this->params()->fromFiles("File");
+	
+			$file = new File();
+			$file->setName($fileHttp['name']);
+			$file->setPath(Upload::$destinations[Upload::AVATAR]);
+			$fileCatalog->save($file);
+			
+			
+			$upload = new Upload($file);
+			$upload->setType(Upload::AVATAR);
+			$upload->setValidators();
+			$upload->setDestination();
+			$upload->receive();
+			
+			$fileCatalog->save($file);
+			
+			if(!$upload->isUploaded())
+				throw new \Exception(reset($upload->getErrors()));
+				
+			
+			$userCatalog = new UserCatalog($this->getAdapter());
+			$this->getUser()->setIdFile($file->getIdFile());
+			$userCatalog->save($this->getUser());
+			$fileCatalog->commit();
+			die(Json::encode(array(
+					"status" => 1, 
+					"msn" => $this->i18n->translate("File uploaded."),
+					"file" => Upload::$publicDestinations[Upload::AVATAR] . "/" .$file->getName(), 
+				)));
+		} catch (\Exception $e) {
+			$fileCatalog->rollback();
+			die(Json::encode(array("status" => 0, "msn" => $e->getMessage())));
+		}
+	}
+	
+	public function cropAction()
+	{
+		try {
+			$width = 200;
+			$height = 200;
+			$quality = 90;
+			$x = $this->params()->fromPost("x");
+			$y = $this->params()->fromPost("y");
+			$w = $this->params()->fromPost("w");
+			$h = $this->params()->fromPost("h");
+			
+			$fileQuery = new FileQuery($this->getAdapter());
+			$file = $fileQuery->findByPKOrThrow($this->getUser()->getIdFile(), $this->i18n->translate("File not found"));
+			
+			$extension = preg_replace("/([a-zA-Z0-9]*)(\.)(\w*)/i", "$3", $file->getName());
+			
+			if($extension == "jpg" || $extension == "jpeg" )
+				$image = imagecreatefromjpeg($file->getPath() . "/" .$file->getName());
+			elseif($extension == "png")
+				$image = imagecreatefrompng($file->getPath() . "/" .$file->getName());
+			elseif($extension == "gif")
+				$image = imagecreatefromgif($file->getPath() . "/" .$file->getName());
+			
+			$imageDst = imagecreatetruecolor($width, $height);
+			
+			imagecopyresampled($imageDst, $image, 0, 0, $x, $y, $width, $height, $w, $h);
+			
+			if($extension == "jpg" || $extension == "jpeg" )
+				imagejpeg($imageDst,$file->getPath() . "/" .$file->getName(),$quality);
+			elseif($extension == "png")
+				imagepng($imageDst,$file->getPath() . "/" .$file->getName(),$quality);
+			elseif($extension == "gif")
+				imagegif($imageDst,$file->getPath() . "/" .$file->getName());
+			
+		} catch (UserException $e) {
+			$this->flashMessenger()->addErrorMessage($e->getMessage());
+		}
+		
+		$this->redirect()->toRoute(null, array(
+				'module' => 'core',
+				'controller' => 'user',
+				'action' =>  'profile',
+		));
 	}
 }

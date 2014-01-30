@@ -11,7 +11,6 @@ use Zend\File\Transfer\Adapter\Http;
 use Zend\Validator\File\Extension;
 use Core\Model\Bean\File;
 use Zend\Filter\File\Rename;
-use S2Credit\Model\Bean\CustomerFile;
 class Upload extends Http
 {
 	private $type;
@@ -48,10 +47,8 @@ class Upload extends Http
 	{
 		
 		$originalFilename = pathinfo($this->getFileName());
-		if($this->file instanceof CustomerFile)
-			$newName = $this->file->getIdCustomerFile().".". $originalFilename['extension'];
-		else 
-			$newName = $this->file->getIdFile().".". $originalFilename['extension'];
+
+		$newName = $this->file->getIdFile().".". $originalFilename['extension'];
 		
 		$this->file->setName($newName);
 		$filter = new Rename($newName);
@@ -64,12 +61,16 @@ class Upload extends Http
 		parent::setValidators(array(new Extension(self::$extensions[$this->type])));
 	}
 	
-	const DOCUMENTS = 1;
+	const AVATAR = 1;
+	
 	public static $destinations = array(
-			self::DOCUMENTS => "data/uploads",
+			self::AVATAR => "public/images/avatar",
 	);
 	
+	public static $publicDestinations = array(
+			self::AVATAR => "images/avatar",
+	);
 	public static $extensions = array(
-			self::DOCUMENTS => array("pdf","doc","docx","xls","xlsx"),
+			self::AVATAR => array("png","jpg","gif","jpeg"),
 	);
 }

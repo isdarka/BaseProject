@@ -39,6 +39,7 @@ class UserMetadata extends AbstractMetadata
 				User::STATUS,
 				User::ID_PERSON,
 				User::ID_ROLE,
+				User::ID_FILE,
 				User::USERNAME,
 				User::PASSWORD,
 			)
@@ -58,6 +59,7 @@ class UserMetadata extends AbstractMetadata
 				User::STATUS,
 				User::ID_PERSON,
 				User::ID_ROLE,
+				User::ID_FILE,
 				User::USERNAME,
 				User::PASSWORD,
 			)

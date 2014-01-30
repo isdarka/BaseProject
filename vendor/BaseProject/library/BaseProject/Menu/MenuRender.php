@@ -18,6 +18,9 @@ use Core\Query\RoleQuery;
 use Core\Model\Collection\ActionCollection;
 use Core\Model\Bean\Action;
 use Core\Model\Bean\Controller;
+use Core\Query\FileQuery;
+use Core\Model\Bean\File;
+use Core\Helper\File\Upload;
 class MenuRender
 {
 	private $adapter;
@@ -170,14 +173,61 @@ class MenuRender
 	
 	private function getUserMenu()
 	{
+		$fileQuery = new FileQuery($this->adapter);
+		$file = $fileQuery->findByPK($this->user->getIdFile());
+		if($file instanceof File == false)
+		{
+			$file = new File();
+			$file->setName('no_image.png');
+		}
+			
+		$file->setPath(Upload::$publicDestinations[Upload::AVATAR]);
+		
 		$html = '';
 		$html .= '<ul class="nav navbar-nav navbar-right">';
-		$html .= '<li class="dropdown">';
-			$html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $this->user->getFullName(). ' <b class="caret"></b></a>';
-			$html .= '<ul class="dropdown-menu">';
-				$html .= '<li><a href="'. $this->baseUrl. '/core/auth/login">LogOut</a></li>';
-			$html .= '</ul>';
+		$html .= '<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" id="notification" href="#"><i class="fa fa-exclamation-triangle fa-lg"></i> <span class="badge"></span> <b class="caret"></b></a>';
+		$html .= '<ul class="dropdown-menu msnNotifications" >';
+		$html .= '<li role="presentation" class="dropdown-header"><a>You have 9 new notifications</a></li>';
+		$html .= '<li role="presentation" class="divider"></li>';
+// 		$html .= '<li>
+// 				<div class="row">
+// 					<div class="col-sm-4 text-center">
+// 						<img  src="'. $this->baseUrl. '/' . $file->getPath() .'/' . $file->getName() . '" width="50">
+// 					</div>	
+// 					<div class="col-sm-8">
+// 						asdasd asdas asd asdassasdasd asd
+// 					</div>
+// 				</div>
+// 				</li>';
+		$html .= '</ul>';
 		$html .= '</li>';
+		$html .= '<li><a class="dropdown-toggle" data-toggle="dropdown" id="newMessage" href="#"><i class="fa fa-envelope-o fa-lg"></i></a></li>';
+		
+		$html .= '<li class="dropdown"><a href="#" class="dropdown-toggle gear" data-toggle="dropdown" >' . $this->user->getFullName(). '  <i class="fa fa-cog fa-lg"></i> <b class="caret"></b></a>';
+		$html .= '<ul class="dropdown-menu">';
+		$html .= '<li class="text-center"><img  src="'. $this->baseUrl. '/' . $file->getPath() .'/' . $file->getName() . '" width="50"></li>';
+// 		$html .= '<li role="presentation" class="dropdown-header">You have 9 new notifications</li>';
+		$html .= '<li role="presentation" class="divider"></li>';
+		$html .= '<li><a href="'. $this->baseUrl. '/core/user/profile"><i class="fa fa-user"></i> Profile</a></li>';
+		$html .= '<li><a href="'. $this->baseUrl. '/core/message/my-messages"><i class="fa fa-envelope-o"></i> Messages</a></li>';
+		$html .= '<li><a href="'. $this->baseUrl. '/core/user/change-password"><i class="fa fa-key"></i> Change Password</a></li>';
+		$html .= '<li role="presentation" class="divider"></li>';
+		$html .= '<li><a href="'. $this->baseUrl. '/core/auth/login"><i class="fa fa-power-off"></i> LogOut</a></li>';
+		$html .= '</ul>';
+		$html .= '</li>';
+
+		
+		
+		
+		
+// 		$html .= '<li class="dropdown">';
+// 			$html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $this->user->getFullName(). ' <b class="caret"></b></a>';
+// 			$html .= '<ul class="dropdown-menu">';
+// 				$html .= '<li><a href="'. $this->baseUrl. '/core/auth/login">LogOut</a></li>';
+// 				$html .= '<li><a href="'. $this->baseUrl. '/core/user/change-password">Change Password</a></li>';
+				
+// 			$html .= '</ul>';
+// 		$html .= '</li>';
 		$html .= '</ul>';
 		
 		return $html;

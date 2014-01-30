@@ -66,11 +66,11 @@ abstract class AbstractCatalog implements CatalogInterface
 			$this->update = $this->sql->update($this->getMetadata()->getTableName());
 			$data = $this->getMetadata()->toUpdateArray($bean);
 			$data = array_filter($data, array($this, 'isNotNull'));
+			$data = array_map(array($this, 'filterTags'), $data);
 			$this->update->set($data);
 			$where = new Where();
 			$where->equalTo($this->getMetadata()->getPrimaryKey(), $bean->getIndex());
 			$this->update->where($where);
-			var_dump($this->toSql());
 			$this->execute($this->update);
 		}catch (\Zend\Db\Exception\ExceptionInterface $e) {
 			var_dump($e->getMessage());
@@ -119,6 +119,10 @@ abstract class AbstractCatalog implements CatalogInterface
 		return !is_null($field);
 	}
 	
+	public function filterTags($field)
+	{
+		return strip_tags($field);
+	}
 	/**
 	 * 
 	 * @return string

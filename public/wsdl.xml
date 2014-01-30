@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<definitions name='s2credit' 
+ targetNamespace="urn:s2credit"
+ xmlns:tns="urn:s2credit"   
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" 
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+	
+	<message name="SendWorkOrderToClientRequest">
+ 		<part name="clientId" type="xsd:string"/>
+ 		<part name="secretKey" type="xsd:string"/>
+ 		<part name="xml" type="xsd:string"/>
+ 		
+	</message>
+	<message name="SendWorkOrderToClientResponse">
+		<part name="result" type="xsd:string"/>
+	</message>
+	
+	<portType name="PortType">
+		<operation name="SendWorkOrderToClient">
+  			<input message="tns:SendWorkOrderToClientRequest"/>
+  			<output message="tns:SendWorkOrderToClientResponse"/>
+ 		</operation>
+ 		
+	</portType>
+	<binding name="Binding" type="tns:PortType">
+ 		<soap:binding style="rpc"
+  			transport="http://schemas.xmlsoap.org/soap/http"/>
+
+			<operation name="SendWorkOrderToClient">
+  				<soap:operation soapAction=""/>
+  					<input>
+   						<soap:body use="encoded"
+   							namespace="urn:myInputNamespace"
+    						encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  					</input>
+  					<output>
+   						<soap:body use="encoded"
+    						namespace="urn:myOutputNamespace"
+    						encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  					</output>
+ 			</operation>
+	</binding>
+	<service name="S2Credit">
+ 		<documentation>
+ 		Descripcion.
+ 		WS para realizar la comunicación.
+ 		</documentation>
+ 		<port name="MyPort" binding="tns:Binding">
+  			<soap:address location="http://siuc.local/siuc/s2credit/sys/wsdl/demoS.php"/>
+ 		</port>
+	</service>
+</definitions>

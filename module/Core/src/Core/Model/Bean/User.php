@@ -31,6 +31,8 @@ class User extends Person
 
 	const ID_ROLE = 'id_role';
 
+	const ID_FILE = 'id_file';
+
 	const USERNAME = 'username';
 
 	const PASSWORD = 'password';
@@ -46,6 +48,8 @@ class User extends Person
 	private $idPerson;
 
 	private $idRole;
+
+	private $idFile;
 
 	private $username;
 
@@ -108,6 +112,18 @@ class User extends Person
 	public function setIdRole($idRole) 
 	{
 		$this->idRole = $idRole;
+		return $this;
+	}
+		
+ 	/**
+ 	 *
+ 	 * Set the idFile property
+ 	 *
+ 	 * @param int $idFile
+ 	 */
+	public function setIdFile($idFile) 
+	{
+		$this->idFile = $idFile;
 		return $this;
 	}
 		
@@ -181,6 +197,17 @@ class User extends Person
 		
  	/**
  	 *
+ 	 * Get the idFile property
+ 	 *
+ 	 * @return int $idFile
+ 	 */
+	public function getIdFile() 
+	{
+		return $this->idFile;
+	}
+		
+ 	/**
+ 	 *
  	 * Get the username property
  	 *
  	 * @return string $username
@@ -214,6 +241,7 @@ class User extends Person
 			self::STATUS => $this->getStatus(),
 			self::ID_PERSON => $this->getIdPerson(),
 			self::ID_ROLE => $this->getIdRole(),
+			self::ID_FILE => $this->getIdFile(),
 			self::USERNAME => $this->getUsername(),
 			self::PASSWORD => $this->getPassword(),
 		);

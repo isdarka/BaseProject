@@ -347,7 +347,7 @@ abstract class AbstractCollection extends \ArrayIterator implements CollectionIn
 	 * @return array
 	 */
 	public function toArray(){
-		return $this->map(function(Collectable $collectable){
+		return $this->map(function(AbstractBean $collectable){
 			return array($collectable->getIndex() => $collectable->toArray());
 		});
 	}

@@ -73,6 +73,10 @@ class UserFactory extends PersonFactory
 			$user->setIdRole($fields[User::ID_ROLE]);
 		}
 		
+		if(isset($fields[User::ID_FILE]) && !empty($fields[User::ID_FILE])){
+			$user->setIdFile($fields[User::ID_FILE]);
+		}
+		
 		if(isset($fields[User::USERNAME]) && !empty($fields[User::USERNAME])){
 			$user->setUsername($fields[User::USERNAME]);
 		}

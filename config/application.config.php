@@ -10,6 +10,7 @@ return array(
         'Core',
         'Query',
         'Model',
+    	'WkhtmlToPdf',
     	'SmartyModule'
         ),
     'module_listener_options' => array(

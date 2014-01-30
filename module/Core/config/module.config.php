@@ -21,6 +21,26 @@ return array(
                     ),
                 ),
             ),
+        	'wsdl' => array(
+        			'type' => 'Zend\Mvc\Router\Http\Literal',
+       				'options' => array(
+       						'route'    => '/wsdl',
+       						'defaults' => array(
+       								'controller' => 'Core\Controller\Wsdl',
+       								'action'     => 'wsdl',
+       						),
+       				),
+       		),
+       		'soap' => array(
+       				'type' => 'Zend\Mvc\Router\Http\Literal',
+       				'options' => array(
+       						'route'    => '/soap',
+       						'defaults' => array(
+       								'controller' => 'Core\Controller\Wsdl',
+       								'action'     => 'soap',
+       						),
+       				),
+       		),
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them
@@ -106,6 +126,8 @@ return array(
         		'Core\Controller\Auth' => 'Core\Controller\AuthController',
         		'Core\Controller\MenuItem' => 'Core\Controller\MenuItemController',
         		'Core\Controller\File' => 'Core\Controller\FileController',
+        		'Core\Controller\Wsdl' => 'Core\Controller\WsdlController',
+        		'Core\Controller\Message' => 'Core\Controller\MessageController',
         		
         ),
     ),
