@@ -307,7 +307,7 @@ class Query extends Select implements Comparision
 		if($array)
 			return $this->metadata->getFactory()->createFromArray($array);
 		else
-			return $this->metadata->newBean();
+			return null;
 			
 	}
 	

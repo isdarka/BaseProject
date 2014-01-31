@@ -19,6 +19,10 @@
 	<link href="{$baseUrl}/css/jquery.ui/jquery-ui-1.10.3.custom.css" rel="stylesheet">
 	<script type="text/javascript" src="{$baseUrl}/js/jquery.ui/jquery-ui-1.10.3.custom.js"></script>
 	
+<!-- 	Timepicker -->
+	<link href="{$baseUrl}/css/jquery.ui.timepicker/timepicker.css" rel="stylesheet">
+	<script type="text/javascript" src="{$baseUrl}/js/jquery.ui.timepicker/jquery-ui-timepicker-addon.js"></script>
+	
 <!--     ZipCode -->
 	<script type="text/javascript" src="{$baseUrl}/js/zipcode.js"></script>
 	

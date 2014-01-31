@@ -32,7 +32,7 @@ class UserMetadata extends AbstractMetadata
  	 * toUpdateArray
  	 *
  	 */
-	public function toUpdateArray(AbstractBean $bean) 
+	public static function toUpdateArray(AbstractBean $bean) 
 	{
 		return $bean->toArrayFor(
 			array(
@@ -51,7 +51,7 @@ class UserMetadata extends AbstractMetadata
  	 * toCreateArray
  	 *
  	 */
-	public function toCreateArray(AbstractBean $bean) 
+	public static function toCreateArray(AbstractBean $bean) 
 	{
 		return $bean->toArrayFor(
 			array(
@@ -72,7 +72,7 @@ class UserMetadata extends AbstractMetadata
  	 *
  	 * @return string
  	 */
-	public function getEntityName() 
+	public static function getEntityName() 
 	{
 		return "User";
 	}
@@ -83,7 +83,7 @@ class UserMetadata extends AbstractMetadata
  	 *
  	 * @return string
  	 */
-	public function getTableName() 
+	public static function getTableName() 
 	{
 		return "common_users";
 	}
@@ -94,7 +94,7 @@ class UserMetadata extends AbstractMetadata
  	 *
  	 * @return string
  	 */
-	public function getPrimaryKey() 
+	public static function getPrimaryKey() 
 	{
 		return "id_user";
 	}
@@ -105,7 +105,7 @@ class UserMetadata extends AbstractMetadata
  	 *
  	 * @return UserFactory
  	 */
-	public function getFactory() 
+	public static function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -120,7 +120,7 @@ class UserMetadata extends AbstractMetadata
  	 *
  	 * @return UserCollection
  	 */
-	public function newCollection() 
+	public static function newCollection() 
 	{
 		return new UserCollection();
 	}
@@ -131,7 +131,7 @@ class UserMetadata extends AbstractMetadata
  	 *
  	 * @return User
  	 */
-	public function newBean() 
+	public static function newBean() 
 	{
 		return new User();
 	}

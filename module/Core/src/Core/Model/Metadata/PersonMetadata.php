@@ -32,7 +32,7 @@ class PersonMetadata extends AbstractMetadata
  	 * toUpdateArray
  	 *
  	 */
-	public function toUpdateArray(AbstractBean $bean) 
+	public static function toUpdateArray(AbstractBean $bean) 
 	{
 		return $bean->toArrayFor(
 			array(
@@ -55,7 +55,7 @@ class PersonMetadata extends AbstractMetadata
  	 * toCreateArray
  	 *
  	 */
-	public function toCreateArray(AbstractBean $bean) 
+	public static function toCreateArray(AbstractBean $bean) 
 	{
 		return $bean->toArrayFor(
 			array(
@@ -79,7 +79,7 @@ class PersonMetadata extends AbstractMetadata
  	 * Get fields
  	 *
  	 */
-	public function getFields() 
+	public static function getFields() 
 	{
 		return array(
 			Person::ID_PERSON,
@@ -102,7 +102,7 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * @return string
  	 */
-	public function getEntityName() 
+	public static function getEntityName() 
 	{
 		return "Person";
 	}
@@ -113,7 +113,7 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * @return string
  	 */
-	public function getTableName() 
+	public static function getTableName() 
 	{
 		return "common_persons";
 	}
@@ -124,7 +124,7 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * @return string
  	 */
-	public function getPrimaryKey() 
+	public static function getPrimaryKey() 
 	{
 		return "id_person";
 	}
@@ -135,7 +135,7 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * @return PersonFactory
  	 */
-	public function getFactory() 
+	public static function getFactory() 
 	{
 		static $factory = null;
 		if( null == $factory ){
@@ -150,7 +150,7 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * @return PersonCollection
  	 */
-	public function newCollection() 
+	public static function newCollection() 
 	{
 		return new PersonCollection();
 	}
@@ -161,7 +161,7 @@ class PersonMetadata extends AbstractMetadata
  	 *
  	 * @return Person
  	 */
-	public function newBean() 
+	public static function newBean() 
 	{
 		return new Person();
 	}

@@ -128,6 +128,8 @@ return array(
         		'Core\Controller\File' => 'Core\Controller\FileController',
         		'Core\Controller\Wsdl' => 'Core\Controller\WsdlController',
         		'Core\Controller\Message' => 'Core\Controller\MessageController',
+        		'Core\Controller\NotificationType' => 'Core\Controller\NotificationTypeController',
+        		'Core\Controller\Cron' => 'Core\Controller\CronController',
         		
         ),
     ),
